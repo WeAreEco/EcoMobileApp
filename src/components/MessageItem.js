@@ -45,13 +45,15 @@ class MessageItem extends React.Component {
   handleAnimation = () => {
     Animated.timing(this.animatedValue, {
       toValue: 1,
-      duration: 250
+      duration: 250,
+      useNativeDriver: false
     }).start();
   };
   handleloadingAnimation = () => {
     Animated.timing(this.loadinganimatedValue, {
       toValue: 1,
-      duration: 250
+      duration: 250,
+      useNativeDriver: false
     }).start();
   };
   render() {

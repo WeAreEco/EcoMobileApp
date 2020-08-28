@@ -20,13 +20,20 @@ class MessageInput extends React.Component {
   componentDidMount() {
     this.handleAnimation();
   }
-  componentWillReceiveProps(prevProps) {
-    this.setState({ message_txt: prevProps.value });
+  // componentWillReceiveProps(prevProps) {
+  //   this.setState({ message_txt: prevProps.value });
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.value) {
+      return ({ message_txt: nextProps.value }) // <- this is setState equivalent
+    }
+    return null
   }
   handleAnimation = () => {
     Animated.timing(this.animatedValue, {
       toValue: 1,
-      duration: 250
+      duration: 250,
+      useNativeDriver: false
     }).start();
   };
   onChangeMessage = text => {

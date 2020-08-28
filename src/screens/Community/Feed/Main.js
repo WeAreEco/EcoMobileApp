@@ -27,9 +27,15 @@ class Main extends React.Component {
   componentDidMount() {
     this.setState({ posts: this.props.posts });
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState({ posts: nextProps.posts });
-    console.log("posts in Main", nextProps.posts);
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({ posts: nextProps.posts });
+  //   console.log("posts in Main", nextProps.posts);
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.posts !== prevState.posts) {
+      return ({ posts: nextProps.posts }); // <- this is setState equivalent
+    }
+    return null
   }
   _renderItem = ({ item }) => {
     return (

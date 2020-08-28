@@ -44,8 +44,10 @@ class PhoneCode extends React.Component {
     this.props.navigation.goBack();
   };
   CheckSMS = () => {
-    const { phone, pin } = this.props.navigation.state.params;
+    const { route } = this.props;
+    const { phone, pin } = route.params ? route.params: null;
     const { code } = this.state;
+    
     if (code === pin || phone === "+44528834523") {
       const basicInfo = {
         firstname: "",
@@ -128,7 +130,7 @@ class PhoneCode extends React.Component {
     }
   };
   render() {
-    const { phone, pin } = this.props.navigation.state.params;
+
     const { isValid, loading_account, code } = this.state;
     return (
       <View

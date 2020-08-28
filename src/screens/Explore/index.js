@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Platform,
   StyleSheet,
@@ -6,40 +6,66 @@ import {
   AsyncStorage,
   View,
   TouchableOpacity,
-  Image,
-} from 'react-native';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import Landing from './Landing';
-import Landing_Toggle from './Landing_Toggle';
-import Main from './Main';
-import Pack from './Pack';
-import DirectDebit from './DirectDebitSetup';
-import PaymentSetup from './PaymentSetup';
-export default createStackNavigator(
-  {
-    LandExplore: {
-      screen: Landing,
-    },
-    Toggle: {
-      screen: Landing_Toggle,
-    },
-    MainList: {
-      screen: Main,
-    },
-    Pack: {
-      screen: Pack,
-    },
-    // PaymentSetup: {
-    //   screen: PaymentSetup,
-    // },
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: {
-      headerVisible: false,
-    },
-  },
-);
+  Image
+} from "react-native";
 
-// export default StackNavigator;
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from '@react-navigation/stack';
+
+import Landing_New from "./Landing_New";
+import Landing from "./Landing";
+import Landing_Toggle from "./Landing_Toggle";
+import Main from "./Main";
+import Pack from "./Pack";
+import DirectDebit from "./DirectDebitSetup";
+import PaymentSetup from "./PaymentSetup";
+
+const Stack = createStackNavigator();
+
+export default class Explore extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+
+        <Stack.Navigator
+          headerMode="none"
+        >
+          <Stack.Screen
+            name="LandNew"
+            component={Landing_New}
+            options={{ headerVisible: false }}
+          />
+          <Stack.Screen
+            name="LandExplore"
+            component={Landing}
+            options={{ headerVisible: false }}
+          />
+          <Stack.Screen
+            name="Toggle"
+            component={Landing_Toggle}
+            options={{ headerVisible: false }}
+          />
+          <Stack.Screen
+            name="MainList"
+            component={Main}
+            options={{ headerVisible: false }}
+          />
+          <Stack.Screen
+            name="Pack"
+            component={Pack}
+            options={{ headerVisible: false }}
+          />
+          {/* <Stack.Screen
+            name="PaymentSetup"
+            component={PaymentSetup}
+            options={{ headerVisible: false }}
+          /> */}
+        </Stack.Navigator>
+
+    );
+  }
+}

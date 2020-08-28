@@ -34,10 +34,9 @@ class Perk extends React.Component {
     this.props.navigation.addListener('willFocus', this.load);
   };
   load = () => {
-    const {navigation} = this.props;
-    if (navigation.state.params) {
-      console.log('navigation', navigation);
-      const {page} = navigation.state.params;
+    const { route } = this.props;
+    if (route.params) {
+      const {page} = route.params;
       console.log('page', page);
       this.setState({screen: page});
       this.props.dispatch(saveScreen(page));

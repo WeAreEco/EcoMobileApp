@@ -59,16 +59,24 @@ class Main extends React.Component {
     this.props.navigation.addListener("willFocus", this.catchPreviousScreen);
   }
   catchPreviousScreen = () => {
-    console.log("params", this.props.navigation.state.params);
-    if (this.props.navigation.state.params) {
-      const { packageRequired } = this.props.navigation.state.params;
+    const { route } = this.props;
+    console.log("params", route.params);
+    if (route.params) {
+      const { packageRequired } = route.params;
       console.log("packageRequired", packageRequired);
       this.setState({ packageRequired: packageRequired });
     }
   };
-  componentWillReceiveProps(nextProps) {
-    const { packages } = nextProps.basic;
-    console.log("packages", packages);
+  // componentWillReceiveProps(nextProps) {
+  //   const { packages } = nextProps.basic;
+  //   console.log("packages", packages);
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.basic !== prevState.basic) {
+      const { packages } = nextProps.basic;
+      console.log("packages", packages);
+    }
+    return null
   }
   toggleError(error, visible) {
     if (error === "error") this.setState({ error_Visible: visible });
@@ -83,7 +91,8 @@ class Main extends React.Component {
         this.state.bolt_height, // The animated value to drive
         {
           toValue: 350, // Animate to opacity: 1 (opaque)
-          duration: 200 // Make it take a while
+          duration: 200, // Make it take a while
+          useNativeDriver: false
         }
       ).start();
     else
@@ -92,7 +101,8 @@ class Main extends React.Component {
         this.state.bolt_height, // The animated value to drive
         {
           toValue: 0, // Animate to opacity: 1 (opaque)
-          duration: 200 // Make it take a while
+          duration: 200, // Make it take a while
+          useNativeDriver: false
         }
       ).start();
   };

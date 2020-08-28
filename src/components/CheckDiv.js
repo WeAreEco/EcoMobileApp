@@ -19,9 +19,16 @@ export default class CheckDiv extends React.Component {
       checked: false
     };
   }
-  componentWillReceiveProps = props => {
-    this.setState({ checked: props.checked });
-  };
+  // componentWillReceiveProps = props => {
+  //   this.setState({ checked: props.checked });
+  // };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.checked) {
+      return ({ checked: nextProps.checked }) // <- this is setState equivalent
+    }
+    return null
+  }
 
   render() {
     //const { checked } = this.state;

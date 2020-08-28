@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Platform,
   View,
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  Fragment,
-} from 'react-native';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
-import colors from '../theme/Colors';
-import Firebase from '../firebasehelper';
-import {sliderWidth, itemWidth} from '../theme/Styles';
-import PackCard from '../components/PackCard';
-const IS_ANDROID = Platform.OS === 'android';
+  Fragment
+} from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import colors from "../theme/Colors";
+import Firebase from "../firebasehelper";
+import { sliderWidth, itemWidth } from "../theme/Styles";
+import PackCard from "../components/PackCard";
+const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 0;
 let all_packages = [];
 
@@ -22,24 +22,36 @@ export default class PackCarousel extends React.Component {
     this.state = {
       activeSlide: SLIDER_1_FIRST_ITEM,
       packages: [],
-      pkgloading: false,
+      pkgloading: false
     };
   }
-  _renderItem({item, index}) {
+  _renderItem({ item, index }) {
     return <PackCard data={item} key={index} />;
   }
-  componentWillReceiveProps(nextProps) {
-    const {fromOption_packageRequired} = nextProps;
-    console.log('fromOption_packageRequired', fromOption_packageRequired);
-    this.setState({fromOption_packageRequired});
-    const {packages} = this.state;
+  // componentWillReceiveProps(nextProps) {
+  //   const { fromOption_packageRequired } = nextProps;
+  //   console.log("fromOption_packageRequired", fromOption_packageRequired);
+  //   this.setState({ fromOption_packageRequired });
+  //   const { packages } = this.state;
+  //   if (packages) {
+  //     packages.forEach((item, index) => {
+  //       if (fromOption_packageRequired)
+  //         if (item.caption === fromOption_packageRequired[0])
+  //           this.setState({ activeSlide: index });
+  //     });
+  //   }
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { fromOption_packageRequired } = nextProps;
+    const { packages } = this.state;
     if (packages) {
       packages.forEach((item, index) => {
         if (fromOption_packageRequired)
           if (item.caption === fromOption_packageRequired[0])
-            this.setState({activeSlide: index});
+            return ({ fromOption_packageRequired: fromOption_packageRequired, activeSlide: index }); // <- this is setState equivalent
       });
-    }
+    }    
+    return ({ fromOption_packageRequired: fromOption_packageRequired }); // <- this is setState equivalent
   }
   async componentDidMount() {
     const {renter_owner, onLoad, fromBoltOn} = this.props;
@@ -57,7 +69,7 @@ export default class PackCarousel extends React.Component {
       if (all_packages[i].for === 0 || all_packages[i].for === renter_owner) {
         const order = parseInt(all_packages[i].order);
         if (fromBoltOn) {
-          if (all_packages[i].caption !== 'Membership Pack')
+          if (all_packages[i].caption !== "Membership Pack")
             packages[order] = all_packages[i];
         } else {
           packages[order] = all_packages[i];
@@ -84,8 +96,8 @@ export default class PackCarousel extends React.Component {
     // }, 100);
   }
   get pagination() {
-    const {activeSlide, packages} = this.state;
-    const {getActive} = this.props;
+    const { activeSlide, packages } = this.state;
+    const { getActive } = this.props;
     if (packages) {
       const isgroup = packages[activeSlide].isgroup;
       const price = packages[activeSlide].price;
@@ -97,7 +109,7 @@ export default class PackCarousel extends React.Component {
       <Pagination
         dotsLength={packages.length}
         activeDotIndex={activeSlide}
-        containerStyle={{backgroundColor: 'transparent', paddingVertical: 10}}
+        containerStyle={{ backgroundColor: "transparent", paddingVertical: 10 }}
         dotStyle={{
           width: 10,
           height: 10,
@@ -105,12 +117,12 @@ export default class PackCarousel extends React.Component {
           marginHorizontal: 8,
           borderWidth: 1,
           borderColor: colors.darkblue,
-          backgroundColor: colors.yellow,
+          backgroundColor: colors.yellow
         }}
         inactiveDotStyle={{
           backgroundColor: colors.grey,
           borderWidth: 1,
-          borderColor: colors.darkblue,
+          borderColor: colors.darkblue
         }}
         inactiveDotOpacity={0.4}
         inactiveDotScale={0.6}
@@ -119,9 +131,9 @@ export default class PackCarousel extends React.Component {
   }
 
   render() {
-    const {activeSlide, packages, pkgloading} = this.state;
+    const { activeSlide, packages, pkgloading } = this.state;
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         {pkgloading && (
           <ActivityIndicator size="large" color={colors.darkblue} />
         )}
@@ -132,7 +144,7 @@ export default class PackCarousel extends React.Component {
             removeClippedSubviews={false}
             data={packages}
             renderItem={this._renderItem}
-            onSnapToItem={index => this.setState({activeSlide: index})}
+            onSnapToItem={index => this.setState({ activeSlide: index })}
             sliderWidth={sliderWidth}
             itemWidth={itemWidth}
             firstItem={activeSlide}

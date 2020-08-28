@@ -1,135 +1,99 @@
-import React, {Component} from 'react';
-import {View, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
-import Logo from '../../components/Logo';
-import TopImage from '../../components/TopImage';
-import colors from '../../theme/Colors';
-import Switcher from './component/Switcher';
-import MyTokens from './MyTokens';
-import MyCards from './MyCards';
+import React, { Component } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Platform,
+  Animated,
+  StyleSheet,
+  ScrollView
+} from "react-native";
+import { connect } from "react-redux";
+import colors from "../../theme/Colors";
+import Logo from "../../components/Logo";
+import TopImage from "../../components/TopImage";
+import Header from "./Header";
+
 class Wallet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: 'tokens',
+      isMember: false
     };
   }
+  componentDidMount() {
+    const basic = this.props.basic;
+    let result = false;
+    if (basic.active) {
+      this.setState({ isMember: true });
+    } else this.setState({ isMember: false });
+  }
+  navigateTo = (page, props) => {
+    this.props.navigation.navigate(page, props);
+  };
   onTap = screen => {
     console.log(screen);
-    this.setState({screen: screen});
-  };
-  componentDidMount = () => {
-    this.load();
-    this.props.navigation.addListener('willFocus', this.load);
-  };
-  load = () => {
-    const {navigation} = this.props;
-    if (navigation.state.params) {
-      console.log('navigation', navigation);
-      const {page} = navigation.state.params;
-      console.log('page', page);
-      this.setState({screen: page});
-    }
-  };
-  setScreen = screen => {
-    const {uid} = this.props;
-    switch (screen) {
-      case 'tokens':
-        return (
-          <MyTokens
-            {...this.props}
-            onLinkCard={() => {
-              console.log('link cards');
-              this.setState({screen: 'cards'});
-            }}
-          />
-        );
-      case 'cards':
-        return (
-          <MyCards
-            {...this.props}
-            onBack={() => {
-              console.log('go back to tokens');
-              this.setState({screen: 'tokens'});
-            }}
-          />
-        );
-      default:
-        return <MyTokens {...this.props} />;
-    }
-  };
-  goBack = () => {
-    const {screen} = this.state;
-    console.log('screen', screen);
-    if (screen === 'cards') {
-      this.setState({screen: 'tokens'});
-    } else {
-      this.props.navigation.goBack();
-    }
-  };
-  choose = screen => {
-    console.log('screen', screen);
-    this.setState({screen});
+    this.setState({ screen: screen });
   };
   render() {
-    const {screen} = this.state;
+    const { isMember } = this.state;
     return (
-      // <KeyboardAwareScrollView style={{ width: Metrics.screenWidth }}>
-      <View style={styles.main_container}>
-        <TouchableOpacity style={styles.back_button} onPress={this.goBack}>
-          <Image
-            style={styles.tabbutton}
-            source={require('../../assets/back.png')}
-          />
-        </TouchableOpacity>
-        <TopImage />
-        <Logo />
-        <View style={styles.switcher}>
-          <Switcher onChoose={this.choose} screen={screen} />
-          {this.setScreen(screen)}
+      <View
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          // backgroundColor: colors.lightgrey,
+        }}
+      >
+        <View
+          style={{
+            width: "100%",
+            height: 80,
+            display: "flex",
+            alignItems: "center",
+            // backgroundColor: colors.green,  
+          }}
+        >
+          <TopImage />
+          <Logo />                    
         </View>
+        <Header onTap={this.onTap} />
       </View>
-      // </KeyboardAwareScrollView>
     );
   }
 }
+
 const styles = StyleSheet.create({
-  main_container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: colors.white,
-  },
-  back_button: {
-    position: 'absolute',
-    top: 40,
-    left: 10,
-    zIndex: 1000,
-    display: 'flex',
-    alignItems: 'flex-start',
-  },
-  switcher: {
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: 80,
-    width: '100%',
-  },
-  tabbutton: {
-    width: 25,
-    height: 25,
-  },
+  modal: {
+    position: "absolute",
+    left: "10%",
+    top: "20%",
+    width: "80%",
+    height: "35%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderColor: colors.grey,
+    borderWidth: 1,
+    borderRadius: 20,
+    backgroundColor: colors.lightgrey,
+    padding: 10
+  }
 });
+
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    dispatch
   };
 }
 function mapStateToProps(state) {
   return {
-    basic: state.basic,
     uid: state.uid,
+    basic: state.basic
   };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Wallet);
-
-// export default StackNavigator;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Wallet);

@@ -28,9 +28,9 @@ export default class AllPackagesCarousel extends React.Component {
   _renderItem({ item, index }) {
     return <PackCard data={item} key={index} />;
   }
-  componentWillReceiveProps(nextProps) {
-    const { packages } = this.state;
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { packages } = this.state;
+  // }
   async componentDidMount() {
     const { renter_owner, onLoad } = this.props;
     this.setState({ pkgloading: true });

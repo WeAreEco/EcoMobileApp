@@ -41,22 +41,23 @@ class CommunityChat extends React.Component {
     this._keyboardDidShow = this._keyboardDidShow.bind(this);
     this._keyboardDidHide = this._keyboardDidHide.bind(this);
   }
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      this._keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      this._keyboardDidHide
-    );
-  }
+  // componentWillMount() {
+  //   this.keyboardDidShowListener = Keyboard.addListener(
+  //     "keyboardDidShow",
+  //     this._keyboardDidShow
+  //   );
+  //   this.keyboardDidHideListener = Keyboard.addListener(
+  //     "keyboardDidHide",
+  //     this._keyboardDidHide
+  //   );
+  // }
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
   componentDidMount() {
-    const { room_id } = this.props.navigation.state.params;
+    const { route } = this.props;
+    const { room_id } = route.params ? route.params: null;
     Firebase.getChats(room_id, res => {
       let chats = Object.values(res);
       this.setState({ messages: chats });
@@ -71,6 +72,15 @@ class CommunityChat extends React.Component {
         this.props.navigation.goBack();
       }
     });
+
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide
+    );
   }
 
   _keyboardDidShow(e) {
@@ -103,7 +113,8 @@ class CommunityChat extends React.Component {
     this.setState({ messages });
   }
   addMessage = message => {
-    const { room_id } = this.props.navigation.state.params;
+    const { route } = this.props;
+    const { room_id } = route.params ? route.params: null;
     setTimeout(() => {
       this.refs.scrollView.scrollToEnd();
     }, 100);
@@ -121,7 +132,8 @@ class CommunityChat extends React.Component {
     if (message_txt) this.addMessage({ type: "user", message: message_txt });
   };
   onChangeMessage = text => {
-    const { room_id } = this.props.navigation.state.params;
+    const { route } = this.props;
+    const { room_id } = route.params ? route.params: null;
     Firebase.setTypeValue(room_id, true);
     if (timer) clearTimeout(timer);
     timer = setTimeout(function() {
@@ -130,7 +142,8 @@ class CommunityChat extends React.Component {
     this.setState({ message_txt: text });
   };
   terminate = () => {
-    const { room_id } = this.props.navigation.state.params;
+    const { route } = this.props;
+    const { room_id } = route.params ? route.params: null;
     Firebase.terminateChat(room_id, res => {
       if (res === "success") {
         console.log("Terminated chat");

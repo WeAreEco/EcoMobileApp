@@ -34,16 +34,6 @@ class Address extends React.Component {
     // this._keyboardDidShow = this._keyboardDidShow.bind(this);
     // this._keyboardDidHide = this._keyboardDidHide.bind(this);
   }
-  componentWillMount() {
-    // this.keyboardDidShowListener = Keyboard.addListener(
-    //   "keyboardDidShow",
-    //   this._keyboardDidShow
-    // );
-    // this.keyboardDidHideListener = Keyboard.addListener(
-    //   "keyboardDidHide",
-    //   this._keyboardDidHide
-    // );
-  }
 
   componentWillUnmount() {
     // this.keyboardDidShowListener.remove();

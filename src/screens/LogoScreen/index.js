@@ -42,14 +42,16 @@ class LogoScreen extends React.Component {
     this.state.fadeIn.setValue(0);
     Animated.timing(this.state.fadeIn, {
       toValue: 1,
-      duration: 2000
+      duration: 2000,
+      useNativeDriver: false
     }).start(() => this.fadeOut());
   }
   fadeOut() {
     this.state.fadeIn.setValue(1);
     Animated.timing(this.state.fadeIn, {
       toValue: 0,
-      duration: 2000
+      duration: 2000,
+      useNativeDriver: false
     }).start(() => this.Start());
   }
   componentDidMount() {
@@ -67,6 +69,8 @@ class LogoScreen extends React.Component {
         }
         this.props.dispatch(saveUsers(users));
       });
+
+    this.fadeIn();
   }
   Start = () => {
     isSession()
@@ -88,9 +92,9 @@ class LogoScreen extends React.Component {
         this.props.navigation.navigate("Landing");
       });
   };
-  componentWillMount() {
-    this.fadeIn();
-  }
+  // componentWillMount() {
+  //   this.fadeIn();
+  // }
   componentWillUnmount() {
     this.unsubscribeUsers();
   }

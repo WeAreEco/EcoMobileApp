@@ -28,9 +28,15 @@ class Users extends React.Component {
     this.findResult();
     console.log("uid", uid);
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState({ users: nextProps.users });
-    this.findResult();
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState({ users: nextProps.users });
+  //   this.findResult();
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.users !== prevState.users) {
+      return ({ users: nextProps.users }) // <- this is setState equivalent
+    }
+    return null
   }
   findResult = () => {
     const { users, uid } = this.state;

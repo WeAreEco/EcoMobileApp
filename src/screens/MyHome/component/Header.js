@@ -4,15 +4,17 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import IconMenu from "../../../components/IconMenu";
 import { sliderWidth, itemWidth } from "../../../theme/Styles";
+
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 0;
-const home_img = require("../../../assets/profile_header/home.png");
-const renting_img = require("../../../assets/profile_header/renting.png");
-const housemates_img = require("../../../assets/profile_header/groups.png");
+const home_img       = require("../../../assets/Connect/connect_assistants.png");
+const renting_img    = require("../../../assets/Connect/connect_community.png");
+const housemates_img = require("../../../assets/Connect/connect_friends.png");
+
 let packages = [
-  { title: "Home", img: home_img, index: 0 },
-  { title: "Renting", img: renting_img, index: 1 },
-  { title: "Housemates", img: housemates_img, index: 2 }
+  { title: "Assistants", img: home_img, index: 0 },
+  { title: "Community", img: renting_img, index: 1 },
+  { title: "Friends", img: housemates_img, index: 2 }
 ];
 class Header extends React.Component {
   constructor(props) {
@@ -22,11 +24,20 @@ class Header extends React.Component {
     };
     console.log("props", props);
   }
-  componentWillReceiveProps(nextProps) {
-    const { screen } = nextProps;
-    console.log("nextProps", nextProps);
-    if (screen === "Home")
-      setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+  // componentWillReceiveProps(nextProps) {
+  //   const { screen } = nextProps;
+  //   console.log("nextProps", nextProps);
+  //   if (screen === "Home")
+  //     setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.screen !== prevState.screen) {
+      const { screen } = nextProps;
+      if (screen === "Home")
+        setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+        // return ({ activated: true }) // <- this is setState equivalent
+    }
+    return null
   }
   componentDidMount() {}
   _renderItem = ({ item, index }) => {
@@ -48,7 +59,7 @@ class Header extends React.Component {
           width: "100%",
           height: 100,
           position: "absolute",
-          top: 70,
+          top: 80,
           //top: 80,
           left: 0,
           display: "flex",

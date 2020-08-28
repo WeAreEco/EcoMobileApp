@@ -28,7 +28,7 @@ export default class QBPackCarousel extends React.Component {
   _renderItem({ item, index }) {
     return <PackCard data={item} key={index} />;
   }
-  componentWillReceiveProps(nextProps) {
+  // componentWillReceiveProps(nextProps) {
     // const { packages } = this.state;
     // if (packages) {
     //   packages.forEach((item, index) => {
@@ -37,7 +37,7 @@ export default class QBPackCarousel extends React.Component {
     //         this.setState({ activeSlide: index });
     //   });
     // }
-  }
+  // }
   async componentDidMount() {
     this.setState({ pkgloading: true });
     res = await Firebase.getQBPackagesData();

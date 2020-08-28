@@ -38,11 +38,20 @@ class Header extends React.Component {
     };
     console.log("props", props);
   }
-  componentWillReceiveProps(nextProps) {
-    const { screen } = nextProps;
-    console.log("nextProps", nextProps);
-    if (screen === "Top 10")
-      setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+  // componentWillReceiveProps(nextProps) {
+  //   const { screen } = nextProps;
+  //   console.log("nextProps", nextProps);
+  //   if (screen === "Top 10")
+  //     setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.screen !== prevState.screen) {
+      const { screen } = nextProps;
+      if (screen === "Top 10")
+        setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+        // return ({ activated: true }) // <- this is setState equivalent
+    }
+    return null
   }
   componentDidMount() {}
   _renderItem = ({ item, index }) => {

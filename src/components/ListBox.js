@@ -28,7 +28,8 @@ export default class ListBox extends Component {
     this.state.drop_height.setValue(0);
     Animated.timing(this.state.drop_height, {
       toValue: 140,
-      duration: 0
+      duration: 0,
+      useNativeDriver: false
     }).start(() => {
       this.props.onClick();
     });
@@ -38,7 +39,8 @@ export default class ListBox extends Component {
     this.state.drop_height.setValue(140);
     Animated.timing(this.state.drop_height, {
       toValue: 0,
-      duration: 0
+      duration: 0,
+      useNativeDriver: false
     }).start(() => {});
   };
   _renderItem = ({ item }) => (

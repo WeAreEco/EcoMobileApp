@@ -21,7 +21,8 @@ class RecommendPackage extends React.Component {
   }
   handleAnimation = () => {
     Animated.spring(this.animatedValue, {
-      toValue: 1
+      toValue: 1,
+      useNativeDriver: false
     }).start();
   };
   selectRecommend = option => {

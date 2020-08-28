@@ -7,10 +7,17 @@ class SubscribeButton extends React.Component {
   constructor(props) {
     super(props);
   }
-  componentWillReceiveProps(props) {
-    console.log("props", props);
-    const { coming_flag } = props;
-    console.log("coming_flag", coming_flag);
+  // componentWillReceiveProps(props) {
+  //   console.log("props", props);
+  //   const { coming_flag } = props;
+  //   console.log("coming_flag", coming_flag);
+  // }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.coming_flag) {
+      console.log("coming_flag", nextProps.coming_flag);
+      // return ({ activated: true }) // <- this is setState equivalent
+    }
+    return null
   }
   componentDidMount() {
     console.log("props", this.props);

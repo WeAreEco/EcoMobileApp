@@ -1,112 +1,118 @@
-import React, {Component} from 'react';
-import {createAppContainer} from 'react-navigation';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {Image} from 'react-native';
-import Concierge from './src/screens/Concierge';
-import Diary from './src/screens/Diary';
-import Explore from './src/screens/Explore';
-import Profile from './src/screens/Profile';
-import Wallet from './src/screens/Wallet';
-import MyHome from './src/screens/MyHome';
-import colors from './src/theme/Colors';
-import {resetConcierge} from './src/Redux/actions';
-const profile_img = require('./src/assets/routing/profile.png');
-const explore_img = require('./src/assets/routing/explore.png');
-const concierge_img = require('./src/assets/routing/concierge.png');
-const community_img = require('./src/assets/routing/community.png');
-const home_img = require('./src/assets/routing/home.png');
-const diary_img = require('./src/assets/diary.png');
-const wallet_img = require('./src/assets/routing/wallet.png');
-let routeConfigs = {
-  Explore: {
-    screen: Explore,
-    navigationOptions: ({navigation}) => {
-      let tabBarLabel = 'Explore';
-      let tabBarIcon = () => (
-        <Image source={explore_img} style={{width: 36, height: 36}} />
-      );
-      return {tabBarLabel, tabBarIcon};
-    },
-  },
-  Wallet: {
-    screen: Wallet,
-    navigationOptions: ({navigation}) => {
-      let tabBarLabel = 'Wallet';
-      let tabBarIcon = () => (
-        <Image source={wallet_img} style={{width: 36, height: 36}} />
-      );
-      return {tabBarLabel, tabBarIcon};
-    },
-  },
-  Concierge: {
-    screen: Concierge,
-    navigationOptions: ({navigation, screenProps}) => {
-      let tabBarLabel = 'Concierge';
-      let tabBarIcon = () => (
-        <Image source={concierge_img} style={{width: 28, height: 36}} />
-      );
-      let tabBarOnPress = () => {
-        screenProps.dispatch(resetConcierge(true));
-        navigation.navigate('Concierge');
-      };
-      return {tabBarLabel, tabBarIcon, tabBarOnPress};
-    },
-  },
-  Home: {
-    screen: MyHome,
-    navigationOptions: ({navigation}) => {
-      let tabBarLabel = 'My Home';
-      let tabBarIcon = () => (
-        <Image source={home_img} style={{width: 36, height: 36}} />
-      );
-      return {tabBarLabel, tabBarIcon};
-    },
-  },
-  Profile: {
-    screen: Profile,
-    navigationOptions: ({navigation}) => {
-      let tabBarLabel = 'My Profiles';
-      let tabBarIcon = () => (
-        <Image source={profile_img} style={{width: 36, height: 36}} />
-      );
-      return {tabBarLabel, tabBarIcon};
-    },
-  },
+import React, { Component } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack'
+import { Image } from "react-native";
+import Concierge from "./src/screens/Concierge";
+import Diary from "./src/screens/Diary";
+import Explore from "./src/screens/Explore";
+import Profile from "./src/screens/Profile";
+import Wallet from "./src/screens/Wallet";
+import MyHome from "./src/screens/MyHome";
+import colors from "./src/theme/Colors";
 
-  // Diary: {
-  //   screen: Diary,
-  //   navigationOptions: ({ navigation }) => {
-  //     let tabBarLabel = "Diary";
-  //     let tabBarIcon = () => (
-  //       <Image source={diary_img} style={{ width: 28, height: 28 }} />
-  //     );
-  //     return { tabBarLabel, tabBarIcon };
-  //   }
-  // }
-};
-let tabNavigatorConfig = {
-  initialRouteName: 'Concierge',
-  tabBarPosition: 'bottom',
-  animationEnabled: true,
-  swipeEnabled: true,
-  tabBarOptions: {
-    showLabel: true,
-    activeTintColor: 'black',
+const iconExplore = require("./src/assets/routing/icon_explore.png");
+const iconWallet = require("./src/assets/routing/icon_wallet.png");
+const iconEcoPay = require("./src/assets/routing/icon_ecopay.png");
+const iconConnect = require("./src/assets/routing/icon_connect.png");
+const iconEcoID = require("./src/assets/routing/icon_ecoid.png");
 
-    style: {
-      backgroundColor: 'white',
-      height: 60,
-      borderTopColor: 'transparent',
-      shadowOffset: {height: 1, width: 1},
-      shadowColor: colors.darkblue,
-      shadowOpacity: 0.2,
-      elevation: 3,
-    },
-  },
-  lazy: true,
-};
-const AppContainer = createAppContainer(
-  createBottomTabNavigator(routeConfigs, tabNavigatorConfig),
-);
+// const AppContainer = NavigationContainer(
+//   createBottomTabNavigator(routeConfigs, tabNavigatorConfig)
+// );
 
-export default AppContainer;
+const Tab = createBottomTabNavigator();
+
+export default class AppContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      
+        <Tab.Navigator
+          initialRouteName="Feed"
+          tabBarPosition="bottom"
+          tabBarOptions={{
+            showLabel: true,
+            activeTintColor: "#000000",
+            style: {
+              backgroundColor: '#FFFFFF',
+              // height: 60,
+              borderTopColor: 'transparent',
+              shadowOffset: {
+                height: 1,
+                width: 1
+              },
+              shadowColor: colors.darkblue,
+              shadowOpacity: 0.2,
+              elevation: 3
+            }
+          }}
+        >
+          <Tab.Screen
+            name="Explore"
+            component={Explore}
+            options={{ 
+              tabBarLabel: 'Explore',
+              tabBarIcon: () => (
+                  <Image source={iconExplore} style={{ width: 25, height: 25 }} />
+                )
+            }}
+          />
+          <Tab.Screen
+            name="Wallet"
+            component={Wallet}
+            options={{ 
+              tabBarLabel: 'Wallet',
+              tabBarIcon: () => (
+                  <Image source={iconWallet} style={{ width: 25, height: 25 }} />
+                )
+            }}
+          />
+          <Tab.Screen
+            name="Concierge"
+            component={Concierge}
+            options={{ 
+              tabBarLabel: 'EcoPay',
+              tabBarIcon: () => (
+                  <Image source={iconEcoPay} style={{ width: 25, height: 25 }} />
+                )
+            }}
+            listeners={({ navigation, route }) => ({
+              tabPress: e => {
+                // Prevent default action
+                e.preventDefault();
+
+                // Do something with the `navigation` object
+                navigation.navigate("Concierge");
+              },
+            })}
+          />
+          <Tab.Screen
+            name="Home"
+            component={MyHome}
+            options={{ 
+              tabBarLabel: 'Connect',
+              tabBarIcon: () => (
+                  <Image source={iconConnect} style={{ width: 25, height: 25 }} />
+                )
+            }}
+          />
+          <Tab.Screen
+            name="Profile"
+            component={Profile}
+            options={{ 
+              tabBarLabel: 'EcoID',
+              tabBarIcon: () => (
+                  <Image source={iconEcoID} style={{ width: 25, height: 25 }} />
+                )
+            }}
+          />
+        </Tab.Navigator>
+      
+    );
+  }
+}

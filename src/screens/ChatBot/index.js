@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Platform,
   StyleSheet,
@@ -6,40 +6,48 @@ import {
   AsyncStorage,
   View,
   TouchableOpacity,
-  Image,
-} from 'react-native';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import Onboarding from './Onboarding';
-import InfoGuideHome from './InfoGuideHome';
+  Image
+} from "react-native";
 
-const StackNavigator = createAppContainer(
-  createStackNavigator({
-    Onboarding: Onboarding,
-    InfoGuideHome: InfoGuideHome,
-  }),
-);
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from '@react-navigation/stack';
 
-// export default StackNavigator;
+import Onboarding from "./Onboarding";
+import InfoGuideHome from "./InfoGuideHome";
+
+const Stack = createStackNavigator();
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-  static navigationOptions = ({navigation}) => {
-    const {params = {}} = navigation.state;
-    let tabBarLabel = 'Profile';
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    let tabBarLabel = "Profile";
     let tabBarIcon = () => (
       <Image
-        source={require('../../assets/profile.png')}
-        style={{width: 26, height: 26}}
+        source={require("../../assets/profile.png")}
+        style={{ width: 26, height: 26 }}
       />
     );
-    return {tabBarLabel, tabBarIcon};
+    return { tabBarLabel, tabBarIcon };
   };
 
   render() {
-    return <StackNavigator />;
+    return (
+
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Onboarding"
+            component={Onboarding}
+          />
+          <Stack.Screen
+            name="InfoGuideHome"
+            component={InfoGuideHome}
+          />
+        </Stack.Navigator>
+
+    );
   }
 }

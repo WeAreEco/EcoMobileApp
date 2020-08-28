@@ -221,6 +221,15 @@ class ProfileTest extends React.Component {
     const { basic } = this.props;
     this.setState({ username: basic.firstname });
     this.Step1();
+
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide
+    );
   }
   render() {
     const { keyboard_Height, username } = this.state;
@@ -294,16 +303,16 @@ class ProfileTest extends React.Component {
       </View>
     );
   }
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      this._keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      this._keyboardDidHide
-    );
-  }
+  // componentWillMount() {
+  //   this.keyboardDidShowListener = Keyboard.addListener(
+  //     "keyboardDidShow",
+  //     this._keyboardDidShow
+  //   );
+  //   this.keyboardDidHideListener = Keyboard.addListener(
+  //     "keyboardDidHide",
+  //     this._keyboardDidHide
+  //   );
+  // }
 
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
