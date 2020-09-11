@@ -3,7 +3,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
@@ -14,6 +13,7 @@ import {
   Dimensions,
   Keyboard
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import colors from "../../../../theme/Colors";
 import Logo from "../../../../components/Logo";

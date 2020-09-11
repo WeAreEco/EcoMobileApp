@@ -421,7 +421,12 @@ class Firebase {
       .equalTo(pkgName);
     return new Promise((resolve, reject) => {
       pkgRef.on("value", snapshot => {
-        resolve(Object.values(snapshot.val())[0]);
+        if (snapshot.val()) {
+          resolve(Object.values(snapshot.val())[0]);
+        }
+        else {
+          resolve(null);
+        }
       });
     });
   };
@@ -963,7 +968,140 @@ class Firebase {
           reject(err);
         });
     });
-  }
+  };
+  static getAllRetailers(callback) {
+    let path = 'retailers/all';
+    firebase
+      .database()
+      .ref(path)
+      .on('value', (snapshot) => {
+        let result = [];
+        result = snapshot.val();
+        let res = Object.keys(result).map((obj) => ({
+          uid: obj,
+          ...result[obj],
+        }));
+        callback(res);
+      });
+  };
+  static getAllDeactiveRetailers(callback) {
+    let path = 'retailers/deactive';
+    firebase
+      .database()
+      .ref(path)
+      .on('value', (snapshot) => {
+        let result = [];
+        if (snapshot.val()) result = snapshot.val();
+        callback(result);
+      });
+  };
+  static getBrandDataByID(brandId, callback) {
+    let path = 'brands/' + brandId;
+    firebase
+      .database()
+      .ref(path)
+      .on("value", (snapshot) => {
+        callback(snapshot.val());
+      });
+  };
+  static getAllPosts(brand, callback) {
+    if (brand === "EcosystemDemo") {
+      Firebase.firestore()
+        .collection("post")
+        .onSnapshot((docSnapshot) => {
+          const posts = [];
+          docSnapshot.forEach((doc) => {
+            posts.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+          callback(posts);
+        });
+    } 
+    else {
+      Firebase.firestore()
+        .collection(brand)
+        .doc("data")
+        .collection("post")
+        .onSnapshot((docSnapshot) => {
+          const posts = [];
+          docSnapshot.forEach((doc) => {
+            posts.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+          callback(posts);
+        });
+    }
+  };
+  static getBrandDataByName(brand, callback) {
+    let path = "brands";
+    firebase
+      .database()
+      .ref(path)
+      .orderByChild("name")
+      .equalTo(brand)
+      .on("value", (snapshot) => {
+        let result = [];
+        result = snapshot.val();        
+        let res = Object.values(result).find((result) => !result.deactive);
+        callback(res);
+      });
+  };
+  static getAllSubscriptions(brand, uid, callback) {
+    let fbInstance;
+    if (brand === "Ecosystem") {
+      fbInstance = firebase.firestore().collection("user");
+    } 
+    else {
+      fbInstance = firebase
+        .firestore()
+        .collection(brand)
+        .doc("data")
+        .collection("user");
+    }
+    fbInstance
+      .doc(uid)
+      .collection("subscriptions")
+      .onSnapshot((snapshot) => {
+        callback(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      });
+  };
+  static getBoltPackages = (callback) => {
+    let path = "packages/";
+    firebase
+      .database()
+      .ref(path)
+      .on("value", (snapshot) => {
+        let result = [];
+        result = snapshot.val();
+        //let res = Object.values(result)[0];
+        callback(result);
+      });
+  };
+
+  static getTokenSpentHistory = (brand_name, uid, callback) => {
+    let fbInstance;
+    if (brand_name === "Ecosystem") {
+      fbInstance = firebase.firestore().collection("user");
+    } 
+    else {
+      fbInstance = firebase
+        .firestore()
+        .collection(brand_name)
+        .doc("data")
+        .collection("user");
+    }
+
+    fbInstance
+      .doc(`${uid}`)
+      .collection("token_history")
+      .onSnapshot((res) => {
+        callback(res.docs.map((obj) => obj.data()));
+      });
+  };
 }
 Firebase.initialize();
 export default Firebase;

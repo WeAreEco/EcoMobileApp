@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "./static/css/main.94f61374.chunk.css",
+    "main.js": "./static/js/main.247c5804.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.c40613a3.js",
+    "static/css/2.6c7f99f2.chunk.css": "./static/css/2.6c7f99f2.chunk.css",
+    "static/js/2.9f98de17.chunk.js": "./static/js/2.9f98de17.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.331dd10061fa6603ea8dd381e6261cc8.js": "./precache-manifest.331dd10061fa6603ea8dd381e6261cc8.js",
+    "service-worker.js": "./service-worker.js",
+    "static/js/2.9f98de17.chunk.js.LICENSE.txt": "./static/js/2.9f98de17.chunk.js.LICENSE.txt",
+    "static/media/Checkmark.svg": "./static/media/Checkmark.c3e6da82.svg",
+    "static/media/index.css": "./static/media/Graphik-Semibold.99c54fc5.otf",
+    "static/media/armchair.png": "./static/media/armchair.84b1b89e.png",
+    "static/media/arrow.svg": "./static/media/arrow.6289242a.svg",
+    "static/media/chip.png": "./static/media/chip.73c37f2e.png",
+    "static/media/dinner-table.png": "./static/media/dinner-table.7be26c19.png",
+    "static/media/error.png": "./static/media/error.801b9042.png",
+    "static/media/heart.png": "./static/media/heart.464452b9.png",
+    "static/media/logo.png": "./static/media/logo.07d9ba7a.png",
+    "static/media/sign.png": "./static/media/sign.9cc1c9ba.png",
+    "static/media/ticket.png": "./static/media/ticket.cc00d056.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c40613a3.js",
+    "static/css/2.6c7f99f2.chunk.css",
+    "static/js/2.9f98de17.chunk.js",
+    "static/css/main.94f61374.chunk.css",
+    "static/js/main.247c5804.chunk.js"
+  ]
+}

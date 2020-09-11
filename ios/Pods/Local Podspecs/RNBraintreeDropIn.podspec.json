@@ -1,0 +1,40 @@
+{
+  "name": "RNBraintreeDropIn",
+  "version": "1.0.0",
+  "summary": "RNBraintreeDropIn",
+  "description": "RNBraintreeDropIn",
+  "homepage": "https://github.com/bamlab/react-native-braintree-payments-drop-in",
+  "license": "MIT",
+  "authors": {
+    "author": "lagrange.louis@gmail.com"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source": {
+    "git": "https://github.com/BradyShober/react-native-braintree-dropin-ui.git",
+    "tag": "master"
+  },
+  "source_files": "*.{h,m}",
+  "requires_arc": true,
+  "dependencies": {
+    "React": [
+
+    ],
+    "Braintree": [
+
+    ],
+    "BraintreeDropIn": [
+
+    ],
+    "Braintree/DataCollector": [
+
+    ],
+    "Braintree/Apple-Pay": [
+
+    ],
+    "Braintree/Venmo": [
+
+    ]
+  }
+}

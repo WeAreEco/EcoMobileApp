@@ -4,13 +4,13 @@ import {
   Text,
   View,
   ScrollView,
-  AsyncStorage,
   Platform,
   ActivityIndicator,
   Modal,
   TouchableOpacity,
   Image
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { WebView } from 'react-native-webview';
 import { connect } from "react-redux";
 import { saveOnboarding } from "../../Redux/actions/index";

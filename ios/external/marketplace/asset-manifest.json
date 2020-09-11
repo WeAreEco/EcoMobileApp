@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "./static/css/main.d8822bf1.chunk.css",
+    "main.js": "./static/js/main.cab328ae.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.c40613a3.js",
+    "static/js/2.95c5f68f.chunk.js": "./static/js/2.95c5f68f.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.57d40a631fd994f6210a5d404aeecef4.js": "./precache-manifest.57d40a631fd994f6210a5d404aeecef4.js",
+    "service-worker.js": "./service-worker.js",
+    "static/js/2.95c5f68f.chunk.js.LICENSE.txt": "./static/js/2.95c5f68f.chunk.js.LICENSE.txt",
+    "static/media/index.css": "./static/media/Graphik-Semibold.99c54fc5.otf",
+    "static/media/dashmix.min.css": "./static/media/fa-solid-900.ea363ed4.eot",
+    "static/media/smartphone.png": "./static/media/smartphone.88cbafa2.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c40613a3.js",
+    "static/js/2.95c5f68f.chunk.js",
+    "static/css/main.d8822bf1.chunk.css",
+    "static/js/main.cab328ae.chunk.js"
+  ]
+}

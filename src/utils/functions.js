@@ -1,4 +1,5 @@
-import { AsyncStorage } from "react-native";
+// import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const HOME_TICKETS = [
   "0",
@@ -70,18 +71,24 @@ export async function isSession() {
   try {
     const result = await AsyncStorage.getItem("profile");
     const uid = await AsyncStorage.getItem("uid");
+    const brand = await AsyncStorage.getItem("brand");
     const petprofile = await AsyncStorage.getItem("petprofile");
     const bikeprofile = await AsyncStorage.getItem("bikeprofile");
     const healthprofile = await AsyncStorage.getItem("healthprofile");
     const homeprofile = await AsyncStorage.getItem("homeprofile");
     const profile = JSON.parse(result);
+    const brandInfo = JSON.parse(brand);
+
     profile["uid"] = uid;
     profile["pet"] = petprofile;
     profile["bike"] = bikeprofile;
     profile["health"] = healthprofile;
     profile["home"] = homeprofile;
+    profile["brand"] = brandInfo;
+
     return profile;
-  } catch (err) {
+  } 
+  catch (err) {
     console.log("error", err);
     throw Error(err);
   }

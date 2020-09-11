@@ -3,12 +3,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
   TextInput
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import Autocomplete from "react-native-autocomplete-input";
 import { Dropdown } from "react-native-material-dropdown";
 import Firebase from "../firebasehelper";

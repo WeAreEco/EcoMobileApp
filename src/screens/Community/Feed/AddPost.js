@@ -10,8 +10,8 @@ import {
   Keyboard,
   ImageBackground,
   Platform,
-  AsyncStorage
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from "react-native-image-picker";
 import RNFetchBlob from "rn-fetch-blob";
 import { connect } from "react-redux";

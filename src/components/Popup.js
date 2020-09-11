@@ -3,12 +3,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
   TextInput
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import Dialog, { DialogContent } from "react-native-popup-dialog";
 import colors from "../theme/Colors";
 

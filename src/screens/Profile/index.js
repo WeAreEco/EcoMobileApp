@@ -3,12 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from "react-redux";
@@ -25,7 +24,7 @@ import TopImage from "./component/TopImage";
 import Header from "../../components/Header";
 import { Metrics } from "../../theme";
 import colors from "../../theme/Colors";
-import { saveScreen } from "../../Redux/actions";
+import { saveScreen, removeAll } from "../../Redux/actions";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -52,7 +51,18 @@ class Profile extends React.Component {
     }
   };
   LogOut = () => {
-    this.props.navigation.navigate("Landing");
+    // this.props.navigation.navigate("Landing");
+    this.props.dispatch(removeAll());
+    AsyncStorage.removeItem("profile");
+    AsyncStorage.removeItem("uid");
+    AsyncStorage.removeItem("petprofile");
+    AsyncStorage.removeItem("bikeprofile");
+    AsyncStorage.removeItem("healthprofile");
+    // console.log("LogOut,AsyncStorage", AsyncStorage.getItem("profile"));
+    this.setState({ editable: true, isloggedIn: false });
+    setTimeout(() => {
+      this.props.navigation.navigate("Landing");
+    }, 1000);
   };
   setScreen = screen => {
     switch (screen) {
@@ -92,13 +102,14 @@ class Profile extends React.Component {
           backgroundColor: colors.white
         }}
       >
-        <TopImage screen={screen} />
+        <TopImage screen={screen} onLogout={this.LogOut} />
         <Logo />
-        <Header onTap={this.onTap} />
+        
+        {/*<Header onTap={this.onTap} />*/}
         <View
           style={{
             flex: 1,
-            marginTop: screen === "Personal" ? 250 : 180,
+            marginTop: 150,
             width: "100%"
           }}
         >
@@ -126,3 +137,23 @@ export default connect(
 )(Profile);
 
 // export default StackNavigator;
+
+const styles = StyleSheet.create({
+  LogOut: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 30,
+    borderRadius: 10,
+    marginBottom: 5,
+    borderColor: colors.darkblue,
+    borderWidth: 1,
+    backgroundColor: colors.green,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    elevation: 3,
+    // display: 'none',
+  },
+});

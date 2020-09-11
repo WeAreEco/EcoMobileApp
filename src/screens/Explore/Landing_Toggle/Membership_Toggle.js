@@ -8,9 +8,9 @@ import {
   Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  AsyncStorage,
   ActivityIndicator
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from "react-redux";
 import colors from "../../../theme/Colors";
 import Metrics from "../../../theme/Metrics";

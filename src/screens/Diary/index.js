@@ -3,12 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
-
+import AsyncStorage from '@react-native-community/async-storage';
 const backgroundColor = "#0067a7";
 
 export default class Diary extends React.Component {

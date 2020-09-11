@@ -10,8 +10,8 @@ import {
   TextInput,
   Image,
   Modal,
-  AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import Logo from '../../components/Logo';
 import TopImage from '../../components/TopImage';

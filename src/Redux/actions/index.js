@@ -7,6 +7,7 @@
 "use strict";
 
 export const SAVE_ONBOARDING = "SAVE_ONBOARDING";
+export const SAVE_BRAND = "SAVE_BRAND";
 export const SAVE_UID = "SAVE_UID";
 export const SAVE_PET = "SAVE_PET";
 export const SAVE_BIKE = "SAVE_BIKE";
@@ -21,10 +22,16 @@ export const SAVE_POST = "SAVE_POST";
 export const SAVE_ALLUSER = "SAVE_ALLUSER";
 export const SAVE_SCREEN = "SAVE_SCREEN";
 export const RESET_CONCIERGE = 'RESET_CONCIERGE';
+export const WALLET_SCREEN = 'WALLET_SCREEN';
+export const EXPLORE_SCREEN = 'EXPLORE_SCREEN';
 
 export const saveOnboarding = basicInfo => ({
   type: SAVE_ONBOARDING,
   basic: basicInfo
+});
+export const saveBrand = brandInfo => ({
+  type: SAVE_BRAND,
+  brand: brandInfo
 });
 export const saveUID = uid => ({ type: SAVE_UID, uid: uid });
 export const saveInvitation = invitation => ({
@@ -77,4 +84,12 @@ export const saveUsers = users => ({
 export const saveScreen = screen => ({
   type: SAVE_SCREEN,
   screen: screen
+});
+export const saveWalletScreen = wallet_screen => ({
+  type: WALLET_SCREEN,
+  wallet_screen: wallet_screen
+});
+export const saveExploreScreen = explore_screen => ({
+  type: EXPLORE_SCREEN,
+  explore_screen: explore_screen
 });

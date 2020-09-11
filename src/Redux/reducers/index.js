@@ -1,5 +1,6 @@
 import {
   SAVE_ONBOARDING,
+  SAVE_BRAND,
   SAVE_UID,
   SAVE_PET,
   SAVE_BIKE,
@@ -10,7 +11,9 @@ import {
   REMOVE_ALL,
   SAVE_COMINGFLAG,
   SAVE_POST,
-  SAVE_ALLUSER
+  SAVE_ALLUSER,
+  WALLET_SCREEN,
+  EXPLORE_SCREEN
 } from "../actions";
 
 import { createReducer } from "reduxsauce";
@@ -34,6 +37,11 @@ export const initialState = {
 const saveOnboardingReducer = (state, action) => ({
   ...state,
   basic: action.basic
+});
+
+const saveBrandReducer = (state, action) => ({
+  ...state,
+  brand: action.brand
 });
 
 const saveUIDReducer = (state, action) => ({
@@ -106,8 +114,17 @@ const saveScreenReducer = (state, action) => ({
   ...state,
   screen: action.screen
 });
+const saveWalletScreenReducer = (state, action) => ({
+  ...state,
+  wallet_screen: action.wallet_screen
+});
+const saveExploreScreenReducer = (state, action) => ({
+  ...state,
+  explore_screen: action.explore_screen
+});
 const actionHandlers = {
   SAVE_ONBOARDING: saveOnboardingReducer,
+  SAVE_BRAND: saveBrandReducer,
   SAVE_UID: saveUIDReducer,
   SAVE_INVITATION: saveInvitationReducer,
   SAVE_PET: savePetReducer,
@@ -122,5 +139,7 @@ const actionHandlers = {
   SAVE_ALLUSER: saveUsersReducer,
   SAVE_SCREEN: saveScreenReducer,
   RESET_CONCIERGE: resetConciergeReducer,
+  WALLET_SCREEN: saveWalletScreenReducer,
+  EXPLORE_SCREEN: saveExploreScreenReducer
 };
 export default createReducer(initialState, actionHandlers);

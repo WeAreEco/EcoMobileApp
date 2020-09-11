@@ -7,11 +7,11 @@ import {
   TouchableHighlight,
   Image,
   ActivityIndicator,
-  AsyncStorage,
   Platform,
   TextInput,
   Modal
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { WebView } from 'react-native-webview';
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

@@ -6,10 +6,10 @@ import {
   ScrollView,
   Image,
   Platform,
-  AsyncStorage,
   Modal,
   TouchableOpacity
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { WebView } from 'react-native-webview';
 import colors from "../../../theme/Colors";
 import Sound from "react-native-sound";

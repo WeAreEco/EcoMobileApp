@@ -3,11 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import colors from "../theme/Colors";
 import styles from "react-native-phone-input/lib/styles";
 import { Metrics } from "../theme";

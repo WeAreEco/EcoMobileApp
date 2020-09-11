@@ -3,11 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import WebView from 'react-native-webview';
 import {connect} from 'react-redux';
 import Logo from '../../../components/Logo';

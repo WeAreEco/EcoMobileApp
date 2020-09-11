@@ -20,14 +20,13 @@ let packages = [
   { title: "Polls", img: explorePolls, index: 2 },
   { title: "Feeds", img: exploreFeeds, index: 3 },
   { title: "Marketplace", img: exploreMarket, index: 4 },
-  { title: "Community", img: exploreCommunity, index: 5 }
+  // { title: "Community", img: exploreCommunity, index: 5 }
 ];
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: SLIDER_1_FIRST_ITEM
     };
     console.log("props", props);
   }
@@ -40,25 +39,35 @@ class Header extends React.Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.screen !== prevState.screen) {
       const { screen } = nextProps;
-      if (screen === "Home")
-        setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+      // if (screen === "Home")
+        // setTimeout(() => this._slider1Ref.snapToItem(1), 100);
         // return ({ activated: true }) // <- this is setState equivalent
     }
     return null
   }
   componentDidMount() {}
   _renderItem = ({ item, index }) => {
-    return <IconMenu data={item} key={index} PressItem={this.Press} />;
+    
+    const { current } = this.props;
+    let selectedIndex = 0;
+    for (pack of packages) {
+      if (pack.title == current) {
+        selectedIndex = pack.index;
+        break;
+      }
+    }
+
+    return <IconMenu data={item} selected={selectedIndex} position={index} key={index} PressItem={this.Press} />;
   };
   Press = data => {
     const { onTap } = this.props;
-    console.log("index", data.index);
-    //this._slider1Ref.snapToItem(data.index);
+    // console.log("index", data.index);
+    // this.setState({ selectedIndex: data.index });
     onTap(data.title);
   };
 
   render() {
-    const { activeSlide } = this.state;
+    
     return (
       <View
         style={{

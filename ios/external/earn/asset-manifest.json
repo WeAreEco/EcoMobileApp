@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "./static/css/main.4aea34c0.chunk.css",
+    "main.js": "./static/js/main.311f5b73.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.c40613a3.js",
+    "static/js/2.c8a61573.chunk.js": "./static/js/2.c8a61573.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.c0794e4f42ae9bfef2f08efde78e368f.js": "./precache-manifest.c0794e4f42ae9bfef2f08efde78e368f.js",
+    "service-worker.js": "./service-worker.js",
+    "static/js/2.c8a61573.chunk.js.LICENSE.txt": "./static/js/2.c8a61573.chunk.js.LICENSE.txt",
+    "static/media/index.css": "./static/media/Graphik-Semibold.99c54fc5.otf",
+    "static/media/dashmix.min.css": "./static/media/fa-solid-900.ea363ed4.eot",
+    "static/media/gamification.jpg": "./static/media/gamification.7c22995e.jpg",
+    "static/media/pending_token.png": "./static/media/pending_token.97a7b640.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c40613a3.js",
+    "static/js/2.c8a61573.chunk.js",
+    "static/css/main.4aea34c0.chunk.css",
+    "static/js/main.311f5b73.chunk.js"
+  ]
+}

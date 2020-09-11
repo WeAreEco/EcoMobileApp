@@ -4,11 +4,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack'
 import { Image } from "react-native";
 import Concierge from "./src/screens/Concierge";
+import EcoPay from "./src/screens/EcoPay";
 import Diary from "./src/screens/Diary";
 import Explore from "./src/screens/Explore";
 import Profile from "./src/screens/Profile";
 import Wallet from "./src/screens/Wallet";
-import MyHome from "./src/screens/MyHome";
+// import MyHome from "./src/screens/MyHome";
+import Connect from "./src/screens/Connect";
 import colors from "./src/theme/Colors";
 
 const iconExplore = require("./src/assets/routing/icon_explore.png");
@@ -73,8 +75,8 @@ export default class AppContainer extends Component {
             }}
           />
           <Tab.Screen
-            name="Concierge"
-            component={Concierge}
+            name="EcoPay"
+            component={EcoPay}
             options={{ 
               tabBarLabel: 'EcoPay',
               tabBarIcon: () => (
@@ -87,13 +89,13 @@ export default class AppContainer extends Component {
                 e.preventDefault();
 
                 // Do something with the `navigation` object
-                navigation.navigate("Concierge");
+                navigation.navigate('EcoPay', { reset: true });
               },
             })}
           />
           <Tab.Screen
-            name="Home"
-            component={MyHome}
+            name="Connect"
+            component={Connect}
             options={{ 
               tabBarLabel: 'Connect',
               tabBarIcon: () => (

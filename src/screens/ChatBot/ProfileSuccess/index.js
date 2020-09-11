@@ -3,7 +3,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
@@ -12,6 +11,7 @@ import {
   TextInput,
   ScrollView
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import colors from "../../../theme/Colors";
 import Bubble from "../../../components/Bubble";
 import { Metrics } from "../../../theme";

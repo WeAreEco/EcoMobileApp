@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "./static/css/main.6c94c056.chunk.css",
+    "main.js": "./static/js/main.30f020ec.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.c40613a3.js",
+    "static/js/2.117aee7c.chunk.js": "./static/js/2.117aee7c.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.165ae7ca21f03310f545090210c107a9.js": "./precache-manifest.165ae7ca21f03310f545090210c107a9.js",
+    "service-worker.js": "./service-worker.js",
+    "static/js/2.117aee7c.chunk.js.LICENSE.txt": "./static/js/2.117aee7c.chunk.js.LICENSE.txt",
+    "static/media/index.css": "./static/media/Graphik-Semibold.99c54fc5.otf",
+    "static/media/dashmix.min.css": "./static/media/fa-solid-900.ea363ed4.eot",
+    "static/media/clock.png": "./static/media/clock.65370801.png",
+    "static/media/opinion.png": "./static/media/opinion.400157bb.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c40613a3.js",
+    "static/js/2.117aee7c.chunk.js",
+    "static/css/main.6c94c056.chunk.css",
+    "static/js/main.30f020ec.chunk.js"
+  ]
+}

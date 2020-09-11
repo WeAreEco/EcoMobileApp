@@ -3,11 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import colors from "../../../theme/Colors";
 
 export default class TopImage extends React.Component {
@@ -15,7 +15,8 @@ export default class TopImage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false
+      loggedIn: false,
+      profile: {}
     };
   }
 
@@ -26,17 +27,31 @@ export default class TopImage extends React.Component {
   async checkUser() {
     const uid = await AsyncStorage.getItem('uid');
     if (uid) {
-      this.setState({ loggedIn: true });
+      var profile = await AsyncStorage.getItem('profile');
+      profile = JSON.parse(profile);
+      this.setState({ loggedIn: true, profile });
     }
   }
 
+  logOut = () => {
+    const {onLogout} = this.props;
+    console.log('onLogout', '...');
+    onLogout();
+  };
+
   render() {
     const { screen } = this.props;
-    const { loggedIn } = this.state;
+    const { loggedIn, profile } = this.state;
 
     return loggedIn && (
       <View
         style={Styles.topBarContainer}>
+        <TouchableOpacity
+          style={Styles.LogOut}
+          onPress={this.logOut}
+        >
+          <Text>LogOut</Text>
+        </TouchableOpacity>
         <Image
           source={require("../../../assets/icon_tokens.png")}
           resizeMode={"contain"}
@@ -44,7 +59,7 @@ export default class TopImage extends React.Component {
         />
         <Text
           style={Styles.textContainer}>
-          1002
+          {(profile && (profile.tokens || 0) - (profile.tokenSpent || 0)) || 0}
         </Text>
       </View>      
     );
@@ -73,16 +88,18 @@ const Styles = StyleSheet.create({
   // }
   topBarContainer: {
     width: "100%",
-    height: 80,
+    height: 0,
     position: "absolute",
-    alignItems: "flex-end",    
+    // alignItems: "flex-end",    
     top: 40,
+    backgroundColor: colors.white,
   },
   imgContainer: {
     position: "absolute",
     width: 80,
     height: 40,    
-    alignItems: "center"
+    alignItems: "center",
+    right: 0,
   },
   textContainer: {
     position: "absolute",
@@ -91,6 +108,26 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     top: 13,
     textAlign: 'center',
-    fontSize: 11
-  }
+    fontSize: 11,
+    right: 0,
+  },
+  LogOut: {
+    // flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+    height: 30,
+    marginTop: 5,
+    borderRadius: 10,
+    marginBottom: 5,
+    marginLeft: 15,
+    // borderColor: colors.darkblue,
+    // borderWidth: 1,
+    backgroundColor: colors.white,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    elevation: 3,
+    // display: 'none',
+  },
 });

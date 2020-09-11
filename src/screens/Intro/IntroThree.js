@@ -3,11 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import GestureRecognizer, {
   swipeDirections
 } from "react-native-swipe-gestures";

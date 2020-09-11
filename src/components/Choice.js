@@ -3,7 +3,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -14,6 +13,7 @@ import {
   Linking,
   Alert
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import MessageItem from "./MessageItem";
 import colors from "../theme/Colors";
 const home_emergency_img = require("../assets/choice/newicons/0_home_emergencies.png");

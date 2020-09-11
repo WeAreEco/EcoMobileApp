@@ -1,0 +1,6 @@
+module Pods_EcoApp {
+  umbrella header "Pods-EcoApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

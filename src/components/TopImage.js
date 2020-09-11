@@ -3,11 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import colors from "../theme/Colors";
 
 export default class TopImage extends React.Component {
@@ -15,7 +15,8 @@ export default class TopImage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false
+      loggedIn: false,
+      profile: {}
     };
   }
 
@@ -26,25 +27,37 @@ export default class TopImage extends React.Component {
   async checkUser() {
     const uid = await AsyncStorage.getItem('uid');
     if (uid) {
-      this.setState({ loggedIn: true });
+      var profile = await AsyncStorage.getItem('profile');
+      profile = JSON.parse(profile);
+      this.setState({ loggedIn: true, profile });
     }
   }
 
   render() {
-    const { loggedIn } = this.state;
+    const { loggedIn, profile } = this.state;
 
     return loggedIn && (
       <View
         style={Styles.topBarContainer}>
+
+        <TouchableOpacity
+          style={Styles.LogOut}
+          onPress={() => this.LogOut()}
+        >
+          <Text>LogOut</Text>
+        </TouchableOpacity>
+
         <Image
           source={require("../assets/icon_tokens.png")}
           resizeMode={"contain"}
           style={Styles.imgContainer}
         />
+
         <Text
           style={Styles.textContainer}>
-          1002
+          {(profile && (profile.tokens || 0) - (profile.tokenSpent || 0)) || 0}
         </Text>
+
       </View>      
     );
   }
@@ -71,5 +84,22 @@ const Styles = StyleSheet.create({
     top: 13,
     textAlign: 'center',
     fontSize: 11
-  }
+  },
+  LogOut: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 30,
+    borderRadius: 10,
+    marginBottom: 5,
+    borderColor: colors.darkblue,
+    borderWidth: 1,
+    backgroundColor: colors.lightgrey,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    elevation: 3,
+    display: 'none'
+  },
 });

@@ -3,12 +3,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
   TouchableWithoutFeedback
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import colors from "../theme/Colors";
 export default class IconMenu extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ export default class IconMenu extends React.Component {
     PressItem(data);
   };
   render() {
-    const {data, isTitleHidden} = this.props;
+    const { data, isTitleHidden, selected, position } = this.props;
     const { title, img } = data;
 
     return (
@@ -35,7 +35,7 @@ export default class IconMenu extends React.Component {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
-            backgroundColor: colors.white,
+            backgroundColor: selected == position ? colors.lightgrey: colors.white,
             shadowOffset: { height: 2, width: 2 },
             shadowColor: colors.darkblue,
             shadowOpacity: 0.2,

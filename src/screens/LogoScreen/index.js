@@ -3,18 +3,19 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
   Animated
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import FadeInView from "react-native-fade-in-view";
 import { connect } from "react-redux";
 import colors from "../../theme/Colors";
 import { Metrics } from "../../theme";
 import {
   saveOnboarding,
+  saveBrand,
   saveUID,
   savePet,
   saveBike,
@@ -54,23 +55,31 @@ class LogoScreen extends React.Component {
       useNativeDriver: false
     }).start(() => this.Start());
   }
+  
   componentDidMount() {
-    this.unsubscribeUsers = Firebase.firestore()
-      .collection("user")
-      .onSnapshot(snapshot => {
-        let users = [];
-        if (snapshot.size) {
-          snapshot.forEach(doc => {
-            let user = doc.data();
-            user.id = doc.id;
-            users.push(user);
-          });
-          console.log("users", users);
-        }
-        this.props.dispatch(saveUsers(users));
-      });
 
-    this.fadeIn();
+    // this.unsubscribeUsers = Firebase.firestore()
+    //   .collection("user")
+    //   .onSnapshot(snapshot => {
+    //     let users = [];
+    //     if (snapshot.size) {
+    //       snapshot.forEach(doc => {
+    //         let user = doc.data();
+    //         user.id = doc.id;
+    //         users.push(user);
+    //       });
+    //       console.log("users", users);
+    //     }
+    //     this.props.dispatch(saveUsers(users));
+    //   });
+
+    // Get Brand Info
+    Firebase.getBrandDataByName('Ecosystem', (brand) => {
+      this.props.dispatch(saveBrand(brand));
+      AsyncStorage.setItem("brand", JSON.stringify(brand));
+    });
+
+    this.fadeIn();    
   }
   Start = () => {
     isSession()
@@ -84,8 +93,11 @@ class LogoScreen extends React.Component {
           this.props.dispatch(saveBike(JSON.parse(res.bike)));
           this.props.dispatch(saveHealth(JSON.parse(res.health)));
           this.props.dispatch(saveHome(JSON.parse(res.home)));
+          this.props.dispatch(saveBrand(res.brand));
           this.props.navigation.navigate("Main");
-        } else this.props.navigation.navigate("Landing");
+        } 
+        else 
+          this.props.navigation.navigate("Landing");
       })
       .catch(err => {
         console.log("Error", err);
@@ -96,7 +108,7 @@ class LogoScreen extends React.Component {
   //   this.fadeIn();
   // }
   componentWillUnmount() {
-    this.unsubscribeUsers();
+    // this.unsubscribeUsers();
   }
   render() {
     return (
@@ -131,6 +143,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     basic: state.basic,
+    brand: state.brand,
     uid: state.uid,
     pet: state.pet
   };

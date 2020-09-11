@@ -3,12 +3,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
   FlatList
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import colors from "../theme/Colors";

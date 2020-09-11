@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase/Firebase.h>
+#import <BTAppSwitch.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -31,6 +32,10 @@ static void InitializeFlipper(UIApplication *application) {
   
   [FIRApp configure];
   
+  // PayPal - Braintree
+  [BTAppSwitch setReturnURLScheme:@"ecosystem.com.app.payments"];
+  
+  //
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif

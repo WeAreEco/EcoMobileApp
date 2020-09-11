@@ -7,10 +7,10 @@ import {
   Image,
   ImageBackground,
   ToolbarAndroid,
-  AsyncStorage,
   Platform,
   TextInput
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { WebView } from 'react-native-webview';
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";

@@ -11,10 +11,11 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   ActivityIndicator,
-  AsyncStorage,
   Modal
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { WebView } from 'react-native-webview';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ImagePicker from "react-native-image-picker";
@@ -256,13 +257,14 @@ class PersonalProfile extends React.Component {
     } = this.state;
     let basic = this.props.basic;
     let avatar_url = basic.avatar_url;
+    
     return (
       <View
         style={{
           width: Metrics.screenWidth,
           height: Metrics.screenHeight,
           flex: 1,
-          backgroundColor: "transparent",
+          // backgroundColor: colors.white,
           fontFamily: "Gothic A1",
           marginTop: -60
         }}
@@ -287,82 +289,164 @@ class PersonalProfile extends React.Component {
         )}
         {!profiletest_webview && (
           <KeyboardAwareScrollView
-            style={{ width: "100%", height: "100%" }}
+            style={{ 
+              width: "100%", 
+              height: "100%",              
+            }}
             contentContainerStyle={{ alignItems: "center" }}
           >
-            <Text
-              style={{
-                textAlign: "center",
-                fontFamily: "Gothic A1",
-                fontSize: 20,
-                fontWeight: "700",
-                marginBottom: 0
-              }}
-            >
-              {firstname}'s ID
-            </Text>
             <View
               style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: -10
+                marginTop: 20,
               }}
             >
-              <TouchableOpacity
-                onPress={this.selectPhotoTapped.bind(this)}
-                style={styles.avatar}
-              >
-                <ImageBackground
-                  style={styles.imageContainer}
-                  source={this.state.ImageSource}
-                />
-              </TouchableOpacity>
+              {/* Avatar & Name */}
+              <View style={styles.ProfileWrapper}>
 
-              <TouchableOpacity
-                style={styles.CallAction}
-                onPress={() => this.LogOut()}
-              >
-                <Text>LogOut</Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                marginTop: 10,
-                width: "80%",
-                flex: 1,
-                alignItems: "flex-start"
-              }}
-            >
-              <View style={styles.Section}>
-                <Image
-                  source={
-                    activated
-                      ? require(`../../../assets/activated.png`)
-                      : require(`../../../assets/nonactivated.png`)
-                  }
-                  style={{ width: 30, height: 30, marginRight: 10 }}
-                />
-                <Text style={styles.input}>
-                  {activated ? "Active member" : "Non active member"}
+                <View style={styles.ProfileInfoHeader}>
+                  <Image
+                    source={require(`../../../assets/Profile/profile_check.png`)}
+                    style={{ width: 30, height: 30, marginRight: 80 }}
+                  />
+                  <Image
+                    source={require(`../../../assets/Profile/flag_uk.png`)}
+                    style={{ width: 30, height: 30, marginLeft: 80 }}
+                  />
+                </View>
+
+                <TouchableOpacity
+                  onPress={this.selectPhotoTapped.bind(this)}
+                  style={styles.avatar}
+                >
+                  <ImageBackground
+                    style={styles.imageContainer}
+                    source={this.state.ImageSource}
+                  />
+                </TouchableOpacity>
+
+                <Text style={styles.Name}>
+                  {firstname}
                 </Text>
+
+                <Text style={styles.Country}>
+                  London
+                </Text>
+                
               </View>
-              <View style={styles.Section}>
-                <Image
-                  source={require("../../../assets/gift.png")}
-                  style={{ width: 25, height: 25, marginRight: 10 }}
-                />
-                <Text style={styles.input}>{dob}</Text>
+
+              {/* Profile Information */}
+              <View style={styles.ProfileWrapper}>
+
+                <View style={styles.Section}>
+                  <Image
+                    source={require("../../../assets/phone.png")}
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>{phonenumber}</Text>
+                </View>
+
+                {/*
+                <View style={styles.Section}>
+                  <Image
+                    source={
+                      activated
+                        ? require(`../../../assets/activated.png`)
+                        : require(`../../../assets/nonactivated.png`)
+                    }
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>
+                    {activated ? "Active member" : "Non active member"}
+                  </Text>
+                </View>
+
+                <View style={styles.Section}>
+                  <Image
+                    source={require("../../../assets/gift.png")}
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>{dob}</Text>
+                </View>
+                */}
+
+                <View style={styles.Section}>
+                  <Image
+                    source={require("../../../assets/Profile/heart.png")}
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>Age: 32</Text>
+                </View>
+
+                <View style={styles.Section}>
+                  <Image
+                    source={require("../../../assets/Profile/medal.png")}
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>Entrepreneur</Text>
+                </View>
+
+                <View style={styles.Section}>
+                  <Image
+                    source={require("../../../assets/Profile/superhero.png")}
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>Baking</Text>
+                </View>
+
+                <View style={styles.Section}>
+                  <Image
+                    source={require("../../../assets/Profile/growth.png")}
+                    style={styles.SectionImage}
+                  />
+                  <Text style={styles.ProfileInfoField}>£ 3000</Text>
+                </View>
+
               </View>
-              <View style={styles.Section}>
-                <Image
-                  source={require("../../../assets/phone.png")}
-                  style={{ width: 25, height: 25, marginRight: 10 }}
-                />
-                <Text style={styles.input}>{phonenumber}</Text>
+
+              {/* Score */}
+              <View style={styles.ScoreWrapper}>
+                <View style={styles.ScoreElementWrapper}>
+                  <View style={styles.ScoreGrayWrapper}>
+                    <Text style={styles.ScoreText}>50</Text>
+                    <View style={styles.ScoreGrayIcon}>
+                      <Icon
+                        style={styles.ScoreIcon}
+                        name='person'
+                        color='#FFFFFF'
+                        size={17} />
+                    </View>
+                  </View>
+                  <Text style={styles.ScoreLabel}>Profile Score</Text>
+                </View>
+                <View style={styles.ScoreElementWrapper}>
+                  <View style={styles.ScoreGreenWrapper}>
+                    <Text style={styles.ScoreText}>50</Text>
+                    <View style={styles.ScoreGreenIcon}>
+                      <Icon
+                        style={styles.ScoreIcon}
+                        name='leaf'
+                        color='#FFFFFF'
+                        size={17} />
+                    </View>
+                  </View>
+                  <Text style={styles.ScoreLabel}>Eco Score</Text>
+                </View>
+                <View style={styles.ScoreElementWrapper}>
+                  <View style={styles.ScoreRedWrapper}>
+                    <Text style={styles.ScoreText}>50</Text>
+                    <View style={styles.ScoreRedIcon}>
+                      <Icon
+                        style={styles.ScoreIcon}
+                        name='heart'
+                        color='#FFFFFF'
+                        size={17} />
+                    </View>
+                  </View>
+                  <Text style={styles.ScoreLabel}>Social Score</Text>
+                </View>
               </View>
-            </View>
+
+            </View>            
 
             <View style={styles.buttonContainer}>
               <Image source={member_img} style={styles.img} />
@@ -498,12 +582,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     elevation: 3
   },
+  LogOut: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 30,
+    borderRadius: 10,
+    marginBottom: 5,
+    borderColor: colors.darkblue,
+    borderWidth: 1,
+    backgroundColor: colors.lightgrey,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    elevation: 3,
+    // display: 'none',
+  },
   avatar: {
-    marginTop: 20,
-    shadowOffset: { height: 1, width: 1 },
+    top: -30,
+    shadowOffset: { height: 2, width: 2 },
     shadowColor: colors.darkblue,
     shadowOpacity: 0.2,
-    elevation: 3
+    elevation: 3,
+    position: "absolute",
   },
   img: {
     width: 40,
@@ -526,7 +628,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: colors.white,
-    marginTop: 10
+    marginTop: 10,
+    display: 'none'
   },
   modal: {
     position: "absolute",
@@ -547,7 +650,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 80,
     overflow: "hidden",
-    marginBottom: 10
+    marginBottom: 10,    
   },
   saveButton: {
     flexDirection: "row",
@@ -571,21 +674,156 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
     marginBottom: 5,
+    marginLeft: 10,
+    marginRight: 10,
     height: 25,
-    width: "100%"
+    // width: "100%",
+    // backgroundColor: colors.green
+  },
+  SectionImage: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+    resizeMode: "contain"
+  },
+  ProfileWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: colors.white,
+    shadowOffset: { height: 2, width: 2 },
+    shadowColor: colors.darkblue,
+    shadowOpacity: 0.2,
+    borderRadius: 15,
+  },
+  ProfileInfoHeader: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 5,
+    marginBottom: 5,
+    height: 25,
+    width: "100%",
+    // backgroundColor: colors.green
   },
   Name: {
+    textAlign: "center",
+    fontFamily: "Gothic A1",
     fontSize: 20,
-    color: colors.darkblue
+    fontWeight: "500",
+    marginBottom: 0,
+    marginTop: 20,
   },
-  input: {
+  Country: {
+    textAlign: "center",
+    fontFamily: "Gothic A1",
+    fontSize: 14,
+    fontWeight: "400",
+    marginBottom: 5,
+    marginTop: 10,
+  },
+  ProfileInfoField: {
     flex: 1,
-    paddingRight: 10,
-    paddingLeft: 10,
-    paddingBottom: 0,
-    paddingTop: 0,
-    fontSize: 20
-  }
+    // fontFamily: "Gothic A1",
+    fontSize: 15,
+    fontWeight: "300",
+    fontStyle: 'italic'
+  },
+  // input: {
+  //   flex: 1,
+  //   paddingRight: 10,
+  //   paddingLeft: 10,
+  //   paddingBottom: 0,
+  //   paddingTop: 0,
+  //   fontSize: 20
+  // }
+  ScoreWrapper: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    marginBottom: 5,
+  },
+  ScoreElementWrapper: {    
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  ScoreGrayWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#BEBEBE',
+    // display: 'flex',
+    // position: 'relative',
+  },
+  ScoreGreenWrapper: {    
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#9BCCB4',
+  },
+  ScoreRedWrapper: {    
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#F2AAAA',
+  },
+  ScoreText: {
+    fontSize: 17,
+    fontWeight: "300",
+  },
+  ScoreLabel: {
+    fontSize: 12,
+    fontWeight: "300",    
+    textAlign: 'center',
+    marginTop: 15,
+  },
+  ScoreGrayIcon: {
+    bottom: -12,
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#BEBEBE',
+    position: 'absolute',
+  },
+  ScoreGreenIcon: {
+    bottom: -12,
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9BCCB4',
+    position: 'absolute',
+  },
+  ScoreRedIcon: {
+    bottom: -12,
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F2AAAA',
+    position: 'absolute',
+  },
+  ScoreIcon: {
+
+  },
 });
 function mapDispatchToProps(dispatch) {
   return {

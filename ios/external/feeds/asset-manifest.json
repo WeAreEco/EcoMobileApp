@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "./static/css/main.acbd857a.chunk.css",
+    "main.js": "./static/js/main.493f1a2d.chunk.js",
+    "runtime-main.js": "./static/js/runtime-main.c40613a3.js",
+    "static/js/2.0558af40.chunk.js": "./static/js/2.0558af40.chunk.js",
+    "index.html": "./index.html",
+    "precache-manifest.ec1056c361c02e16c01856ae2e2eeb65.js": "./precache-manifest.ec1056c361c02e16c01856ae2e2eeb65.js",
+    "service-worker.js": "./service-worker.js",
+    "static/js/2.0558af40.chunk.js.LICENSE.txt": "./static/js/2.0558af40.chunk.js.LICENSE.txt",
+    "static/media/Experience.png": "./static/media/Experience.482013b3.png",
+    "static/media/index.css": "./static/media/Graphik-Semibold.99c54fc5.otf",
+    "static/media/Idea.png": "./static/media/Idea.89a3500c.png",
+    "static/media/Milestone.png": "./static/media/Milestone.0ea62ea0.png",
+    "static/media/dashmix.min.css": "./static/media/fa-solid-900.ea363ed4.eot",
+    "static/media/Topic.png": "./static/media/Topic.fd837703.png",
+    "static/media/help.png": "./static/media/help.5f0b6c32.png",
+    "static/media/love.png": "./static/media/love.2406ce60.png",
+    "static/media/question.png": "./static/media/question.3cc4590c.png",
+    "static/media/shout.png": "./static/media/shout.2c41967c.png",
+    "static/media/token.png": "./static/media/token.3edd836e.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c40613a3.js",
+    "static/js/2.0558af40.chunk.js",
+    "static/css/main.acbd857a.chunk.css",
+    "static/js/main.493f1a2d.chunk.js"
+  ]
+}

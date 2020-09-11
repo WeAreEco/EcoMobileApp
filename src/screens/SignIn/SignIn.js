@@ -3,12 +3,12 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
   TextInput
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from "react-redux";
 import colors from "../../theme/Colors";
 import Logo from "../../components/Logo";

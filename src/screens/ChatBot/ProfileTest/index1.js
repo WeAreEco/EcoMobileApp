@@ -3,7 +3,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image,
@@ -14,6 +13,7 @@ import {
   Dimensions,
   Keyboard
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect } from "react-redux";
 import colors from "../../../theme/Colors";
@@ -385,6 +385,7 @@ class ProfileTest extends React.Component {
             shadowOffset: { height: 1, width: 1 },
             shadowColor: colors.darkblue,
             shadowOpacity: 0.1
+            elevation: 3,
           }}
           onPress={() => {
             if (item.step == "2") this.Step3(item.text);

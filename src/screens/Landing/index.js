@@ -3,11 +3,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  AsyncStorage,
   View,
   TouchableOpacity,
   Image
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Sound from "react-native-sound";
@@ -77,9 +77,9 @@ class Landing extends React.Component {
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Insider access, perks savings & subscriptions. Earn tokens to
-              spend on all walks of life. Own your life & data with your
-              blockchain iD. Live your best life with the help of community.
+              Insider access, perks, savings & subscriptions.{'\n'}Earn tokens to
+              spend on all walks of life.{'\n'}Own your life & data with your
+              blockchain iD.{'\n'}Live your best life with the help of community.
             </Text>
             <TouchableOpacity
               onPress={this.joinMember}
@@ -158,7 +158,11 @@ const Styles = StyleSheet.create({
     borderColor: colors.cardborder
   },
   Title: { fontSize: 30, fontFamily: "Gothic A1", fontWeight: "200" },
-  SubTitle: { fontSize: 15, fontFamily: "Gothic A1", textAlign: "center" },
+  SubTitle: { 
+    fontSize: 12, 
+    fontFamily: "Gothic A1", 
+    textAlign: "center" 
+  },
   CallAction: {
     width: "80%",
     alignItems: "center",
