@@ -8,7 +8,7 @@ import {
   TextInput
 } from "react-native";
 import Autocomplete from "react-native-autocomplete-input";
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2";
 import Firebase from "../firebasehelper";
 import colors from "../theme/Colors";
 

@@ -5,13 +5,11 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  Animated,
-  TextInput,
   Image,
   Keyboard
 } from "react-native";
 
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2";
 import colors from "../theme/Colors";
 import InputBox from "./InputBox";
 
@@ -41,7 +39,7 @@ export default class ListBox extends Component {
       toValue: 0,
       duration: 0,
       useNativeDriver: false
-    }).start(() => {});
+    }).start(() => { });
   };
   _renderItem = ({ item }) => (
     <TouchableOpacity
