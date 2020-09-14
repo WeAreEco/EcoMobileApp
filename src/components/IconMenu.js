@@ -27,8 +27,8 @@ export default class IconMenu extends React.Component {
       <TouchableOpacity onPress={this.Press}>
         <View
           style={{
-            width: 70,
-            height: 70,
+            width: 65,
+            height: 65,
             borderRadius: 10,
             display: "flex",
             flexDirection: "column",
@@ -47,8 +47,8 @@ export default class IconMenu extends React.Component {
             source={img}
             resizeMode={"contain"}
             style={{
-              width: isTitleHidden ? 70 : 40,
-              height: isTitleHidden ? 70 : 40,
+              width: isTitleHidden ? 65 : 35,
+              height: isTitleHidden ? 65 : 35,
               marginBottom: isTitleHidden ? 0 : 5,
               // flex: 1,
               // resizeMode: "cover",
@@ -64,7 +64,7 @@ export default class IconMenu extends React.Component {
 const Styles = StyleSheet.create({
   caption: {
     fontFamily: "Gothic A1",
-    fontWeight: "600",
+    fontWeight: "500",
     fontSize: 10,
     color: "black",
     textAlign: "center"

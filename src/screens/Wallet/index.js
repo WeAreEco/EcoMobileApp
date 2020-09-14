@@ -267,6 +267,7 @@ class Wallet extends React.Component {
       paymentMethods,
       subscriptions,
       packages,
+      tokensHistory,
     } = this.state;
     const subscriptionsList = subscriptions
       .map((subscription) => {
@@ -571,7 +572,24 @@ class Wallet extends React.Component {
               <Text style={styles.VTL_Text}>Earned</Text>
               <Text style={styles.VTL_Text}>Spent</Text>
             </View>
-
+            {Object.keys(tokensHistory || {}).map((date) => (
+              <View style={styles.VTL_Row}>
+                <Text style={styles.VTL_Text}>
+                  {moment(date).calendar(null, {
+                    sameDay: "[Today]",
+                    nextDay: "[Tomorrow]",
+                    nextWeek: "dddd",
+                    lastDay: "[Yesterday]",
+                    lastWeek: "[Last] dddd",
+                    sameElse: "DD/MM/YYYY",
+                  })}
+                </Text>
+                <Text style={styles.VTL_Text}>
+                  {tokensHistory[date].earned}
+                </Text>
+                <Text style={styles.VTL_Text}>{tokensHistory[date].spent}</Text>
+              </View>
+            ))}
             <View
               style={{
                 flexDirection: "row",
@@ -606,6 +624,7 @@ const styles = StyleSheet.create({
   VTL_Row: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 5
   },
   VTL_Text: {
     width: "30%",
@@ -760,7 +779,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: "contain",
-    zIndex: 100
+    zIndex: 100,
   },
   ProductAvatar: {
     width: 100,
