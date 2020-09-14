@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { 
+import {
   Text,
-  View, 
-  TouchableOpacity, 
-  StyleSheet 
+  View,
+  TouchableOpacity,
+  StyleSheet
 } from "react-native";
 import { WebView } from 'react-native-webview';
 import { connect } from "react-redux";
@@ -43,9 +43,9 @@ class Connect extends React.Component {
     console.log('loaded!');
     const { route } = this.props;
     if (route.params) {
-      const {page} = route.params;
+      const { page } = route.params;
       console.log('page', page);
-      this.setState({screen: page});
+      this.setState({ screen: page });
     }
   };
 
@@ -65,15 +65,16 @@ class Connect extends React.Component {
   };
 
   onEventHandlerAssistants = data => {
-    console.log('----- Polls data', data);    
+    console.log('----- Polls data', data);
   };
 
   onPressInviteFriend = () => {
 
   };
-  
+
   render() {
     const { screen } = this.state;
+
     return (
       <View
         style={{
@@ -94,106 +95,106 @@ class Connect extends React.Component {
           }}
         >
           {screen == 'Assistants' && (
-            <View 
+            <View
               style={{
                 width: '100%',
-                height: (Metrics.screenHeight - 250),    
+                height: (Metrics.screenHeight - 250),
                 // backgroundColor: colors.green,          
               }}
             >
-            <WebView
-              style={{ 
-                // zIndex: 100,
-                // backgroundColor: '#00000000'
-              }}
-              ref={r => (this.webViewAssistants = r)}
-              originWhitelist={["*"]}
-              // source={{html: '<iframe width="100%" height="100%" src="https://myrobot.io/" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
-              source={{uri: `https://myrobot.io/`}}
-              onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
-              injectedJavaScript={injectedJavascript}
-              startInLoadingState
-              domStorageEnabled={true}
-              javaScriptEnabled
-              onLoad={this.onLoadFinishedAssistants}
-              mixedContentMode="always"
-              thirdPartyCookiesEnabled
-              allowUniversalAccessFromFileURLs
-              useWebKit={true}
-            />
+              <WebView
+                style={{
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }}
+                ref={r => (this.webViewAssistants = r)}
+                originWhitelist={["*"]}
+                // source={{html: '<iframe width="100%" height="100%" src="https://myrobot.io/" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
+                source={{ uri: `https://myrobot.io/?uid=${this.props.uid}` }}
+                onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
+                injectedJavaScript={injectedJavascript}
+                startInLoadingState
+                domStorageEnabled={true}
+                javaScriptEnabled
+                onLoad={this.onLoadFinishedAssistants}
+                mixedContentMode="always"
+                thirdPartyCookiesEnabled
+                allowUniversalAccessFromFileURLs
+                useWebKit={true}
+              />
             </View>
           )}
 
           {screen == 'Community' && (
-            <View 
+            <View
               style={{
                 width: '100%',
-                height: (Metrics.screenHeight - 250),    
+                height: (Metrics.screenHeight - 250),
                 // backgroundColor: colors.green,          
               }}
             >
-            <WebView
-              style={{ 
-                // zIndex: 100,
-                // backgroundColor: '#00000000'
-              }}
-              ref={r => (this.webViewAssistants = r)}
-              originWhitelist={["*"]}
-              source={
-                Platform.OS === "ios"
-                  ? { uri: "./external/community/index.html" }
-                  : { uri: "file:///android_asset/community/index.html" }
-              }
-              onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
-              injectedJavaScript={injectedJavascript}
-              startInLoadingState
-              domStorageEnabled={true}
-              javaScriptEnabled
-              onLoad={this.onLoadFinishedAssistants}
-              mixedContentMode="always"
-              thirdPartyCookiesEnabled
-              allowUniversalAccessFromFileURLs
-              useWebKit={true}
-            />
+              <WebView
+                style={{
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }}
+                ref={r => (this.webViewAssistants = r)}
+                originWhitelist={["*"]}
+                source={
+                  Platform.OS === "ios"
+                    ? { uri: "./external/community/index.html" }
+                    : { uri: "file:///android_asset/community/index.html" }
+                }
+                onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
+                injectedJavaScript={injectedJavascript}
+                startInLoadingState
+                domStorageEnabled={true}
+                javaScriptEnabled
+                onLoad={this.onLoadFinishedAssistants}
+                mixedContentMode="always"
+                thirdPartyCookiesEnabled
+                allowUniversalAccessFromFileURLs
+                useWebKit={true}
+              />
             </View>
           )}
 
           {screen == 'Friends' && (
-            <View 
+            <View
               style={{
                 width: '100%',
-                height: (Metrics.screenHeight - 250),    
+                height: (Metrics.screenHeight - 250),
                 // backgroundColor: colors.green,          
               }}
             >
-            <WebView
-              style={{ 
-                // zIndex: 100,
-                // backgroundColor: '#00000000'
-              }}
-              ref={r => (this.webViewAssistants = r)}
-              originWhitelist={["*"]}
-              source={
-                Platform.OS === "ios"
-                  ? { uri: "./external/friends/index.html" }
-                  : { uri: "file:///android_asset/friends/index.html" }
-              }
-              onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
-              injectedJavaScript={injectedJavascript}
-              startInLoadingState
-              domStorageEnabled={true}
-              javaScriptEnabled
-              onLoad={this.onLoadFinishedAssistants}
-              mixedContentMode="always"
-              thirdPartyCookiesEnabled
-              allowUniversalAccessFromFileURLs
-              useWebKit={true}
-            />
+              <WebView
+                style={{
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }}
+                ref={r => (this.webViewAssistants = r)}
+                originWhitelist={["*"]}
+                source={
+                  Platform.OS === "ios"
+                    ? { uri: "./external/friends/index.html" }
+                    : { uri: "file:///android_asset/friends/index.html" }
+                }
+                onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
+                injectedJavaScript={injectedJavascript}
+                startInLoadingState
+                domStorageEnabled={true}
+                javaScriptEnabled
+                onLoad={this.onLoadFinishedAssistants}
+                mixedContentMode="always"
+                thirdPartyCookiesEnabled
+                allowUniversalAccessFromFileURLs
+                useWebKit={true}
+              />
             </View>
           )}
 
           {screen == 'Others_Friends' && (
-            <KeyboardAwareScrollView 
+            <KeyboardAwareScrollView
               style={{
                 width: '100%',
                 height: '100%',
@@ -202,7 +203,7 @@ class Connect extends React.Component {
               contentContainerStyle={styles.ContentScrollView}>
 
               {/* Invite a friend */}
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={this.onPressInviteFriend}
                 style={styles.TouchAddLinkedCard}>
                 <Text style={styles.TokensElementTitle}>
