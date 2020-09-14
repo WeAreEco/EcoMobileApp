@@ -7,35 +7,42 @@ import {
   Platform,
   Animated,
   StyleSheet,
-  ScrollView,
-  Button
+  ImageBackground,
+  Button,
 } from "react-native";
-import { WebView } from 'react-native-webview';
-import Modal from 'react-native-modal';
-import AsyncStorage from '@react-native-community/async-storage';
+import { WebView } from "react-native-webview";
+import Modal from "react-native-modal";
+import AsyncStorage from "@react-native-community/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect } from "react-redux";
 import moment from "moment";
 import _ from "lodash";
-import BraintreeDropIn from 'react-native-braintree-dropin-ui';
+import BraintreeDropIn from "react-native-braintree-dropin-ui";
 
 import colors from "../../theme/Colors";
 import Logo from "../../components/Logo";
 import TopImage from "../../components/TopImage";
 import Header from "./Header";
 import { Metrics } from "../../theme";
-import {
-  saveWalletScreen,
-  saveExploreScreen
-} from "../../Redux/actions/index";
+import { saveWalletScreen, saveExploreScreen } from "../../Redux/actions/index";
 import Firebase from "../../firebasehelper";
-import { braintreeToken } from "../../functions/BraintreeHelper";
+import {
+  braintreeToken,
+  braintreeRemovePaymentMethod,
+} from "../../functions/BraintreeHelper";
 
 const iconCharity = require("../../assets/wallet/tokens/charity.png");
 const iconHealth = require("../../assets/wallet/tokens/health.png");
 const iconShopping = require("../../assets/wallet/tokens/shopping.png");
 const iconTravel = require("../../assets/wallet/tokens/travel.png");
 const iconSubscriptions = require("../../assets/wallet/subscriptions/subscription.png");
+const iconMarketplace = require("../../assets/wallet/subscriptions/marketplace.png");
+const iconActive = require("../../assets/wallet/subscriptions/active.png");
+const iconPending = require("../../assets/wallet/subscriptions/pending.png");
+const iconCard = require("../../assets/wallet/cards/credit-card.png");
+const iconCardOne = require("../../assets/wallet/cards/one.png");
+const iconCardTwo = require("../../assets/wallet/cards/two.png");
+const iconCardClose = require("../../assets/wallet/cards/close.png");
 
 const injectedJavascript = `(function() {
   window.postMessage = function(data) {
@@ -50,16 +57,54 @@ class Wallet extends React.Component {
       profile: {},
       isViewTokenLedgerVisible: false,
       tokensHistory: {},
-      braintreeToken: '',
+      braintreeToken: "",
+      paymentMethods: [],
+      subscriptions: [],
+      packages: [],
     };
   }
   componentDidMount() {
-    const { basic, uid } = this.props;
-    
+    const { basic, uid, brand } = this.props;
+
     let result = false;
     if (basic) {
       this.setState({ profile: basic });
     }
+
+    Firebase.getAllPaymentMethods(brand.name, uid, (methods) =>
+      this.setState({ paymentMethods: methods })
+    );
+
+    Firebase.getAllSubscriptions(brand.name, uid, (subscriptions) =>
+      this.setState({ subscriptions })
+    );
+
+    Firebase.getBoltPackages((res) => {
+      const { inactiveBoltPackages } = brand;
+      let boltPackages = Object.keys(res)
+        .filter(
+          (packageId) =>
+            !(inactiveBoltPackages || []).find((item) => item === packageId)
+        )
+        .reduce((prev, id) => {
+          const obj = res[id];
+          prev[obj.order] = { id, ...obj };
+          return prev;
+        }, []);
+      console.log("ecosystem packages", boltPackages);
+      let brandPackages = Object.keys(brand.packages || {}).reduce(
+        (prev, id) => {
+          const obj = (brand.packages || {})[id];
+          prev[obj.order] = { id, ...obj };
+          return prev;
+        },
+        []
+      );
+      console.log("brand_packages", brandPackages);
+      let packages = boltPackages.concat(brandPackages);
+      console.log("packages", packages);
+      this.setState({ packages });
+    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -69,16 +114,16 @@ class Wallet extends React.Component {
     //     return null;
     //   }
     //   const { params } = route;
-    //   if (params 
-    //     && params.screen 
+    //   if (params
+    //     && params.screen
     //     && params.screen != prevState.screen) {
     //     return ({ screen: params.screen }) // <- this is setState equivalent
-    //   }      
+    //   }
     // }
-    return null
+    return null;
   }
 
-  componentDidUpdate(prevProps, prevState) {    
+  componentDidUpdate(prevProps, prevState) {
     // if (prevProps && prevProps.route && prevProps.route.params) {
     //   const { screen } = prevProps.route.params;
     //   console.log('prevProps screen', screen);
@@ -86,17 +131,16 @@ class Wallet extends React.Component {
     // console.log('prevState screen', prevState.screen);
     const { wallet_screen } = this.props;
     const { braintreeToken } = this.state;
-    if (wallet_screen == 'Cards' 
-      && !braintreeToken) {
+    if (wallet_screen == "Cards" && !braintreeToken) {
       this.fetchBraintreeToken();
-    }    
-  };
+    }
+  }
 
   navigateTo = (page, props) => {
     this.props.navigation.navigate(page, props);
   };
 
-  onTap = screen => {
+  onTap = (screen) => {
     this.props.dispatch(saveWalletScreen(screen));
   };
 
@@ -106,7 +150,7 @@ class Wallet extends React.Component {
     const { brand, uid, basic } = this.props;
 
     Firebase.getTokenSpentHistory(brand.name, uid, (history) => {
-      console.log('tokensHistory', history);
+      console.log("tokensHistory", history);
       const groupedByDate = _.groupBy(history, (obj) =>
         moment(obj.created.toDate()).format("LL")
       );
@@ -123,7 +167,7 @@ class Wallet extends React.Component {
         prev[date] = { spent, earned };
         return prev;
       }, {});
-      
+
       this.setState({ tokensHistory });
     });
   };
@@ -136,13 +180,12 @@ class Wallet extends React.Component {
     // Get a client token for authorization from your server
     const tokenRes = await braintreeToken();
     if (tokenRes.status === "1") {
-      console.log('braintreeToken', tokenRes.data);
+      console.log("braintreeToken", tokenRes.data);
       this.setState({ braintreeToken: tokenRes.data });
     }
-  };
+  }
 
   onPressAddLinkedCard = () => {
-
     const { braintreeToken } = this.state;
 
     if (!braintreeToken) {
@@ -154,36 +197,34 @@ class Wallet extends React.Component {
       threeDSecure: {
         amount: 1.0,
       },
-      merchantIdentifier: 'applePayMerchantIdentifier',
-      googlePayMerchantId: 'googlePayMerchantId',
-      countryCode: 'US',    //apple pay setting
-      currencyCode: 'USD',   //apple pay setting
-      merchantName: 'Your Merchant Name for Apple Pay',
-      orderTotal:'Total Price',
+      merchantIdentifier: "applePayMerchantIdentifier",
+      googlePayMerchantId: "googlePayMerchantId",
+      countryCode: "US", //apple pay setting
+      currencyCode: "USD", //apple pay setting
+      merchantName: "Your Merchant Name for Apple Pay",
+      orderTotal: "Total Price",
       googlePay: true,
       applePay: true,
       vaultManager: true,
       cardDisabled: false,
       darkTheme: true,
     })
-    .then(result => {
-      console.log(result);
-
-    })
-    .catch((error) => {
-      if (error.code === 'USER_CANCELLATION') {
-        // update your UI to handle cancellation
-      } 
-      else {
-        // update your UI to handle other errors
-        // for 3D secure, there are two other specific error codes: 3DSECURE_NOT_ABLE_TO_SHIFT_LIABILITY and 3DSECURE_LIABILITY_NOT_SHIFTED
-      }
-    });
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        if (error.code === "USER_CANCELLATION") {
+          // update your UI to handle cancellation
+        } else {
+          // update your UI to handle other errors
+          // for 3D secure, there are two other specific error codes: 3DSECURE_NOT_ABLE_TO_SHIFT_LIABILITY and 3DSECURE_LIABILITY_NOT_SHIFTED
+        }
+      });
   };
 
   onPressVisitEcoShop = () => {
-    this.props.dispatch(saveExploreScreen('Marketplace'));
-    this.navigateTo('Explore', {screen: 'Marketplace'});
+    this.props.dispatch(saveExploreScreen("Marketplace"));
+    this.navigateTo("Explore", { screen: "Marketplace" });
   };
 
   onLoadFinishedEarnTokens = () => {
@@ -195,27 +236,46 @@ class Wallet extends React.Component {
       this.webViewEarnTokens.postMessage(
         JSON.stringify({
           fromMobile: true,
-          uid: uid
+          uid: uid,
         })
       );
     }
   };
 
-  onEventHandlerEarnTokens = data => {
-    console.log('----- Offers data', data);    
+  onEventHandlerEarnTokens = (data) => {
+    console.log("----- Offers data", data);
+  };
+
+  removePaymentMethod = (paymentId, paymentToken) => async () => {
+    const { uid, brand } = this.props;
+    await Firebase.removePaymentMethod(brand.name, uid, paymentId);
+    if (paymentToken) {
+      const res = await braintreeRemovePaymentMethod(paymentToken);
+    }
   };
 
   render() {
     const { wallet_screen } = this.props;
     let screen = wallet_screen;
     if (!screen) {
-      screen = 'Tokens';
+      screen = "Tokens";
     }
 
-    const { 
-      profile, 
+    const {
+      profile,
       isViewTokenLedgerVisible,
-    } = this.state;        
+      paymentMethods,
+      subscriptions,
+      packages,
+    } = this.state;
+    const subscriptionsList = subscriptions
+      .map((subscription) => {
+        const product = packages.find(
+          (pObj) => pObj.id === subscription.product_id
+        );
+        return { ...subscription, product };
+      })
+      .filter((subscription) => !!subscription.product);
 
     return (
       <View
@@ -233,40 +293,39 @@ class Wallet extends React.Component {
             height: 180,
             display: "flex",
             alignItems: "center",
-            // backgroundColor: colors.green,  
+            // backgroundColor: colors.green,
           }}
         >
           <TopImage />
-          <Logo />                    
+          <Logo />
         </View>
         <Header onTap={this.onTap} current={screen} />
 
-        {screen == 'Tokens' && (
-          <KeyboardAwareScrollView 
+        {screen == "Tokens" && (
+          <KeyboardAwareScrollView
             style={{
-              width: '100%',
-              height: '100%',
+              width: "100%",
+              height: "100%",
               // backgroundColor: colors.green,
             }}
-            contentContainerStyle={styles.ContentScrollView}>
+            contentContainerStyle={styles.ContentScrollView}
+          >
             {/* EcoPay */}
             <View style={styles.TokensElementWrapper}>
               <View style={styles.TokensElementContent}>
-                <Text style={styles.TokensElementTitle}>
-                  EcoPay & EcoShop
-                </Text>
+                <Text style={styles.TokensElementTitle}>EcoPay & EcoShop</Text>
                 <View style={styles.TokensElementContentLabel}>
                   <Text style={styles.TokensElementValue}>
-                    {(profile && (profile.tokens || 0) - (profile.tokenSpent || 0)) || 0}
+                    {(profile &&
+                      (profile.tokens || 0) - (profile.tokenSpent || 0)) ||
+                      0}
                   </Text>
-                  <Text style={styles.TokensElementTokens}>
-                    tokens
-                  </Text>
+                  <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
               <Image
                 source={iconShopping}
-                resizeMode={'contain'}
+                resizeMode={"contain"}
                 style={styles.TokensElementImage}
               />
             </View>
@@ -274,21 +333,15 @@ class Wallet extends React.Component {
             {/* Charity */}
             <View style={styles.TokensElementWrapper}>
               <View style={styles.TokensElementContent}>
-                <Text style={styles.TokensElementTitle}>
-                  Charity
-                </Text>
+                <Text style={styles.TokensElementTitle}>Charity</Text>
                 <View style={styles.TokensElementContentLabel}>
-                  <Text style={styles.TokensElementValue}>
-                    0
-                  </Text>
-                  <Text style={styles.TokensElementTokens}>
-                    tokens
-                  </Text>
+                  <Text style={styles.TokensElementValue}>0</Text>
+                  <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
               <Image
                 source={iconCharity}
-                resizeMode={'contain'}
+                resizeMode={"contain"}
                 style={styles.TokensElementImage}
               />
             </View>
@@ -296,21 +349,15 @@ class Wallet extends React.Component {
             {/* Health */}
             <View style={styles.TokensElementWrapper}>
               <View style={styles.TokensElementContent}>
-                <Text style={styles.TokensElementTitle}>
-                  Health
-                </Text>
+                <Text style={styles.TokensElementTitle}>Health</Text>
                 <View style={styles.TokensElementContentLabel}>
-                  <Text style={styles.TokensElementValue}>
-                    0
-                  </Text>
-                  <Text style={styles.TokensElementTokens}>
-                    tokens
-                  </Text>
+                  <Text style={styles.TokensElementValue}>0</Text>
+                  <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
               <Image
                 source={iconHealth}
-                resizeMode={'contain'}
+                resizeMode={"contain"}
                 style={styles.TokensElementImage}
               />
             </View>
@@ -318,144 +365,205 @@ class Wallet extends React.Component {
             {/* Travel */}
             <View style={styles.TokensElementWrapper}>
               <View style={styles.TokensElementContent}>
-                <Text style={styles.TokensElementTitle}>
-                  Travel
-                </Text>
+                <Text style={styles.TokensElementTitle}>Travel</Text>
                 <View style={styles.TokensElementContentLabel}>
-                  <Text style={styles.TokensElementValue}>
-                    0
-                  </Text>
-                  <Text style={styles.TokensElementTokens}>
-                    tokens
-                  </Text>
+                  <Text style={styles.TokensElementValue}>0</Text>
+                  <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
               <Image
                 source={iconTravel}
-                resizeMode={'contain'}
+                resizeMode={"contain"}
                 style={styles.TokensElementImage}
               />
             </View>
 
             {/* View Token Ledger */}
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={this.onPressViewTokenLedger}
-              style={styles.TouchViewTokenLedger}>
-              <Text style={styles.TokensElementTitle}>
-                View Token Ledger
-              </Text>
+              style={styles.TouchViewTokenLedger}
+            >
+              <Text style={styles.TokensElementTitle}>View Token Ledger</Text>
             </TouchableOpacity>
-
           </KeyboardAwareScrollView>
         )}
 
-        {screen == 'Cards' && (
-          <KeyboardAwareScrollView 
+        {screen == "Cards" && (
+          <KeyboardAwareScrollView
             style={{
-              width: '100%',
-              height: '100%',
+              width: "100%",
+              height: "100%",
               // backgroundColor: colors.green,
             }}
-            contentContainerStyle={styles.ContentScrollView}>
+            contentContainerStyle={styles.ContentScrollView}
+          >
+            <View style={styles.EmptyContainer}>
+              <Image
+                source={iconMarketplace}
+                resizeMode={"contain"}
+                style={styles.ImageSubscriptions}
+              />
 
-            {/* Add Linked Cards */}
-            <TouchableOpacity 
-              onPress={this.onPressAddLinkedCard}
-              style={styles.TouchAddLinkedCard}>
-              <Text style={styles.TokensElementTitle}>
-                Add linked cards
+              <Text style={styles.TextCardsDescription}>
+                Spend with EcoPay{"\n"}
+                Earn tokens with retailers{"\n"}
+                Purchase in the Marketplace{"\n"}
+                Subscribe in the Marketplace
               </Text>
-            </TouchableOpacity>
 
-            <Text style={styles.TextCardsDescription}>
-              Spend with EcoPay{'\n'}
-              Earn tokens with retailers{'\n'}
-              Purchase in the Marketplace{'\n'}
-              Subscribe in the Marketplace
-            </Text>
+              {/* Add Linked Cards */}
+              <TouchableOpacity
+                onPress={this.onPressAddLinkedCard}
+                style={styles.TouchAddLinkedCard}
+              >
+                <Text style={styles.TokensElementTitle}>Add linked cards</Text>
+              </TouchableOpacity>
+            </View>
+            {paymentMethods &&
+              paymentMethods.slice(0, 2).map((item, index) => {
+                return (
+                  <ImageBackground
+                    source={iconCard}
+                    style={styles.CardContainer}
+                    imageStyle={styles.Card}
+                  >
+                    <Image
+                      source={index === 0 ? iconCardOne : iconCardTwo}
+                      style={styles.CardIndex}
+                    />
+                    <TouchableOpacity
+                      onPress={this.removePaymentMethod(item.id, item.token)}
+                      style={styles.CardClose}
+                    >
+                      <Image source={iconCardClose} style={styles.Card} />
+                    </TouchableOpacity>
 
+                    <Text style={styles.CardNumber}>
+                      {item.details.lastFour}
+                    </Text>
+                  </ImageBackground>
+                );
+              })}
           </KeyboardAwareScrollView>
         )}
 
-        {screen == 'Subscriptions' && (
-          <KeyboardAwareScrollView 
+        {screen == "Subscriptions" && (
+          <KeyboardAwareScrollView
             style={{
-              width: '100%',
-              height: '100%',
+              width: "100%",
+              height: "100%",
               // backgroundColor: colors.green,
             }}
-            contentContainerStyle={styles.ContentScrollView}>
+            contentContainerStyle={styles.ContentScrollView}
+          >
+            {subscriptionsList.length === 0 && (
+              <View style={styles.EmptyContainer}>
+                <Image
+                  source={iconSubscriptions}
+                  resizeMode={"contain"}
+                  style={styles.ImageSubscriptions}
+                />
 
-            <Image
-              source={iconSubscriptions}
-              resizeMode={'contain'}
-              style={styles.ImageSubscriptions}
-            />
+                <Text style={styles.TextCardsDescription}>
+                  You don't have any active subscriptions or purchases.{"\n"}
+                  Visit EcoShop to save time & money with our products &
+                  packages.
+                </Text>
 
-            <Text style={styles.TextCardsDescription}>
-              You don't have any active
-              subscriptions or purchases.{'\n'}
-              Visit EcoShop to save time & money
-              with our products & packages.
-            </Text>
-
-            {/* Add Linked Cards */}
-            <TouchableOpacity 
-              onPress={this.onPressVisitEcoShop}
-              style={styles.TouchAddLinkedCard}>
-              <Text style={styles.TokensElementTitle}>
-                Visit EcoShop
-              </Text>
-            </TouchableOpacity>
-
+                {/* Add Linked Cards */}
+                <TouchableOpacity
+                  onPress={this.onPressVisitEcoShop}
+                  style={styles.TouchAddLinkedCard}
+                >
+                  <Text style={styles.TokensElementTitle}>Visit EcoShop</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            {subscriptionsList &&
+              subscriptionsList.length > 0 &&
+              subscriptionsList.map((subscription) => (
+                <View style={styles.SubscriptionContainer}>
+                  <Image
+                    style={styles.SubscriptionStatus}
+                    source={
+                      subscription.status === "active"
+                        ? iconActive
+                        : iconPending
+                    }
+                  />
+                  <Image
+                    style={styles.ProductAvatar}
+                    source={{ uri: subscription.product.image }}
+                  />
+                  <View
+                    style={styles.ProductDescription}
+                    className="product-description"
+                  >
+                    <Text style={{ fontWeight: "bold" }}>
+                      {subscription.product.caption}
+                    </Text>
+                    <Text>
+                      {subscription.type === 0
+                        ? "Monthly subscription"
+                        : "Single Purchase"}
+                    </Text>
+                    <Text>Personal Purchase</Text>
+                    <Text>
+                      £{subscription.amount} on card {subscription.credit_card}
+                    </Text>
+                  </View>
+                </View>
+              ))}
           </KeyboardAwareScrollView>
         )}
 
-        {screen == 'Earn Tokens' && (
-          <View 
+        {screen == "Earn Tokens" && (
+          <View
             style={{
-              width: '100%',
-              height: (Metrics.screenHeight - 260),              
+              width: "100%",
+              height: Metrics.screenHeight - 260,
               // backgroundColor: colors.green,
             }}
           >
-          <WebView
-            style={{ 
-              // zIndex: 100,              
-            }}
-            ref={r => (this.webViewEarnTokens = r)}
-            originWhitelist={["*"]}
-            source={
-              Platform.OS === "ios"
-                ? { uri: "./external/earn/index.html" }
-                : { uri: "file:///android_asset/earn/index.html" }
-            }
-            onMessage={event => this.onEventHandlerEarnTokens(event.nativeEvent.data)}
-            injectedJavaScript={injectedJavascript}
-            startInLoadingState
-            domStorageEnabled={true}
-            javaScriptEnabled
-            onLoad={this.onLoadFinishedEarnTokens}
-            mixedContentMode="always"
-            thirdPartyCookiesEnabled
-            allowUniversalAccessFromFileURLs
-            useWebKit={true}
-          />
+            <WebView
+              style={
+                {
+                  // zIndex: 100,
+                }
+              }
+              ref={(r) => (this.webViewEarnTokens = r)}
+              originWhitelist={["*"]}
+              source={
+                Platform.OS === "ios"
+                  ? { uri: "./external/earn/index.html" }
+                  : { uri: "file:///android_asset/earn/index.html" }
+              }
+              onMessage={(event) =>
+                this.onEventHandlerEarnTokens(event.nativeEvent.data)
+              }
+              injectedJavaScript={injectedJavascript}
+              startInLoadingState
+              domStorageEnabled={true}
+              javaScriptEnabled
+              onLoad={this.onLoadFinishedEarnTokens}
+              mixedContentMode="always"
+              thirdPartyCookiesEnabled
+              allowUniversalAccessFromFileURLs
+              useWebKit={true}
+            />
           </View>
         )}
 
-        <Modal 
+        <Modal
           style={styles.ViewTokenLeaderModal}
           isVisible={isViewTokenLedgerVisible}
-          animationIn='slideInDown'
-          onBackdropPress={() => this.setState({ isViewTokenLedgerVisible: false })}
+          animationIn="slideInDown"
+          onBackdropPress={() =>
+            this.setState({ isViewTokenLedgerVisible: false })
+          }
         >
-          <View
-            style={styles.ViewTokenLeaderWrapper}
-          >
-            <Text
-              style={{ fontSize: 15, marginBottom: 20 }}
-            >
+          <View style={styles.ViewTokenLeaderWrapper}>
+            <Text style={{ fontSize: 15, marginBottom: 20 }}>
               {profile.firstname}'s token ledger
             </Text>
             <View style={styles.VTL_Row}>
@@ -463,24 +571,24 @@ class Wallet extends React.Component {
               <Text style={styles.VTL_Text}>Earned</Text>
               <Text style={styles.VTL_Text}>Spent</Text>
             </View>
-            
 
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
+                flexDirection: "row",
+                justifyContent: "flex-end",
                 marginTop: 20,
               }}
             >
               <Button
-                onPress={() => this.setState({ isViewTokenLedgerVisible: false })}
+                onPress={() =>
+                  this.setState({ isViewTokenLedgerVisible: false })
+                }
                 title="Close"
-                color='#000000'
+                color="#000000"
               />
-            </View>            
+            </View>
           </View>
         </Modal>
-
       </View>
     );
   }
@@ -496,40 +604,41 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   VTL_Row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   VTL_Text: {
-    width: '30%',
+    width: "30%",
     fontSize: 16,
-    fontWeight: '300',
+    fontWeight: "300",
   },
   ContentScrollView: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    display: 'flex',
+    flexDirection: "column",
+    alignItems: "center",
+    display: "flex",
+    paddingBottom: 50,
     // backgroundColor: colors.green
   },
   TokensElementWrapper: {
     width: 350,
     height: 80,
     marginTop: 20,
-    justifyContent: 'center',
-    // backgroundColor: colors.white,    
+    justifyContent: "center",
+    // backgroundColor: colors.white,
     // alignItems: 'center',
   },
   TokensElementImage: {
     width: 75,
     height: 75,
-    position: 'absolute',
+    position: "absolute",
     // backgroundColor: colors.green,
   },
   TokensElementContent: {
     width: 310,
-    height: '100%',
+    height: "100%",
     marginLeft: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.white,
     shadowOffset: { height: 2, width: 2 },
     shadowColor: colors.darkblue,
@@ -538,20 +647,20 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   TokensElementTitle: {
-    fontWeight: '300',
-    fontSize: 20,
+    fontWeight: "500",
+    fontSize: 14,
   },
   TokensElementContentLabel: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
+    flexDirection: "row",
+    alignItems: "baseline",
     marginTop: 5,
   },
   TokensElementValue: {
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 22,
   },
   TokensElementTokens: {
-    fontWeight: '300',
+    fontWeight: "300",
     fontSize: 12,
     marginLeft: 5,
   },
@@ -559,8 +668,8 @@ const styles = StyleSheet.create({
     width: 350,
     height: 50,
     marginTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.yellow,
     shadowOffset: { height: 2, width: 2 },
     shadowColor: colors.darkblue,
@@ -569,11 +678,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   TouchAddLinkedCard: {
-    width: 250,
-    height: 50,
+    width: 220,
+    height: 40,
     marginTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.green,
     shadowOffset: { height: 2, width: 2 },
     shadowColor: colors.darkblue,
@@ -582,10 +691,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   TextCardsDescription: {
+    maxWidth: 250,
     textAlign: "center",
     lineHeight: 40,
     fontSize: 17,
-    fontWeight: '300',    
+    fontWeight: "300",
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
@@ -593,13 +703,79 @@ const styles = StyleSheet.create({
   ImageSubscriptions: {
     width: 100,
     height: 100,
-    marginTop: 20,    
+    marginTop: 20,
+  },
+  EmptyContainer: {
+    height: 400,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  CardContainer: {
+    width: "100%",
+    height: 300,
+    marginBottom: 20,
+  },
+  Card: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  CardIndex: {
+    position: "absolute",
+    right: 30,
+    top: 40,
+    width: 30,
+    height: 30,
+    resizeMode: "contain",
+  },
+  CardClose: {
+    width: 30,
+    height: 30,
+    left: 30,
+    bottom: 50,
+    position: "absolute",
+  },
+  CardNumber: {
+    alignSelf: "flex-end",
+    position: "absolute",
+    right: 30,
+    bottom: 50,
+    fontSize: 20,
+  },
+  SubscriptionContainer: {
+    width: "90%",
+    margin: 10,
+    shadowOffset: { height: 0, width: 0 },
+    shadowColor: colors.darkblue,
+    shadowOpacity: 0.2,
+    elevation: 3,
+    borderRadius: 4,
+    flexDirection: "row",
+    backgroundColor: "white",
+  },
+  SubscriptionStatus: {
+    position: "absolute",
+    top: 5,
+    left: 5,
+    width: 30,
+    height: 30,
+    resizeMode: "contain",
+    zIndex: 100
+  },
+  ProductAvatar: {
+    width: 100,
+    height: 100,
+    resizeMode: "cover",
+  },
+  ProductDescription: {
+    marginHorizontal: 10,
+    alignSelf: "center",
   },
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
@@ -607,10 +783,7 @@ function mapStateToProps(state) {
     uid: state.uid,
     basic: state.basic,
     brand: state.brand,
-    wallet_screen: state.wallet_screen
+    wallet_screen: state.wallet_screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Wallet);
+export default connect(mapStateToProps, mapDispatchToProps)(Wallet);

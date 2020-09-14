@@ -10,7 +10,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBlBJtz1oV7_pWAyjrlkxdJ7ZenisHP5sk",
   projectId: "boltconcierge-2f0f9",
   databaseURL: "https://boltconcierge-2f0f9.firebaseio.com",
-  storageBucket: "boltconcierge-2f0f9.appspot.com"
+  storageBucket: "boltconcierge-2f0f9.appspot.com",
 };
 
 class Firebase {
@@ -27,17 +27,17 @@ class Firebase {
   static firestore() {
     return firebase.firestore();
   }
-  static signup = profile => {
+  static signup = (profile) => {
     console.log("profile", profile);
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
         .collection("user")
         .add(profile)
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -55,17 +55,17 @@ class Firebase {
             .collection("user")
             .doc(`${uid}`)
             .get()
-            .then(res => {
+            .then((res) => {
               resolve(res.data());
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err);
             });
         })
-        .catch(error => reject(error));
+        .catch((error) => reject(error));
     });
   };
-  static pet_signup = profile => {
+  static pet_signup = (profile) => {
     console.log("pet_profile", profile);
     const uid = profile.uid;
     return new Promise((resolve, reject) => {
@@ -74,15 +74,15 @@ class Firebase {
         .collection("pets")
         .doc(`${uid}`)
         .set(profile, { merge: true })
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static bike_signup = profile => {
+  static bike_signup = (profile) => {
     console.log("pet_profile", profile);
     const uid = profile.uid;
     return new Promise((resolve, reject) => {
@@ -91,15 +91,15 @@ class Firebase {
         .collection("bikes")
         .doc(`${uid}`)
         .set(profile, { merge: true })
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static health_signup = profile => {
+  static health_signup = (profile) => {
     console.log("healthprofile", profile);
     const uid = profile.uid;
     return new Promise((resolve, reject) => {
@@ -108,15 +108,15 @@ class Firebase {
         .collection("physical_profile")
         .doc(`${uid}`)
         .set(profile, { merge: true })
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static home_signup = profile => {
+  static home_signup = (profile) => {
     console.log("homeprofile", profile);
     const uid = profile.uid;
     return new Promise((resolve, reject) => {
@@ -125,22 +125,22 @@ class Firebase {
         .collection("home")
         .doc(`${uid}`)
         .set(profile, { merge: true })
-        .then(res => {
+        .then((res) => {
           resolve(res);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static isActive = uid => {
+  static isActive = (uid) => {
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
         .collection("user")
         .doc(`${uid}`)
         .get()
-        .then(doc => {
+        .then((doc) => {
           if (doc.exists) {
             console.log("doc", doc.data());
             if (doc.data().active) {
@@ -151,19 +151,19 @@ class Firebase {
             console.log("No Such data");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("Error", err);
         });
     });
   };
-  static isPaymentReady = uid => {
+  static isPaymentReady = (uid) => {
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
         .collection("user")
         .doc(`${uid}`)
         .get()
-        .then(doc => {
+        .then((doc) => {
           if (doc.exists) {
             if (doc.data().customer_id) {
               resolve(true);
@@ -173,7 +173,7 @@ class Firebase {
             console.log("No Such data");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("Error", err);
         });
     });
@@ -189,23 +189,15 @@ class Firebase {
   };
   static isPackageGot = async (uid, pkgname) => {
     console.log("uid", uid);
-    let res = await firebase
-      .firestore()
-      .collection("user")
-      .doc(`${uid}`)
-      .get();
+    let res = await firebase.firestore().collection("user").doc(`${uid}`).get();
     if (res.data().packages) {
-      return res.data().packages.some(item => item.caption === pkgname);
+      return res.data().packages.some((item) => item.caption === pkgname);
     } else return false;
   };
-  static getPackagesBoughtByUserID = async uid => {
-    let res = await firebase
-      .firestore()
-      .collection("user")
-      .doc(`${uid}`)
-      .get();
+  static getPackagesBoughtByUserID = async (uid) => {
+    let res = await firebase.firestore().collection("user").doc(`${uid}`).get();
     if (res.data().packages)
-      return res.data().packages.map(item => {
+      return res.data().packages.map((item) => {
         return item.caption;
       });
     else return false;
@@ -216,7 +208,7 @@ class Firebase {
       firebase
         .database()
         .ref(path)
-        .on("value", snapshot => {
+        .on("value", (snapshot) => {
           var res = [];
           if (snapshot.val()) {
             res = snapshot.val();
@@ -230,7 +222,7 @@ class Firebase {
         });
     });
   }
-  static getProfile = phonenumber => {
+  static getProfile = (phonenumber) => {
     console.log("phonenumber", phonenumber);
     return new Promise((resolve, reject) => {
       firebase
@@ -239,25 +231,22 @@ class Firebase {
         .where("phonenumber", "==", phonenumber)
         .limit(1)
         .get()
-        .then(res => {
+        .then((res) => {
           if (res.size === 0) resolve(false);
           else resolve(res.docs[0]);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
   static async getAllUsers() {
-    const snapshot = await firebase
-      .firestore()
-      .collection("user")
-      .get();
-    return snapshot.docs.map(item => {
+    const snapshot = await firebase.firestore().collection("user").get();
+    return snapshot.docs.map((item) => {
       return { [item.id]: item.data() };
     });
   }
-  static findFriends = uid => {
+  static findFriends = (uid) => {
     console.log("findfriends of uid", uid);
     return new Promise((resolve, reject) => {
       firebase
@@ -266,27 +255,27 @@ class Firebase {
         .where("members", "array-contains", uid)
         .limit(1)
         .get()
-        .then(res => {
+        .then((res) => {
           if (res.size === 0) resolve(false);
           else resolve(res.docs[0].data().members);
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static getMemberList = groupId => {
+  static getMemberList = (groupId) => {
     return firebase
       .firestore()
       .collection("property")
       .doc(`${groupId}`)
       .get()
-      .then(res => {
+      .then((res) => {
         return res.data().members;
       });
   };
   static addMember = (groupId, uid) => {
-    return Firebase.getMemberList(groupId).then(res => {
+    return Firebase.getMemberList(groupId).then((res) => {
       let temp = res;
       temp.push(uid);
       return firebase
@@ -300,7 +289,7 @@ class Firebase {
         });
     });
   };
-  static getUserDatafromUID = uid => {
+  static getUserDatafromUID = (uid) => {
     console.log("getUserDatafromUID", uid);
     return new Promise((resolve, reject) => {
       firebase
@@ -308,15 +297,15 @@ class Firebase {
         .collection("user")
         .doc(`${uid}`)
         .get()
-        .then(res => {
+        .then((res) => {
           resolve(res.data());
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static getPetDatafromUID = uid => {
+  static getPetDatafromUID = (uid) => {
     console.log("getPetDatafromUID", uid);
     return new Promise((resolve, reject) => {
       firebase
@@ -324,15 +313,15 @@ class Firebase {
         .collection("pets")
         .doc(`${uid}`)
         .get()
-        .then(res => {
+        .then((res) => {
           resolve(res.data());
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static getBikeDatafromUID = uid => {
+  static getBikeDatafromUID = (uid) => {
     console.log("getBikeDatafromUID", uid);
     return new Promise((resolve, reject) => {
       firebase
@@ -340,15 +329,15 @@ class Firebase {
         .collection("bikes")
         .doc(`${uid}`)
         .get()
-        .then(res => {
+        .then((res) => {
           resolve(res.data());
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static getHealthDatafromUID = uid => {
+  static getHealthDatafromUID = (uid) => {
     console.log("getHealthDatafromUID", uid);
     return new Promise((resolve, reject) => {
       firebase
@@ -356,15 +345,15 @@ class Firebase {
         .collection("physical_profile")
         .doc(`${uid}`)
         .get()
-        .then(res => {
+        .then((res) => {
           resolve(res.data());
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
   };
-  static getHomeDatafromUID = uid => {
+  static getHomeDatafromUID = (uid) => {
     console.log("getHomeDatafromUID", uid);
     return new Promise((resolve, reject) => {
       firebase
@@ -372,10 +361,10 @@ class Firebase {
         .collection("home")
         .doc(`${uid}`)
         .get()
-        .then(res => {
+        .then((res) => {
           resolve(res.data());
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
@@ -386,7 +375,7 @@ class Firebase {
       firebase
         .database()
         .ref(path)
-        .on("value", snapshot => {
+        .on("value", (snapshot) => {
           var res = [];
           if (snapshot.val()) {
             res = snapshot.val();
@@ -402,7 +391,7 @@ class Firebase {
       firebase
         .database()
         .ref(path)
-        .on("value", snapshot => {
+        .on("value", (snapshot) => {
           var res = [];
 
           if (snapshot.val()) {
@@ -412,7 +401,7 @@ class Firebase {
         });
     });
   }
-  static getPackageInfo = pkgName => {
+  static getPackageInfo = (pkgName) => {
     let path = "packages/";
     var pkgRef = firebase
       .database()
@@ -420,11 +409,10 @@ class Firebase {
       .orderByChild("caption")
       .equalTo(pkgName);
     return new Promise((resolve, reject) => {
-      pkgRef.on("value", snapshot => {
+      pkgRef.on("value", (snapshot) => {
         if (snapshot.val()) {
           resolve(Object.values(snapshot.val())[0]);
-        }
-        else {
+        } else {
           resolve(null);
         }
       });
@@ -437,7 +425,7 @@ class Firebase {
       .ref(path)
       .orderByChild("item_room_adjective")
       .equalTo(item + "_" + room + "_" + adjective)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         let res = [];
         if (snapshot.val()) {
           res = Object.values(snapshot.val());
@@ -449,7 +437,7 @@ class Firebase {
             .ref(path)
             .orderByChild("item_room_adjective")
             .equalTo(item + "__" + adjective)
-            .once("value", snapshot => {
+            .once("value", (snapshot) => {
               let result = [];
 
               if (snapshot.val()) {
@@ -461,7 +449,7 @@ class Firebase {
                   .ref(sub_path)
                   .orderByChild("ticket")
                   .equalTo(ticket)
-                  .once("value", snapshot => {
+                  .once("value", (snapshot) => {
                     let result = [];
                     result = Object.values(snapshot.val());
                     callback(result[0]);
@@ -476,7 +464,7 @@ class Firebase {
             .ref(sub_path)
             .orderByChild("ticket")
             .equalTo(ticket)
-            .once("value", snapshot => {
+            .once("value", (snapshot) => {
               let result = [];
               result = Object.values(snapshot.val());
               callback(result[0]);
@@ -490,14 +478,14 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
           res = snapshot.val();
         }
         var a = filterArrayByKey(res, "item");
-        let result = a.map(item => item.item);
+        let result = a.map((item) => item.item);
         callback(result);
       });
   }
@@ -507,7 +495,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
@@ -522,14 +510,14 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
           res = snapshot.val();
         }
         var a = filterArrayByKey(res, "adjective");
-        let result = a.map(item => item.adjective);
+        let result = a.map((item) => item.adjective);
         callback(result);
       });
   }
@@ -540,19 +528,19 @@ class Firebase {
       .ref(path)
       .orderByChild("item")
       .equalTo(item)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         let res = [];
         if (snapshot.val()) res = snapshot.val();
         res = Object.values(res);
         console.log("result before filter", res);
-        var adjective = res.map(item => {
+        var adjective = res.map((item) => {
           return { value: item.adjective };
         });
         console.log("adjectives array", adjective);
         if (!res.pop().room) callback(null, adjective);
         else {
           var a = filterArrayByKey(res, "room");
-          let result = a.map(item => item.room);
+          let result = a.map((item) => item.room);
           callback(result, adjective);
         }
       });
@@ -564,13 +552,13 @@ class Firebase {
       .ref(path)
       .orderByChild("cuisine")
       .equalTo(cuisine)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         let res = [];
         if (snapshot.val()) res = snapshot.val();
         res = Object.values(res);
         console.log("result before filter", res);
         var a = filterArrayByKey(res, "location");
-        let result = a.map(item => item.location);
+        let result = a.map((item) => item.location);
         callback(result);
       });
   }
@@ -579,14 +567,14 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
           res = snapshot.val();
         }
         var a = filterArrayByKey(res, "location");
-        let result = a.map(item => item.location);
+        let result = a.map((item) => item.location);
         callback(result);
       });
   }
@@ -595,14 +583,14 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .once("value", snapshot => {
+      .once("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
           res = snapshot.val();
         }
         var a = filterArrayByKey(res, "cuisine");
-        let result = a.map(item => item.cuisine);
+        let result = a.map((item) => item.cuisine);
         callback(result);
       });
   }
@@ -619,35 +607,29 @@ class Firebase {
             .collection("user")
             .doc(`${uid}`)
             .get()
-            .then(res => {
+            .then((res) => {
               resolve(res.data());
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err);
             });
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   };
-  static readMessage = uid => {
+  static readMessage = (uid) => {
     let path = "livechat/" + uid;
-    firebase
-      .database()
-      .ref(path)
-      .update({ unread: null });
+    firebase.database().ref(path).update({ unread: null });
   };
   static requestChat = (uid, username, ticket) => {
     let data = {
       uid: uid,
-      username: username
+      username: username,
     };
     let path = "livechat/" + uid;
-    firebase
-      .database()
-      .ref(path)
-      .update(data);
+    firebase.database().ref(path).update(data);
     let ticket_id = "" + ticket.id;
     let child_id = ticket_id.split(".").join("");
     let ticket_path = "livechat/" + uid + "/tickets/" + child_id;
@@ -665,7 +647,7 @@ class Firebase {
         band: ticket.band ? ticket.band : null,
         adjective: ticket.adjective ? ticket.adjective : null,
         response_sla: ticket.response_sla ? ticket.response_sla : null,
-        repair_sla: ticket.repair_sla ? ticket.repair_sla : null
+        repair_sla: ticket.repair_sla ? ticket.repair_sla : null,
       });
   };
   static getAgencyRespond(uid, ticket_id, callback) {
@@ -673,7 +655,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         var res = [];
         if (snapshot.val()) {
           res = snapshot.val();
@@ -688,7 +670,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         var res = [];
         if (snapshot.val()) {
           res = snapshot.val();
@@ -701,7 +683,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
@@ -716,7 +698,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         var res = [];
 
         if (snapshot.val()) {
@@ -730,7 +712,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         var res = null;
         console.log("unread,", snapshot.val());
         if (snapshot.val()) {
@@ -744,7 +726,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         if (snapshot.val()) {
           callback(snapshot.val());
         }
@@ -752,10 +734,7 @@ class Firebase {
   }
   static addMessage(uid, ticket_id, message, callback) {
     let path = "livechat/" + uid + "/tickets/" + ticket_id + "/content";
-    var newChild = firebase
-      .database()
-      .ref(path)
-      .push();
+    var newChild = firebase.database().ref(path).push();
     newChild.set(message, callback(true));
   }
   static getAgencyTyping(uid, ticket_id, callback) {
@@ -763,7 +742,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         if (snapshot.val()) callback(snapshot.val());
         else callback(false);
       });
@@ -773,7 +752,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         if (snapshot.val()) callback(snapshot.val());
         else callback(false);
       });
@@ -784,7 +763,7 @@ class Firebase {
     firebase
       .database()
       .ref(path)
-      .on("value", snapshot => {
+      .on("value", (snapshot) => {
         if (snapshot.val()) callback(snapshot.val());
         else callback(false);
       });
@@ -798,31 +777,25 @@ class Firebase {
       .then(() => {
         callback("success");
       })
-      .catch(err => {
+      .catch((err) => {
         callback(err);
       });
   }
   static setTypeValue(uid, ticket_id, value) {
     let path = "livechat/" + uid + "/tickets/" + ticket_id;
-    firebase
-      .database()
-      .ref(path)
-      .update({ user_typing: value });
+    firebase.database().ref(path).update({ user_typing: value });
   }
   static async addPost(post) {
     console.log("post", post);
 
     const timestamp = await firebase.firestore.Timestamp.fromDate(new Date());
     console.log("timestamp", timestamp);
-    return firebase
-      .firestore()
-      .collection("post")
-      .add({
-        title: post.title,
-        content: post.content,
-        uid: post.uid,
-        timestamp: timestamp
-      });
+    return firebase.firestore().collection("post").add({
+      title: post.title,
+      content: post.content,
+      uid: post.uid,
+      timestamp: timestamp,
+    });
   }
   static updatePost = (post_id, data) => {
     return firebase
@@ -841,7 +814,7 @@ class Firebase {
         .where("property_id", "==", property_id)
         .limit(1)
         .get()
-        .then(res => {
+        .then((res) => {
           console.log("2 invitation", res.docs[0]);
           let invitation_id = res.docs[0].id;
           firebase
@@ -857,11 +830,11 @@ class Firebase {
                 .collection("property")
                 .doc(property_id)
                 .get()
-                .then(res => {
+                .then((res) => {
                   console.log("4 property info", res);
                   let members = res.data().members;
                   console.log("5 members", members);
-                  members = members.map(item => {
+                  members = members.map((item) => {
                     if (item.phone === phone) {
                       item.accepted = true;
                       item.uid = uid;
@@ -877,18 +850,18 @@ class Firebase {
                     .then(() => {
                       resolve(true);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       reject(err);
                     });
                 })
-                .catch(err => {
+                .catch((err) => {
                   reject(err);
                 });
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err);
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err);
             });
         });
@@ -904,7 +877,7 @@ class Firebase {
         .where("property_id", "==", property_id)
         .limit(1)
         .get()
-        .then(res => {
+        .then((res) => {
           console.log("2 invitation", res.docs[0]);
           let invitation_id = res.docs[0].id;
           firebase
@@ -920,11 +893,11 @@ class Firebase {
                 .collection("property")
                 .doc(property_id)
                 .get()
-                .then(res => {
+                .then((res) => {
                   console.log("4 property info", res);
                   let members = res.data().members;
                   console.log("5 members", members);
-                  const index = members.findIndex(item => {
+                  const index = members.findIndex((item) => {
                     return item.phone === phone;
                   });
                   members.splice(index, 1);
@@ -937,18 +910,18 @@ class Firebase {
                     .then(() => {
                       resolve(true);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       reject(err);
                     });
                 })
-                .catch(err => {
+                .catch((err) => {
                   reject(err);
                 });
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err);
             })
-            .catch(err => {
+            .catch((err) => {
               reject(err);
             });
         });
@@ -961,20 +934,20 @@ class Firebase {
         .collection("property")
         .doc(`${property_id}`)
         .get()
-        .then(res => {
+        .then((res) => {
           resolve(res.data());
         })
-        .catch(err => {
+        .catch((err) => {
           reject(err);
         });
     });
-  };
+  }
   static getAllRetailers(callback) {
-    let path = 'retailers/all';
+    let path = "retailers/all";
     firebase
       .database()
       .ref(path)
-      .on('value', (snapshot) => {
+      .on("value", (snapshot) => {
         let result = [];
         result = snapshot.val();
         let res = Object.keys(result).map((obj) => ({
@@ -983,27 +956,27 @@ class Firebase {
         }));
         callback(res);
       });
-  };
+  }
   static getAllDeactiveRetailers(callback) {
-    let path = 'retailers/deactive';
+    let path = "retailers/deactive";
     firebase
       .database()
       .ref(path)
-      .on('value', (snapshot) => {
+      .on("value", (snapshot) => {
         let result = [];
         if (snapshot.val()) result = snapshot.val();
         callback(result);
       });
-  };
+  }
   static getBrandDataByID(brandId, callback) {
-    let path = 'brands/' + brandId;
+    let path = "brands/" + brandId;
     firebase
       .database()
       .ref(path)
       .on("value", (snapshot) => {
         callback(snapshot.val());
       });
-  };
+  }
   static getAllPosts(brand, callback) {
     if (brand === "EcosystemDemo") {
       Firebase.firestore()
@@ -1018,8 +991,7 @@ class Firebase {
           });
           callback(posts);
         });
-    } 
-    else {
+    } else {
       Firebase.firestore()
         .collection(brand)
         .doc("data")
@@ -1035,7 +1007,7 @@ class Firebase {
           callback(posts);
         });
     }
-  };
+  }
   static getBrandDataByName(brand, callback) {
     let path = "brands";
     firebase
@@ -1045,17 +1017,16 @@ class Firebase {
       .equalTo(brand)
       .on("value", (snapshot) => {
         let result = [];
-        result = snapshot.val();        
+        result = snapshot.val();
         let res = Object.values(result).find((result) => !result.deactive);
         callback(res);
       });
-  };
+  }
   static getAllSubscriptions(brand, uid, callback) {
     let fbInstance;
     if (brand === "Ecosystem") {
       fbInstance = firebase.firestore().collection("user");
-    } 
-    else {
+    } else {
       fbInstance = firebase
         .firestore()
         .collection(brand)
@@ -1068,7 +1039,7 @@ class Firebase {
       .onSnapshot((snapshot) => {
         callback(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       });
-  };
+  }
   static getBoltPackages = (callback) => {
     let path = "packages/";
     firebase
@@ -1086,8 +1057,7 @@ class Firebase {
     let fbInstance;
     if (brand_name === "Ecosystem") {
       fbInstance = firebase.firestore().collection("user");
-    } 
-    else {
+    } else {
       fbInstance = firebase
         .firestore()
         .collection(brand_name)
@@ -1102,6 +1072,43 @@ class Firebase {
         callback(res.docs.map((obj) => obj.data()));
       });
   };
+
+  static getAllPaymentMethods(brand, uid, callback) {
+    let fbInstance;
+    if (brand === "Ecosystem") {
+      fbInstance = firebase.firestore().collection("user");
+    } else {
+      fbInstance = firebase
+        .firestore()
+        .collection(brand)
+        .doc("data")
+        .collection("user");
+    }
+    fbInstance
+      .doc(uid)
+      .collection("braintree_payment_method")
+      .onSnapshot((snapshot) => {
+        callback(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      });
+  }
+
+  static removePaymentMethod(brand, userId, paymentId) {
+    let fbInstance;
+    if (brand === "Ecosystem") {
+      fbInstance = firebase.firestore().collection("user");
+    } else {
+      fbInstance = firebase
+        .firestore()
+        .collection(brand)
+        .doc("data")
+        .collection("user");
+    }
+    return fbInstance
+      .doc(userId)
+      .collection("braintree_payment_method")
+      .doc(paymentId)
+      .delete();
+  }
 }
 Firebase.initialize();
 export default Firebase;
