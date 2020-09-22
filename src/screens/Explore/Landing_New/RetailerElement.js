@@ -6,9 +6,9 @@ import {
   View,
   TouchableOpacity,
   Image,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../../../theme/Colors";
 import { Metrics } from "../../../theme";
 
@@ -18,7 +18,7 @@ export default class RetailerElement extends React.Component {
     this.state = {};
   }
   Press = () => {
-    const {PressItem, data} = this.props;
+    const { PressItem, data } = this.props;
     PressItem(data);
   };
   render() {
@@ -29,22 +29,24 @@ export default class RetailerElement extends React.Component {
       <TouchableOpacity onPress={this.Press}>
         <View
           style={{
-            width: (Metrics.screenWidth - 40),
+            width: Metrics.screenWidth - 40,
             height: 150,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
-            padding: 10
+            padding: 10,
           }}
         >
           <View
-            style={{
-              // backgroundColor: colors.green
-            }}
+            style={
+              {
+                // backgroundColor: colors.green
+              }
+            }
           >
-            <Text style={Styles.caption}>#{(position + 1) + ' '}Offer</Text>
+            <Text style={Styles.caption}>#{position + 1 + " "}Offer</Text>
             <Image
               source={{
                 uri: data.logo,
@@ -52,10 +54,10 @@ export default class RetailerElement extends React.Component {
               resizeMode={"contain"}
               style={{
                 width: (Metrics.screenWidth - 80) / 2,
-                height: 60,                
+                height: 60,
                 // flex: 1,
                 // resizeMode: "cover",
-                // backgroundColor: colors.green              
+                // backgroundColor: colors.green
               }}
             />
           </View>
@@ -66,10 +68,10 @@ export default class RetailerElement extends React.Component {
             }}
           >
             <Text style={Styles.subCaption}>
-              Spend {data.redeemed.fullTokens} tokens on every £
-              {data.redeemed.threshold} spent{" "}
+              Spend {data.redeemed.fullTokens} tokens{"\n"}
+              on every £{data.redeemed.threshold} spent{"\n"}
               {data.redeemed.tokenPercentage}% insider saving
-            </Text> 
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
