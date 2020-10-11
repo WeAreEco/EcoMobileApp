@@ -8,26 +8,29 @@ import {
   Animated,
   StyleSheet,
   ScrollView,
-  FlatList
+  FlatList,
 } from "react-native";
-import {WebView} from 'react-native-webview';
+import { WebView } from "react-native-webview";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect } from "react-redux";
 import colors from "../../../theme/Colors";
 import Logo from "../../../components/Logo";
 import TopImage from "../../../components/TopImage";
 import Header from "./Header";
-import RetailerElement from './RetailerElement'
+import RetailerElement from "./RetailerElement";
 import Firebase from "../../../firebasehelper";
 import { Metrics } from "../../../theme";
 import {
   saveWalletScreen,
-  saveExploreScreen
+  saveExploreScreen,
 } from "../../../Redux/actions/index";
 
 const wallet_img = require("../../../assets/Explore/landing/Wallet.jpg");
 const live_sub_img = require("../../../assets/Explore/green-circle.png");
 const eco_sub_img = require("../../../assets/Explore/yellow-circle.png");
+const eco_wallet_img = require("../../../assets/Explore/landing_new/ecowallet.png");
+const eco_store_img = require("../../../assets/Explore/landing_new/ecostore.png");
+const eco_img = require("../../../assets/Explore/landing_new/eco.png");
 
 // const window = Dimensions.get('window');
 // const elementWidth = window.width / 2 - 40;
@@ -62,11 +65,8 @@ class Landing_New extends React.Component {
       if (res) deactive = res;
       Firebase.getAllRetailers((res) => {
         const top10Retailers = res.filter(
-          (obj) =>
-            !deactive[obj.uid] 
-            && obj.top10 
-            && obj.top10 != 'none' 
-            // && (obj.territory || TerritoryOptions[0]) === brandTerritory
+          (obj) => !deactive[obj.uid] && obj.top10 && obj.top10 != "none"
+          // && (obj.territory || TerritoryOptions[0]) === brandTerritory
         );
         this.setState({ top10Retailers });
         // console.log('/// top10Retailers -- ', top10Retailers.length);
@@ -77,17 +77,16 @@ class Landing_New extends React.Component {
     });
 
     // Latest Poll, Ecosystem = 0
-    Firebase.getBrandDataByID('0', async (brand_data) => {
-
+    Firebase.getBrandDataByID("0", async (brand_data) => {
       const pollData = brand_data.polls || [];
       pollData.sort((a, b) => b.created_at - a.created_at);
       if (pollData.length > 0) {
         this.setState({ latestPoll: pollData[0] });
-      }      
+      }
     });
 
     // Latest Post
-    Firebase.getAllPosts('Ecosystem', async (posts) => {
+    Firebase.getAllPosts("Ecosystem", async (posts) => {
       posts.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
       if (posts.length > 0) {
         this.setState({ latestPost: posts[0] });
@@ -97,63 +96,68 @@ class Landing_New extends React.Component {
     // Subscriptions
     // Firebase.getAllSubscriptions('Ecosystem', uid, (subscriptions) => {
 
-      // if (subscriptions.length == 0) {
-      //   return;
-      // }
+    // if (subscriptions.length == 0) {
+    //   return;
+    // }
 
-      // let lastSubscription = subscriptions[subscriptions.length - 1];
+    // let lastSubscription = subscriptions[subscriptions.length - 1];
 
-      Firebase.getBoltPackages((res) => {
-        let boltPackages = Object.keys(res).reduce((prev, id) => {
-          const obj = res[id];
+    Firebase.getBoltPackages((res) => {
+      let boltPackages = Object.keys(res).reduce((prev, id) => {
+        const obj = res[id];
+        prev[obj.order] = { id, ...obj };
+        return prev;
+      }, []);
+
+      let brandPackages = Object.keys(brand.packages || {}).reduce(
+        (prev, id) => {
+          const obj = (brand.packages || {})[id];
           prev[obj.order] = { id, ...obj };
           return prev;
-        }, []);
+        },
+        []
+      );
 
-        let brandPackages = Object.keys(brand.packages || {}).reduce(
-          (prev, id) => {
-            const obj = (brand.packages || {})[id];
-            prev[obj.order] = { id, ...obj };
-            return prev;
-          },
-          []
-        );
-
-        let packages = boltPackages.concat(brandPackages);
-        if (packages.length > 0) {
-          // let subscription = packages.find((obj) => obj.id === lastSubscription.product_id);//'health_fitness');//
-          subscription = packages[packages.length - 1];          
-          this.setState({ subscription });
-        }        
-      });
+      let packages = boltPackages
+        .concat(brandPackages)
+        .filter((obj) => obj.visibility);
+      if (packages.length > 0) {
+        // let subscription = packages.find((obj) => obj.id === lastSubscription.product_id);//'health_fitness');//
+        subscription = packages[packages.length - 1];
+        this.setState({ subscription });
+      }
+    });
     // });
   }
   navigateTo = (page, props) => {
     this.props.navigation.navigate(page, props);
   };
-  onTap = screen => {
+  onTap = (screen) => {
     this.props.dispatch(saveExploreScreen(screen));
     this.setState({ timeToGo: 0 });
   };
 
-  onTapRetailer = retailer => {
-
-  };
+  onTapRetailer = (retailer) => {};
 
   _renderItem = ({ item, index }) => {
     // console.log('_renderItem', index);
-    return <RetailerElement data={item} position={index} key={index} PressItem={this.onTapRetailer} />;
+    return (
+      <RetailerElement
+        data={item}
+        position={index}
+        key={index}
+        PressItem={this.onTapRetailer}
+      />
+    );
   };
 
   delayLinks = () => {
     const { top10Retailers, timeToGo } = this.state;
     let timeIndex = timeToGo;
-    if (timeIndex >= top10Retailers.length) 
-      timeIndex = 0;
+    if (timeIndex >= top10Retailers.length) timeIndex = 0;
 
-    if (this.flatListRef 
-      && top10Retailers.length > 0) {
-      this.flatListRef.scrollToIndex({animated: true, index: timeIndex});
+    if (this.flatListRef && top10Retailers.length > 0) {
+      this.flatListRef.scrollToIndex({ animated: true, index: timeIndex });
     }
 
     var next = timeIndex == top10Retailers.length - 1 ? 0 : timeIndex + 1;
@@ -167,20 +171,32 @@ class Landing_New extends React.Component {
     );
   };
 
-  onEventHandlerOffers = data => {
-    console.log('----- Offers data', data);    
+  onEventHandlerOffers = (data) => {
+    console.log("----- Offers data", data);
   };
 
-  onEventHandlerPolls = data => {
-    console.log('----- Polls data', data);    
+  onEventHandlerPolls = (data) => {
+    console.log("----- Polls data", data);
   };
 
-  onEventHandlerShop = data => {
-    console.log('----- Marketplace data', data);
-    if (data == 'wallet_cards') {
-      this.props.dispatch(saveWalletScreen('Cards'));
-      this.navigateTo('Wallet', {screen: 'Cards'});
+  onEventHandlerShop = (data) => {
+    console.log("----- Marketplace data", data);
+    if (data == "wallet_cards") {
+      this.props.dispatch(saveWalletScreen("Cards"));
+      this.navigateTo("Wallet", { screen: "Cards" });
     }
+  };
+
+  onEcoWallet = () => {
+    this.navigateTo("Wallet", { screen: "Cards" });
+  };
+
+  onEcoPay = () => {
+    this.navigateTo("EcoPay");
+  };
+
+  onEcoStore = () => {
+    this.onTap("Marketplace");
   };
 
   onLoadFinishedShop = () => {
@@ -192,7 +208,7 @@ class Landing_New extends React.Component {
       this.webViewShop.postMessage(
         JSON.stringify({
           fromMobile: true,
-          uid: uid
+          uid: uid,
         })
       );
     }
@@ -207,7 +223,7 @@ class Landing_New extends React.Component {
       this.webViewOffers.postMessage(
         JSON.stringify({
           fromMobile: true,
-          uid: uid
+          uid: uid,
         })
       );
     }
@@ -215,33 +231,34 @@ class Landing_New extends React.Component {
 
   onLoadFinishedPolls = () => {
     let { uid, basic, brand } = this.props;
-    // console.log('/// uid', uid);    
+    // console.log('/// uid', uid);
     if (this.webViewPolls) {
-      console.log('/// basic', basic);
-      console.log('/// brand', brand);
+      console.log("/// basic", basic);
+      console.log("/// brand", brand);
       this.webViewPolls.postMessage(
         JSON.stringify({
           fromMobile: true,
           uid: uid,
           brand: brand,
-          profile: basic
+          profile: basic,
         })
       );
     }
   };
 
   render() {
-    const { 
-      profile, 
+    const {
+      profile,
       top10Retailers,
       latestPoll,
       latestPost,
-      subscription } = this.state;
+      subscription,
+    } = this.state;
 
     const { explore_screen } = this.props;
     let screen = explore_screen;
     if (!screen) {
-      screen = 'Home';
+      screen = "Home";
     }
 
     return (
@@ -261,25 +278,28 @@ class Landing_New extends React.Component {
             height: 180,
             display: "flex",
             alignItems: "center",
-            // backgroundColor: colors.green,  
+            // backgroundColor: colors.green,
           }}
         >
           <TopImage />
-          <Logo />                    
+          <Logo />
         </View>
         <Header onTap={this.onTap} current={screen} />
 
-        {screen == 'Home' && (
-          <KeyboardAwareScrollView 
+        {screen == "Home" && (
+          <KeyboardAwareScrollView
             style={{
-              width: '100%',
-              height: (Metrics.screenHeight - 250),
+              width: "100%",
+              height: Metrics.screenHeight - 250,
             }}
-            contentContainerStyle={styles.ContentScrollView}>
+            contentContainerStyle={styles.ContentScrollView}
+          >
             {/* Top 10 Retailers */}
             <View style={styles.RetailersWrapper}>
               <FlatList
-                ref={(ref) => { this.flatListRef = ref; }}
+                ref={(ref) => {
+                  this.flatListRef = ref;
+                }}
                 contentContainerStyle={styles.RetailersContainer}
                 data={top10Retailers}
                 renderItem={this._renderItem}
@@ -287,25 +307,55 @@ class Landing_New extends React.Component {
               />
             </View>
 
+            {/* Explore Quick Link */}
+            <View style={styles.EcoLinkWrapper}>
+              <TouchableOpacity
+                style={styles.EcoLinkItem}
+                onPress={this.onEcoWallet}
+                hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}
+              >
+                <Image style={styles.EcoLinkImage} source={eco_wallet_img} />
+                <Text style={styles.EcoLinkText}>EcoWallet</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.EcoLinkItem}
+                onPress={this.onEcoPay}
+                hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}
+              >
+                <Image style={styles.EcoLinkImage} source={eco_img} />
+                <Text style={styles.EcoLinkText}>EcoPay</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.EcoLinkItem}
+                onPress={this.onEcoStore}
+                hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}
+              >
+                <Image style={styles.EcoLinkImage} source={eco_store_img} />
+                <Text style={styles.EcoLinkText}>EcoStore</Text>
+              </TouchableOpacity>
+            </View>
+
             {/* Latest Poll */}
             <TouchableOpacity onPress={this.Press}>
               <View style={styles.ElementWrapper}>
                 <View style={styles.ElementTextWrapper}>
                   <Text style={styles.ElementTextTitle}>Latest Poll</Text>
-                  <Text 
+                  <Text
                     style={styles.ElementTextDescription}
                     numberOfLines={3}
-                    ellipsizeMode='tail'
+                    ellipsizeMode="tail"
                   >
-                    {latestPoll ? latestPoll.question: ''}
+                    {latestPoll ? latestPoll.question : ""}
                   </Text>
                 </View>
                 <View style={styles.ElementImageWrapper}>
                   <Image
                     source={{
-                      uri: latestPoll ? latestPoll.question_img: '',
+                      uri: latestPoll ? latestPoll.question_img : "",
                     }}
-                    resizeMode={'cover'}
+                    resizeMode={"cover"}
                     style={styles.ElementImage}
                   />
                 </View>
@@ -317,20 +367,20 @@ class Landing_New extends React.Component {
               <View style={styles.ElementWrapper}>
                 <View style={styles.ElementTextWrapper}>
                   <Text style={styles.ElementTextTitle}>Latest Post</Text>
-                  <Text 
+                  <Text
                     style={styles.ElementTextDescription}
                     numberOfLines={3}
-                    ellipsizeMode='tail'
+                    ellipsizeMode="tail"
                   >
-                    {latestPost ? latestPost.content: ''}
+                    {latestPost ? latestPost.content : ""}
                   </Text>
                 </View>
                 <View style={styles.ElementImageWrapper}>
                   <Image
                     source={{
-                      uri: latestPost ? latestPost.img_url: '',
+                      uri: latestPost ? latestPost.img_url : "",
                     }}
-                    resizeMode={'cover'}
+                    resizeMode={"cover"}
                     style={styles.ElementImage}
                   />
                 </View>
@@ -338,165 +388,185 @@ class Landing_New extends React.Component {
             </TouchableOpacity>
 
             {/* Latest Subscription */}
-            {subscription.id && (<TouchableOpacity onPress={this.Press}>
-              <View style={styles.ElementWrapper}>
-                <View style={styles.ElementTextWrapper}>
-                  <Text style={styles.ElementTextTitle}>Subscription</Text>
-                  <Text 
-                    style={styles.ElementTextDescription}
-                    numberOfLines={3}
-                    ellipsizeMode='tail'
-                  >
-                    {subscription.caption + '\n' + subscription.footer_1 + '\n' + subscription.footer_2}
-                  </Text>
+            {subscription.id && (
+              <TouchableOpacity onPress={this.Press}>
+                <View style={styles.ElementWrapper}>
+                  <View style={styles.ElementTextWrapper}>
+                    <Text style={styles.ElementTextTitle}>Subscription</Text>
+                    <Text
+                      style={styles.ElementTextDescription}
+                      numberOfLines={3}
+                      ellipsizeMode="tail"
+                    >
+                      {subscription.caption +
+                        "\n" +
+                        subscription.footer_1 +
+                        "\n" +
+                        subscription.footer_2}
+                    </Text>
+                  </View>
+                  <View style={styles.ElementImageWrapper}>
+                    <Image
+                      source={{
+                        uri: subscription.image,
+                      }}
+                      resizeMode={"cover"}
+                      style={styles.ElementImage}
+                    />
+                  </View>
                 </View>
-                <View style={styles.ElementImageWrapper}>
-                  <Image
-                    source={{
-                      uri: subscription.image,
-                    }}
-                    resizeMode={'cover'}
-                    style={styles.ElementImage}
-                  />
-                </View>
-              </View>
-            </TouchableOpacity>)}
-                        
+              </TouchableOpacity>
+            )}
           </KeyboardAwareScrollView>
-        )}    
+        )}
 
-        {screen == 'Offers' && (
-          <View 
+        {screen == "Offers" && (
+          <View
             style={{
-              width: '100%',
-              height: (Metrics.screenHeight - 250),              
+              width: "100%",
+              height: Metrics.screenHeight - 250,
             }}
           >
-          <WebView
-            style={{ 
-              // zIndex: 100,
-              // backgroundColor: '#00000000'
-            }}
-            ref={r => (this.webViewOffers = r)}
-            originWhitelist={["*"]}
-            source={
-              Platform.OS === "ios"
-                ? { uri: "./external/offers/index.html" }
-                : { uri: "file:///android_asset/offers/index.html" }
-            }
-            onMessage={event => this.onEventHandlerOffers(event.nativeEvent.data)}
-            injectedJavaScript={injectedJavascript}
-            startInLoadingState
-            domStorageEnabled={true}
-            javaScriptEnabled
-            onLoad={this.onLoadFinishedOffers}
-            mixedContentMode="always"
-            thirdPartyCookiesEnabled
-            allowUniversalAccessFromFileURLs
-            useWebKit={true}
-          />
+            <WebView
+              style={
+                {
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }
+              }
+              ref={(r) => (this.webViewOffers = r)}
+              originWhitelist={["*"]}
+              source={
+                Platform.OS === "ios"
+                  ? { uri: "./external/offers/index.html" }
+                  : { uri: "file:///android_asset/offers/index.html" }
+              }
+              onMessage={(event) =>
+                this.onEventHandlerOffers(event.nativeEvent.data)
+              }
+              injectedJavaScript={injectedJavascript}
+              startInLoadingState
+              domStorageEnabled={true}
+              javaScriptEnabled
+              onLoad={this.onLoadFinishedOffers}
+              mixedContentMode="always"
+              thirdPartyCookiesEnabled
+              allowUniversalAccessFromFileURLs
+              useWebKit={true}
+            />
           </View>
         )}
 
-        {screen == 'Polls' && (
-          <View 
+        {screen == "Polls" && (
+          <View
             style={{
-              width: '100%',
-              height: (Metrics.screenHeight - 250),              
+              width: "100%",
+              height: Metrics.screenHeight - 250,
             }}
           >
-          <WebView
-            style={{ 
-              // zIndex: 100,
-              // backgroundColor: '#00000000'
-            }}
-            ref={r => (this.webViewPolls = r)}
-            originWhitelist={["*"]}
-            source={
-              Platform.OS === "ios"
-                ? { uri: "./external/polls/index.html" }
-                : { uri: "file:///android_asset/polls/index.html" }
-            }
-            onMessage={event => this.onEventHandlerPolls(event.nativeEvent.data)}
-            injectedJavaScript={injectedJavascript}
-            startInLoadingState
-            domStorageEnabled={true}
-            javaScriptEnabled
-            onLoad={this.onLoadFinishedPolls}
-            mixedContentMode="always"
-            thirdPartyCookiesEnabled
-            allowUniversalAccessFromFileURLs
-            useWebKit={true}
-          />
+            <WebView
+              style={
+                {
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }
+              }
+              ref={(r) => (this.webViewPolls = r)}
+              originWhitelist={["*"]}
+              source={
+                Platform.OS === "ios"
+                  ? { uri: "./external/polls/index.html" }
+                  : { uri: "file:///android_asset/polls/index.html" }
+              }
+              onMessage={(event) =>
+                this.onEventHandlerPolls(event.nativeEvent.data)
+              }
+              injectedJavaScript={injectedJavascript}
+              startInLoadingState
+              domStorageEnabled={true}
+              javaScriptEnabled
+              onLoad={this.onLoadFinishedPolls}
+              mixedContentMode="always"
+              thirdPartyCookiesEnabled
+              allowUniversalAccessFromFileURLs
+              useWebKit={true}
+            />
           </View>
         )}
 
-        {screen == 'Feeds' && (
-          <View 
+        {screen == "Feeds" && (
+          <View
             style={{
-              width: '100%',
-              height: (Metrics.screenHeight - 250),              
+              width: "100%",
+              height: Metrics.screenHeight - 250,
             }}
           >
-          <WebView
-            style={{ 
-              // zIndex: 100,
-              // backgroundColor: '#00000000'
-            }}
-            ref={r => (this.webViewPolls = r)}
-            originWhitelist={["*"]}
-            source={
-              Platform.OS === "ios"
-                ? { uri: "./external/feeds/index.html" }
-                : { uri: "file:///android_asset/feeds/index.html" }
-            }
-            onMessage={event => this.onEventHandlerPolls(event.nativeEvent.data)}
-            injectedJavaScript={injectedJavascript}
-            startInLoadingState
-            domStorageEnabled={true}
-            javaScriptEnabled
-            onLoad={this.onLoadFinishedPolls}
-            mixedContentMode="always"
-            thirdPartyCookiesEnabled
-            allowUniversalAccessFromFileURLs
-            useWebKit={true}
-          />
+            <WebView
+              style={
+                {
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }
+              }
+              ref={(r) => (this.webViewPolls = r)}
+              originWhitelist={["*"]}
+              source={
+                Platform.OS === "ios"
+                  ? { uri: "./external/feeds/index.html" }
+                  : { uri: "file:///android_asset/feeds/index.html" }
+              }
+              onMessage={(event) =>
+                this.onEventHandlerPolls(event.nativeEvent.data)
+              }
+              injectedJavaScript={injectedJavascript}
+              startInLoadingState
+              domStorageEnabled={true}
+              javaScriptEnabled
+              onLoad={this.onLoadFinishedPolls}
+              mixedContentMode="always"
+              thirdPartyCookiesEnabled
+              allowUniversalAccessFromFileURLs
+              useWebKit={true}
+            />
           </View>
         )}
 
-        {screen == 'Marketplace' && (
-          <View 
+        {screen == "Marketplace" && (
+          <View
             style={{
-              width: '100%',
-              height: (Metrics.screenHeight - 250),              
+              width: "100%",
+              height: Metrics.screenHeight - 250,
             }}
           >
-          <WebView
-            style={{ 
-              // zIndex: 100,
-              // backgroundColor: '#00000000'
-            }}
-            ref={r => (this.webViewShop = r)}
-            originWhitelist={["*"]}
-            source={
-              Platform.OS === "ios"
-                ? { uri: "./external/marketplace/index.html" }
-                : { uri: "file:///android_asset/marketplace/index.html" }
-            }
-            onMessage={event => this.onEventHandlerShop(event.nativeEvent.data)}
-            injectedJavaScript={injectedJavascript}
-            startInLoadingState
-            domStorageEnabled={true}
-            javaScriptEnabled
-            onLoad={this.onLoadFinishedShop}
-            mixedContentMode="always"
-            thirdPartyCookiesEnabled
-            allowUniversalAccessFromFileURLs
-            useWebKit={true}
-          />
+            <WebView
+              style={
+                {
+                  // zIndex: 100,
+                  // backgroundColor: '#00000000'
+                }
+              }
+              ref={(r) => (this.webViewShop = r)}
+              originWhitelist={["*"]}
+              source={
+                Platform.OS === "ios"
+                  ? { uri: "./external/marketplace/index.html" }
+                  : { uri: "file:///android_asset/marketplace/index.html" }
+              }
+              onMessage={(event) =>
+                this.onEventHandlerShop(event.nativeEvent.data)
+              }
+              injectedJavaScript={injectedJavascript}
+              startInLoadingState
+              domStorageEnabled={true}
+              javaScriptEnabled
+              onLoad={this.onLoadFinishedShop}
+              mixedContentMode="always"
+              thirdPartyCookiesEnabled
+              allowUniversalAccessFromFileURLs
+              useWebKit={true}
+            />
           </View>
         )}
-
       </View>
     );
   }
@@ -504,13 +574,13 @@ class Landing_New extends React.Component {
 
 const styles = StyleSheet.create({
   ContentScrollView: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    display: 'flex',
+    flexDirection: "column",
+    alignItems: "center",
+    display: "flex",
     // backgroundColor: colors.green
   },
   RetailersWrapper: {
-    width: (Metrics.screenWidth - 40),
+    width: Metrics.screenWidth - 40,
     height: 150,
     marginTop: 10,
     marginBottom: 10,
@@ -519,65 +589,95 @@ const styles = StyleSheet.create({
     shadowColor: colors.darkblue,
     shadowOpacity: 0.2,
     elevation: 3,
-    borderRadius: 10,    
+    borderRadius: 10,
   },
   RetailersContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     // backgroundColor: colors.green,
   },
+  EcoLinkWrapper: {
+    width: Metrics.screenWidth - 40,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: colors.yellow,
+    shadowOffset: { height: 2, width: 2 },
+    shadowColor: colors.darkblue,
+    shadowOpacity: 0.2,
+    elevation: 3,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  EcoLinkItem: {
+    marginVertical: 20,
+    flex: 1,
+    alignItems: "center",
+  },
+  EcoLinkImage: {
+    height: 60,
+    width: 100,
+    resizeMode: "contain",
+  },
+  EcoLinkText: {
+    fontFamily: "Gothic A1",
+    // justifyContent: 'center',
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
   ElementWrapper: {
-    width: (Metrics.screenWidth - 40),
+    width: Metrics.screenWidth - 40,
     height: 120,
     marginTop: 10,
     marginBottom: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
     backgroundColor: colors.white,
     shadowOffset: { height: 2, width: 2 },
     shadowColor: colors.darkblue,
     shadowOpacity: 0.2,
     elevation: 3,
-    borderRadius: 10,    
+    borderRadius: 10,
   },
   ElementImageWrapper: {
     width: (Metrics.screenWidth - 40) / 2,
-    height: '100%',    
+    height: "100%",
     // backgroundColor: colors.white,
   },
   ElementImage: {
-    width: '100%',
-    height: '100%',
-    // backgroundColor: colors.green 
+    width: "100%",
+    height: "100%",
+    // backgroundColor: colors.green
   },
   ElementTextWrapper: {
     width: (Metrics.screenWidth - 40) / 2,
-    height: '100%',
+    height: "100%",
     padding: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     // backgroundColor: colors.green,
-  },  
+  },
   ElementTextTitle: {
-    fontFamily: 'Gothic A1',
+    fontFamily: "Gothic A1",
     // justifyContent: 'center',
-    fontSize: 17,    
-    fontWeight: '600',    
+    fontSize: 17,
+    fontWeight: "600",
   },
   ElementTextDescription: {
-    fontFamily: 'Gothic A1',
+    fontFamily: "Gothic A1",
     fontSize: 14,
     marginTop: 7,
     lineHeight: 20,
-    textAlign: 'center',
+    textAlign: "center",
     // backgroundColor: colors.green,
   },
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
@@ -588,7 +688,4 @@ function mapStateToProps(state) {
     explore_screen: state.explore_screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Landing_New);
+export default connect(mapStateToProps, mapDispatchToProps)(Landing_New);

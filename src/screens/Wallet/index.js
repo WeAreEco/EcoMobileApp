@@ -43,6 +43,7 @@ const iconCard = require("../../assets/wallet/cards/creditcard.jpg");
 const iconCardOne = require("../../assets/wallet/cards/one.png");
 const iconCardTwo = require("../../assets/wallet/cards/two.png");
 const iconCardClose = require("../../assets/wallet/cards/close.png");
+const iconPound = require("../../assets/wallet/pound.png");
 
 const injectedJavascript = `(function() {
   window.postMessage = function(data) {
@@ -314,7 +315,7 @@ class Wallet extends React.Component {
             {/* EcoPay */}
             <View style={styles.TokensElementWrapper}>
               <View style={styles.TokensElementContent}>
-                <Text style={styles.TokensElementTitle}>EcoPay & EcoShop</Text>
+                <Text style={styles.TokensElementTitle}>Shopping</Text>
                 <View style={styles.TokensElementContentLabel}>
                   <Text style={styles.TokensElementValue}>
                     {(profile &&
@@ -324,11 +325,34 @@ class Wallet extends React.Component {
                   <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
+              <Text style={styles.TokensElementDescription}>
+                Spend on shopping in EcoPay & EcoStore at 3-20 tokens per £1
+              </Text>
+
               <Image
                 source={iconShopping}
                 resizeMode={"contain"}
                 style={styles.TokensElementImage}
               />
+            </View>
+
+            {/* Pound */}
+            <View style={styles.TokensElementWrapper}>
+              <View style={styles.TokensElementContent}>
+                <Text style={styles.TokensElementTitle}>Premier</Text>
+                <View style={styles.TokensElementContentLabel}>
+                  <Text style={styles.TokensElementValue}>0</Text>
+                  <Text style={styles.TokensElementTokens}>tokens</Text>
+                </View>
+              </View>
+              <Image
+                source={iconPound}
+                resizeMode={"contain"}
+                style={styles.TokensElementImage}
+              />
+              <Text style={styles.TokensElementDescription}>
+                Spend on shopping in EcoPay & EcoStore at full value on spend
+              </Text>
             </View>
 
             {/* Charity */}
@@ -340,6 +364,9 @@ class Wallet extends React.Component {
                   <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
+              <Text style={styles.TokensElementDescription}>
+                Earned on behalf of charity, eco & social causes, voted by you.
+              </Text>
               <Image
                 source={iconCharity}
                 resizeMode={"contain"}
@@ -356,6 +383,9 @@ class Wallet extends React.Component {
                   <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
+              <Text style={styles.TokensElementDescription}>
+                Spend on health & wellness to boost you wellbeing.
+              </Text>
               <Image
                 source={iconHealth}
                 resizeMode={"contain"}
@@ -372,6 +402,9 @@ class Wallet extends React.Component {
                   <Text style={styles.TokensElementTokens}>tokens</Text>
                 </View>
               </View>
+              <Text style={styles.TokensElementDescription}>
+                Earn towards your travel wishlist & redeem on booking.
+              </Text>
               <Image
                 source={iconTravel}
                 resizeMode={"contain"}
@@ -624,7 +657,7 @@ const styles = StyleSheet.create({
   VTL_Row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5
+    marginBottom: 5,
   },
   VTL_Text: {
     width: "30%",
@@ -639,24 +672,10 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.green
   },
   TokensElementWrapper: {
-    width: 350,
+    width: 320,
     height: 80,
     marginTop: 20,
-    justifyContent: "center",
-    // backgroundColor: colors.white,
-    // alignItems: 'center',
-  },
-  TokensElementImage: {
-    width: 75,
-    height: 75,
-    position: "absolute",
-    // backgroundColor: colors.green,
-  },
-  TokensElementContent: {
-    width: 310,
-    height: "100%",
-    marginLeft: 40,
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
     backgroundColor: colors.white,
     shadowOffset: { height: 2, width: 2 },
@@ -664,10 +683,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     elevation: 3,
     borderRadius: 15,
+    marginLeft: 37.5,
+  },
+  TokensElementImage: {
+    width: 75,
+    height: 75,
+    position: "absolute",
+    marginLeft: -37.5,
+    marginTop: 2.5,
+    // backgroundColor: colors.green,
+  },
+  TokensElementContent: {
+    paddingLeft: 20,
+    width: "50%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  TokensElementDescription: {
+    width: "50%",
+    fontSize: 12,
+    color: "#495057",
   },
   TokensElementTitle: {
     fontWeight: "500",
-    fontSize: 14,
+    fontSize: 16,
   },
   TokensElementContentLabel: {
     flexDirection: "row",
@@ -680,8 +720,9 @@ const styles = StyleSheet.create({
   },
   TokensElementTokens: {
     fontWeight: "300",
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 5,
+    color: "#495057",
   },
   TouchViewTokenLedger: {
     width: 350,
