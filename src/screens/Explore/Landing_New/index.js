@@ -286,7 +286,7 @@ class Landing_New extends React.Component {
         </View>
         <Header onTap={this.onTap} current={screen} />
 
-        {screen == "Home" && (
+        {screen == "Explore" && (
           <KeyboardAwareScrollView
             style={{
               width: "100%",
@@ -420,7 +420,7 @@ class Landing_New extends React.Component {
           </KeyboardAwareScrollView>
         )}
 
-        {screen == "Offers" && (
+        {screen == "EcoOffers" && (
           <View
             style={{
               width: "100%",
@@ -457,11 +457,12 @@ class Landing_New extends React.Component {
           </View>
         )}
 
-        {screen == "Polls" && (
+        {screen == "Community" && (
           <View
             style={{
               width: "100%",
               height: Metrics.screenHeight - 250,
+              // backgroundColor: colors.green,
             }}
           >
             <WebView
@@ -471,21 +472,21 @@ class Landing_New extends React.Component {
                   // backgroundColor: '#00000000'
                 }
               }
-              ref={(r) => (this.webViewPolls = r)}
+              ref={(r) => (this.webViewAssistants = r)}
               originWhitelist={["*"]}
               source={
                 Platform.OS === "ios"
-                  ? { uri: "./external/polls/index.html" }
-                  : { uri: "file:///android_asset/polls/index.html" }
+                  ? { uri: "./external/community/index.html" }
+                  : { uri: "file:///android_asset/community/index.html" }
               }
               onMessage={(event) =>
-                this.onEventHandlerPolls(event.nativeEvent.data)
+                this.onEventHandlerAssistants(event.nativeEvent.data)
               }
               injectedJavaScript={injectedJavascript}
               startInLoadingState
               domStorageEnabled={true}
               javaScriptEnabled
-              onLoad={this.onLoadFinishedPolls}
+              onLoad={this.onLoadFinishedAssistants}
               mixedContentMode="always"
               thirdPartyCookiesEnabled
               allowUniversalAccessFromFileURLs
@@ -494,44 +495,7 @@ class Landing_New extends React.Component {
           </View>
         )}
 
-        {screen == "Feeds" && (
-          <View
-            style={{
-              width: "100%",
-              height: Metrics.screenHeight - 250,
-            }}
-          >
-            <WebView
-              style={
-                {
-                  // zIndex: 100,
-                  // backgroundColor: '#00000000'
-                }
-              }
-              ref={(r) => (this.webViewPolls = r)}
-              originWhitelist={["*"]}
-              source={
-                Platform.OS === "ios"
-                  ? { uri: "./external/feeds/index.html" }
-                  : { uri: "file:///android_asset/feeds/index.html" }
-              }
-              onMessage={(event) =>
-                this.onEventHandlerPolls(event.nativeEvent.data)
-              }
-              injectedJavaScript={injectedJavascript}
-              startInLoadingState
-              domStorageEnabled={true}
-              javaScriptEnabled
-              onLoad={this.onLoadFinishedPolls}
-              mixedContentMode="always"
-              thirdPartyCookiesEnabled
-              allowUniversalAccessFromFileURLs
-              useWebKit={true}
-            />
-          </View>
-        )}
-
-        {screen == "Marketplace" && (
+        {screen == "EcoStore" && (
           <View
             style={{
               width: "100%",

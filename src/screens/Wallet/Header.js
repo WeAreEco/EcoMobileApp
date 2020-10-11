@@ -7,26 +7,24 @@ import { sliderWidth, itemWidth } from "../../theme/Styles";
 import colors from "../../theme/Colors";
 
 const IS_ANDROID = Platform.OS === "android";
-const walletTokens        = require("../../assets/wallet/sub/wallet_tokens.png");
-const walletEarnTokens    = require("../../assets/wallet/sub/wallet_earn_tokens.png");
-const walletCards         = require("../../assets/wallet/sub/wallet_cards.png");
+const walletTokens = require("../../assets/wallet/sub/wallet_tokens.png");
+const walletEarnTokens = require("../../assets/wallet/sub/wallet_earn_tokens.png");
+const walletCards = require("../../assets/wallet/sub/wallet_cards.png");
 const walletSubscriptions = require("../../assets/wallet/sub/wallet_subscriptions.png");
-const walletShopping      = require("../../assets/wallet/sub/wallet_shopping.png");
+const walletShopping = require("../../assets/wallet/sub/wallet_shopping.png");
 
 let packages = [
-  { title: "Tokens",        img: walletTokens,        index: 0 },  
-  { title: "Cards",         img: walletCards,         index: 1 },
-  { title: "Subscriptions", img: walletSubscriptions, index: 2 },
-  { title: "Earn Tokens",   img: walletEarnTokens,    index: 3 },
-  // { title: "Shopping",      img: walletShopping,      index: 4 },  
+  { title: "Cards", img: walletCards, index: 0 },
+  { title: "Subscriptions", img: walletSubscriptions, index: 1 },
+  { title: "Earn Tokens", img: walletEarnTokens, index: 2 },
+  // { title: "Shopping",      img: walletShopping,      index: 4 },
 ];
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-    };
+    this.state = {};
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -37,25 +35,22 @@ class Header extends React.Component {
     //     return null;
     //   }
     //   const { params } = route;
-    //   if (params 
-    //     && params.screen 
+    //   if (params
+    //     && params.screen
     //     && params.screen != prevState.screen) {
     //     for (pack of packages) {
     //       if (pack.title == params.screen) {
     //         return ({ selectedIndex: pack.index, screen: pack.title }) // <- this is setState equivalent
     //       }
     //     }
-    //   }        
+    //   }
     // }
-    return null
+    return null;
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   _renderItem = ({ item, index }) => {
-
     const { current } = this.props;
     let selectedIndex = 0;
     for (pack of packages) {
@@ -65,9 +60,17 @@ class Header extends React.Component {
       }
     }
 
-    return <IconMenu data={item} selected={selectedIndex} position={index} key={index} PressItem={this.Press} />;
+    return (
+      <IconMenu
+        data={item}
+        selected={selectedIndex}
+        position={index}
+        key={index}
+        PressItem={this.Press}
+      />
+    );
   };
-  Press = data => {
+  Press = (data) => {
     const { onTap } = this.props;
     // console.log("index", data.index);
     // this.setState({ selectedIndex: data.index });
@@ -75,8 +78,7 @@ class Header extends React.Component {
     onTap(data.title);
   };
 
-  render() {    
-    
+  render() {
     return (
       <View
         style={{
@@ -109,15 +111,12 @@ class Header extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
-    screen: state.screen
+    screen: state.screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

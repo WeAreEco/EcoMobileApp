@@ -6,9 +6,9 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList
+  FlatList,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { connect } from "react-redux";
 import colors from "../theme/Colors";
@@ -17,20 +17,20 @@ import { sliderWidth, itemWidth } from "../theme/Styles";
 
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 0;
-const home_img     = require("../assets/Profile/ecoid_home.png");
-const personal_img = require("../assets/Profile/ecoid_personal.png");
-const timeline_img = require("../assets/Profile/ecoid_timeline.png");
+const home_img = require("../assets/Profile/ecoid_home.png");
+const personal_img = require("../assets/Profile/health.png");
+const timeline_img = require("../assets/Profile/shopping.png");
 
 let packages = [
-  { title: "Home",     img: home_img, index: 0 },
-  { title: "Personal", img: personal_img, index: 1 },
-  { title: "Timeline", img: timeline_img, index: 2 }
+  { title: "EcoiD", img: home_img, index: 0 },
+  { title: "HealthiD", img: personal_img, index: 1 },
+  { title: "ShoppingiD", img: timeline_img, index: 2 },
 ];
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeSlide: SLIDER_1_FIRST_ITEM
+      activeSlide: 0,
     };
     console.log("props", props);
   }
@@ -46,14 +46,24 @@ class Header extends React.Component {
         setTimeout(() => this._slider1Ref.snapToItem(1), 100);
       // return ({ total: nextProps.total }) // <- this is setState equivalent
     }
-    return null
+    return null;
   }
   componentDidMount() {}
   _renderItem = ({ item, index }) => {
-    return <IconMenu data={item} key={index} PressItem={this.Press} />;
+    const { selectedIndex } = this.state;
+    return (
+      <IconMenu
+        data={item}
+        key={index}
+        PressItem={this.Press}
+        selected={0}
+        position={index}
+      />
+    );
   };
-  Press = data => {
+  Press = (data) => {
     const { onTap } = this.props;
+    this.setState({ selectedIndex: data.index });
     console.log("index", data.index);
     //this._slider1Ref.snapToItem(data.index);
     onTap(data.title);
@@ -73,7 +83,7 @@ class Header extends React.Component {
           left: 0,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         {/* <Carousel
@@ -95,7 +105,7 @@ class Header extends React.Component {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            width: "100%"
+            width: "100%",
           }}
           data={packages}
           renderItem={this._renderItem}
@@ -107,15 +117,12 @@ class Header extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
-    screen: state.screen
+    screen: state.screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

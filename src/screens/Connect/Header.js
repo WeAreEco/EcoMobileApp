@@ -6,20 +6,20 @@ import IconMenu from "../../components/IconMenu";
 import { sliderWidth, itemWidth } from "../../theme/Styles";
 
 const IS_ANDROID = Platform.OS === "android";
-const home_img       = require("../../assets/Connect/connect_assistants.png");
-const renting_img    = require("../../assets/Connect/connect_community.png");
-const housemates_img = require("../../assets/Connect/connect_friends.png");
+const feeds_img = require("../../assets/Connect/connect_feeds.png");
+const polls_img = require("../../assets/Connect/connect_polls.png");
+const friends_img = require("../../assets/Connect/connect_friends.png");
 
 let packages = [
-  { title: "Assistants", img: home_img, index: 0 },
-  { title: "Community", img: renting_img, index: 1 },
-  { title: "Friends", img: housemates_img, index: 2 }
+  { title: "Feeds", img: feeds_img, index: 0 },
+  { title: "Polls", img: polls_img, index: 1 },
+  { title: "Friends", img: friends_img, index: 2 },
 ];
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex: 0      
+      selectedIndex: 0,
     };
     console.log("props", props);
   }
@@ -34,23 +34,31 @@ class Header extends React.Component {
       const { screen } = nextProps;
       if (screen === "Home")
         setTimeout(() => this._slider1Ref.snapToItem(1), 100);
-        // return ({ activated: true }) // <- this is setState equivalent
+      // return ({ activated: true }) // <- this is setState equivalent
     }
-    return null
+    return null;
   }
   componentDidMount() {}
   _renderItem = ({ item, index }) => {
-    const { selectedIndex } = this.state;    
-    return <IconMenu data={item} selected={selectedIndex} position={index} key={index} PressItem={this.Press} />;
+    const { selectedIndex } = this.state;
+    return (
+      <IconMenu
+        data={item}
+        selected={selectedIndex}
+        position={index}
+        key={index}
+        PressItem={this.Press}
+      />
+    );
   };
-  Press = data => {
+  Press = (data) => {
     const { onTap } = this.props;
     this.setState({ selectedIndex: data.index });
     onTap(data.title);
   };
 
   render() {
-    const { } = this.state;
+    const {} = this.state;
     return (
       <View
         style={{
@@ -63,7 +71,7 @@ class Header extends React.Component {
           left: 0,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <FlatList
@@ -72,7 +80,7 @@ class Header extends React.Component {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            width: "100%"
+            width: "100%",
           }}
           data={packages}
           renderItem={this._renderItem}
@@ -84,15 +92,12 @@ class Header extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
-    screen: state.screen
+    screen: state.screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

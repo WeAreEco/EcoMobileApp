@@ -8,26 +8,25 @@ import colors from "../../../theme/Colors";
 
 const IS_ANDROID = Platform.OS === "android";
 const SLIDER_1_FIRST_ITEM = 0;
-const exploreHome      = require("../../../assets/Explore/landing_new/explore_home.png");
-const exploreOffers    = require("../../../assets/Explore/landing_new/explore_offers.png");
-const explorePolls     = require("../../../assets/Explore/landing_new/explore_polls.png");
-const exploreFeeds     = require("../../../assets/Explore/landing_new/explore_feeds.png");
-const exploreMarket    = require("../../../assets/Explore/landing_new/explore_marketplace.png");
+const exploreHome = require("../../../assets/Explore/landing_new/explore_home.png");
+const exploreOffers = require("../../../assets/Explore/landing_new/explore_offers.png");
+const explorePolls = require("../../../assets/Explore/landing_new/explore_polls.png");
+const exploreFeeds = require("../../../assets/Explore/landing_new/explore_feeds.png");
+const exploreMarket = require("../../../assets/Explore/landing_new/explore_marketplace.png");
 const exploreCommunity = require("../../../assets/Explore/landing_new/explore_community.png");
 let packages = [
-  { title: "Home", img: exploreHome, index: 0 },
-  { title: "Offers", img: exploreOffers, index: 1 },
-  { title: "Polls", img: explorePolls, index: 2 },
-  { title: "Feeds", img: exploreFeeds, index: 3 },
-  { title: "Marketplace", img: exploreMarket, index: 4 },
-  // { title: "Community", img: exploreCommunity, index: 5 }
+  { title: "Explore", img: exploreHome, index: 0 },
+  { title: "Community", img: exploreCommunity, index: 1 },
+  { title: "EcoOffers", img: exploreOffers, index: 2 },
+  // { title: "Polls", img: explorePolls, index: 2 },
+  // { title: "Feeds", img: exploreFeeds, index: 3 },
+  { title: "EcoStore", img: exploreMarket, index: 3 },
 ];
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
     console.log("props", props);
   }
   // componentWillReceiveProps(nextProps) {
@@ -40,14 +39,13 @@ class Header extends React.Component {
     if (nextProps.screen !== prevState.screen) {
       const { screen } = nextProps;
       // if (screen === "Home")
-        // setTimeout(() => this._slider1Ref.snapToItem(1), 100);
-        // return ({ activated: true }) // <- this is setState equivalent
+      // setTimeout(() => this._slider1Ref.snapToItem(1), 100);
+      // return ({ activated: true }) // <- this is setState equivalent
     }
-    return null
+    return null;
   }
   componentDidMount() {}
   _renderItem = ({ item, index }) => {
-    
     const { current } = this.props;
     let selectedIndex = 0;
     for (pack of packages) {
@@ -57,9 +55,17 @@ class Header extends React.Component {
       }
     }
 
-    return <IconMenu data={item} selected={selectedIndex} position={index} key={index} PressItem={this.Press} />;
+    return (
+      <IconMenu
+        data={item}
+        selected={selectedIndex}
+        position={index}
+        key={index}
+        PressItem={this.Press}
+      />
+    );
   };
-  Press = data => {
+  Press = (data) => {
     const { onTap } = this.props;
     // console.log("index", data.index);
     // this.setState({ selectedIndex: data.index });
@@ -67,7 +73,6 @@ class Header extends React.Component {
   };
 
   render() {
-    
     return (
       <View
         style={{
@@ -80,7 +85,7 @@ class Header extends React.Component {
           // display: "flex",
           // alignItems: "center",
           // justifyContent: "center"
-          // backgroundColor: colors.green,  
+          // backgroundColor: colors.green,
         }}
       >
         <FlatList
@@ -89,7 +94,7 @@ class Header extends React.Component {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-around",
-            // width: "100%",
+            width: "100%",
             padding: 20,
           }}
           data={packages}
@@ -104,15 +109,12 @@ class Header extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
-    screen: state.screen
+    screen: state.screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

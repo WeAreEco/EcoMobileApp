@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
-import { WebView } from 'react-native-webview';
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { WebView } from "react-native-webview";
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Logo from "../../components/Logo";
@@ -21,30 +16,29 @@ const injectedJavascript = `(function() {
 })()`;
 
 class Connect extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      screen: "Assistants"
+      screen: "Assistants",
     };
   }
 
-  onTap = screen => {
+  onTap = (screen) => {
     console.log(screen);
     this.setState({ screen: screen });
   };
 
   componentDidMount = () => {
     this.load();
-    this.props.navigation.addListener('willFocus', this.load);
+    this.props.navigation.addListener("willFocus", this.load);
   };
 
   load = () => {
-    console.log('loaded!');
+    console.log("loaded!");
     const { route } = this.props;
     if (route.params) {
       const { page } = route.params;
-      console.log('page', page);
+      console.log("page", page);
       this.setState({ screen: page });
     }
   };
@@ -64,13 +58,11 @@ class Connect extends React.Component {
     // }
   };
 
-  onEventHandlerAssistants = data => {
-    console.log('----- Polls data', data);
+  onEventHandlerAssistants = (data) => {
+    console.log("----- Polls data", data);
   };
 
-  onPressInviteFriend = () => {
-
-  };
+  onPressInviteFriend = () => {};
 
   render() {
     const { screen } = this.state;
@@ -80,7 +72,7 @@ class Connect extends React.Component {
         style={{
           flex: 1,
           alignItems: "center",
-          backgroundColor: colors.white
+          backgroundColor: colors.white,
         }}
       >
         <TopImage />
@@ -94,24 +86,28 @@ class Connect extends React.Component {
             // backgroundColor: colors.green,
           }}
         >
-          {screen == 'Assistants' && (
+          {screen == "Assistants" && (
             <View
               style={{
-                width: '100%',
-                height: (Metrics.screenHeight - 250),
-                // backgroundColor: colors.green,          
+                width: "100%",
+                height: Metrics.screenHeight - 250,
+                // backgroundColor: colors.green,
               }}
             >
               <WebView
-                style={{
-                  // zIndex: 100,
-                  // backgroundColor: '#00000000'
-                }}
-                ref={r => (this.webViewAssistants = r)}
+                style={
+                  {
+                    // zIndex: 100,
+                    // backgroundColor: '#00000000'
+                  }
+                }
+                ref={(r) => (this.webViewAssistants = r)}
                 originWhitelist={["*"]}
                 // source={{html: '<iframe width="100%" height="100%" src="https://myrobot.io/" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'}}
                 source={{ uri: `https://myrobot.io/?uid=${this.props.uid}` }}
-                onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
+                onMessage={(event) =>
+                  this.onEventHandlerAssistants(event.nativeEvent.data)
+                }
                 injectedJavaScript={injectedJavascript}
                 startInLoadingState
                 domStorageEnabled={true}
@@ -125,32 +121,35 @@ class Connect extends React.Component {
             </View>
           )}
 
-          {screen == 'Community' && (
+          {screen == "Polls" && (
             <View
               style={{
-                width: '100%',
-                height: (Metrics.screenHeight - 250),
-                // backgroundColor: colors.green,          
+                width: "100%",
+                height: Metrics.screenHeight - 250,
               }}
             >
               <WebView
-                style={{
-                  // zIndex: 100,
-                  // backgroundColor: '#00000000'
-                }}
-                ref={r => (this.webViewAssistants = r)}
+                style={
+                  {
+                    // zIndex: 100,
+                    // backgroundColor: '#00000000'
+                  }
+                }
+                ref={(r) => (this.webViewPolls = r)}
                 originWhitelist={["*"]}
                 source={
                   Platform.OS === "ios"
-                    ? { uri: "./external/community/index.html" }
-                    : { uri: "file:///android_asset/community/index.html" }
+                    ? { uri: "./external/polls/index.html" }
+                    : { uri: "file:///android_asset/polls/index.html" }
                 }
-                onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
+                onMessage={(event) =>
+                  this.onEventHandlerPolls(event.nativeEvent.data)
+                }
                 injectedJavaScript={injectedJavascript}
                 startInLoadingState
                 domStorageEnabled={true}
                 javaScriptEnabled
-                onLoad={this.onLoadFinishedAssistants}
+                onLoad={this.onLoadFinishedPolls}
                 mixedContentMode="always"
                 thirdPartyCookiesEnabled
                 allowUniversalAccessFromFileURLs
@@ -159,27 +158,68 @@ class Connect extends React.Component {
             </View>
           )}
 
-          {screen == 'Friends' && (
+          {screen == "Feeds" && (
             <View
               style={{
-                width: '100%',
-                height: (Metrics.screenHeight - 250),
-                // backgroundColor: colors.green,          
+                width: "100%",
+                height: Metrics.screenHeight - 250,
               }}
             >
               <WebView
-                style={{
-                  // zIndex: 100,
-                  // backgroundColor: '#00000000'
-                }}
-                ref={r => (this.webViewAssistants = r)}
+                style={
+                  {
+                    // zIndex: 100,
+                    // backgroundColor: '#00000000'
+                  }
+                }
+                ref={(r) => (this.webViewPolls = r)}
+                originWhitelist={["*"]}
+                source={
+                  Platform.OS === "ios"
+                    ? { uri: "./external/feeds/index.html" }
+                    : { uri: "file:///android_asset/feeds/index.html" }
+                }
+                onMessage={(event) =>
+                  this.onEventHandlerPolls(event.nativeEvent.data)
+                }
+                injectedJavaScript={injectedJavascript}
+                startInLoadingState
+                domStorageEnabled={true}
+                javaScriptEnabled
+                onLoad={this.onLoadFinishedPolls}
+                mixedContentMode="always"
+                thirdPartyCookiesEnabled
+                allowUniversalAccessFromFileURLs
+                useWebKit={true}
+              />
+            </View>
+          )}
+
+          {screen == "Friends" && (
+            <View
+              style={{
+                width: "100%",
+                height: Metrics.screenHeight - 250,
+                // backgroundColor: colors.green,
+              }}
+            >
+              <WebView
+                style={
+                  {
+                    // zIndex: 100,
+                    // backgroundColor: '#00000000'
+                  }
+                }
+                ref={(r) => (this.webViewAssistants = r)}
                 originWhitelist={["*"]}
                 source={
                   Platform.OS === "ios"
                     ? { uri: "./external/friends/index.html" }
                     : { uri: "file:///android_asset/friends/index.html" }
                 }
-                onMessage={event => this.onEventHandlerAssistants(event.nativeEvent.data)}
+                onMessage={(event) =>
+                  this.onEventHandlerAssistants(event.nativeEvent.data)
+                }
                 injectedJavaScript={injectedJavascript}
                 startInLoadingState
                 domStorageEnabled={true}
@@ -193,27 +233,24 @@ class Connect extends React.Component {
             </View>
           )}
 
-          {screen == 'Others_Friends' && (
+          {screen == "Others_Friends" && (
             <KeyboardAwareScrollView
               style={{
-                width: '100%',
-                height: '100%',
+                width: "100%",
+                height: "100%",
                 // backgroundColor: colors.green,
               }}
-              contentContainerStyle={styles.ContentScrollView}>
-
+              contentContainerStyle={styles.ContentScrollView}
+            >
               {/* Invite a friend */}
               <TouchableOpacity
                 onPress={this.onPressInviteFriend}
-                style={styles.TouchAddLinkedCard}>
-                <Text style={styles.TokensElementTitle}>
-                  Invite a friend
-                </Text>
+                style={styles.TouchAddLinkedCard}
+              >
+                <Text style={styles.TokensElementTitle}>Invite a friend</Text>
               </TouchableOpacity>
-
             </KeyboardAwareScrollView>
           )}
-
         </View>
       </View>
     );
@@ -222,17 +259,17 @@ class Connect extends React.Component {
 
 const styles = StyleSheet.create({
   ContentScrollView: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    display: 'flex',
+    flexDirection: "column",
+    alignItems: "center",
+    display: "flex",
     // backgroundColor: colors.green
   },
   TouchAddLinkedCard: {
     width: 300,
     height: 50,
     marginTop: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.green,
     shadowOffset: { height: 2, width: 2 },
     shadowColor: colors.darkblue,
@@ -241,26 +278,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   TokensElementTitle: {
-    fontWeight: '300',
+    fontWeight: "300",
     fontSize: 20,
   },
 });
 
-
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
     basic: state.basic,
-    uid: state.uid
+    uid: state.uid,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Connect);
+export default connect(mapStateToProps, mapDispatchToProps)(Connect);
 
 // export default StackNavigator;

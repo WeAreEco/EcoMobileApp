@@ -5,11 +5,11 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import PersonalProfile from "./Personal";
@@ -30,10 +30,10 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: "Personal"
+      screen: "Personal",
     };
   }
-  onTap = screen => {
+  onTap = (screen) => {
     console.log(screen);
     this.setState({ screen: screen });
   };
@@ -43,7 +43,7 @@ class Profile extends React.Component {
   };
   load = () => {
     const { route } = this.props;
-    if (route.params) {      
+    if (route.params) {
       const { page } = route.params;
       console.log("page", page);
       this.setState({ screen: page });
@@ -64,7 +64,7 @@ class Profile extends React.Component {
       this.props.navigation.navigate("Landing");
     }, 1000);
   };
-  setScreen = screen => {
+  setScreen = (screen) => {
     switch (screen) {
       case "Personal":
         return <PersonalProfile navigation={this.props.navigation} />;
@@ -99,18 +99,18 @@ class Profile extends React.Component {
         style={{
           flex: 1,
           alignItems: "center",
-          backgroundColor: colors.white
+          backgroundColor: colors.white,
         }}
       >
         <TopImage screen={screen} onLogout={this.LogOut} />
         <Logo />
-        
-        {/*<Header onTap={this.onTap} />*/}
+
+        <Header onTap={this.onTap} />
         <View
           style={{
             flex: 1,
-            marginTop: 150,
-            width: "100%"
+            marginTop: 220,
+            width: "100%",
           }}
         >
           {this.setScreen(screen)}
@@ -122,19 +122,16 @@ class Profile extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
     basic: state.basic,
-    screen: state.screen
+    screen: state.screen,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 // export default StackNavigator;
 
