@@ -30,7 +30,7 @@ export default class RetailerElement extends React.Component {
         <View
           style={{
             width: Metrics.screenWidth - 40,
-            height: 150,
+            height: 100,
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
@@ -54,7 +54,7 @@ export default class RetailerElement extends React.Component {
               resizeMode={"contain"}
               style={{
                 width: (Metrics.screenWidth - 80) / 2,
-                height: 60,
+                height: 40,
                 // flex: 1,
                 // resizeMode: "cover",
                 // backgroundColor: colors.green
@@ -68,7 +68,7 @@ export default class RetailerElement extends React.Component {
             }}
           >
             <Text style={Styles.subCaption}>
-              Spend {data.redeemed.fullTokens} tokens{"\n"}
+              Redeem {data.redeemed.fullTokens} tokens{"\n"}
               on every £{data.redeemed.threshold} spent{"\n"}
               {data.redeemed.tokenPercentage}% insider saving
             </Text>
@@ -82,21 +82,21 @@ const Styles = StyleSheet.create({
   caption: {
     fontFamily: "Gothic A1",
     fontWeight: "600",
-    fontSize: 17,
+    fontSize: 14,
     color: "black",
     textAlign: "center",
-    marginTop: 10,
+    marginTop: 5,
     marginBottom: 10,
     // backgroundColor: colors.white,
   },
   subCaption: {
     width: (Metrics.screenWidth - 80) / 2,
     fontFamily: "Gothic A1",
-    fontWeight: "500",
+    fontWeight: "bold",
     fontSize: 15,
     color: "black",
     textAlign: "left",
-    lineHeight: 30,
+    lineHeight: 22,
     // backgroundColor: colors.green,
   },
   // content: {

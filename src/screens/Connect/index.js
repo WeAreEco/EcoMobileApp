@@ -19,7 +19,7 @@ class Connect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      screen: "Assistants",
+      screen: "Feeds",
     };
   }
 

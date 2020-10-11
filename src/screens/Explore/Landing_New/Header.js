@@ -16,7 +16,7 @@ const exploreMarket = require("../../../assets/Explore/landing_new/explore_marke
 const exploreCommunity = require("../../../assets/Explore/landing_new/explore_community.png");
 let packages = [
   { title: "Explore", img: exploreHome, index: 0 },
-  { title: "Community", img: exploreCommunity, index: 1 },
+  // { title: "Community", img: exploreCommunity, index: 1 },
   { title: "EcoOffers", img: exploreOffers, index: 2 },
   // { title: "Polls", img: explorePolls, index: 2 },
   // { title: "Feeds", img: exploreFeeds, index: 3 },

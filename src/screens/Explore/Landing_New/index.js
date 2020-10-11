@@ -258,7 +258,7 @@ class Landing_New extends React.Component {
     const { explore_screen } = this.props;
     let screen = explore_screen;
     if (!screen) {
-      screen = "Home";
+      screen = "Explore";
     }
 
     return (
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
   },
   RetailersWrapper: {
     width: Metrics.screenWidth - 40,
-    height: 150,
+    height: 100,
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: colors.white,
