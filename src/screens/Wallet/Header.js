@@ -14,9 +14,10 @@ const walletSubscriptions = require("../../assets/wallet/sub/wallet_subscription
 const walletShopping = require("../../assets/wallet/sub/wallet_shopping.png");
 
 let packages = [
-  { title: "Cards", img: walletCards, index: 0 },
-  { title: "Subscriptions", img: walletSubscriptions, index: 1 },
-  { title: "Earn Tokens", img: walletEarnTokens, index: 2 },
+  { title: "Tokens", img: walletTokens, index: 0 },
+  { title: "Cards", img: walletCards, index: 1 },
+  { title: "Subscriptions", img: walletSubscriptions, index: 2 },
+  { title: "Earn Tokens", img: walletEarnTokens, index: 3 },
   // { title: "Shopping",      img: walletShopping,      index: 4 },
 ];
 
