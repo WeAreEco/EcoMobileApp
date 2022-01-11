@@ -5,9 +5,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../theme/Colors";
 
 export default class Bubble extends React.Component {
@@ -15,18 +15,16 @@ export default class Bubble extends React.Component {
     return (
       <Image
         style={Styles.logoContainer}
-        resizeMode={"contain"}
-        source={require("../assets/logo.png")}
+        resizeMode={"stretch"}
+        source={require("../assets/uhsm_main_logo.jpeg")}
       />
     );
   }
 }
 const Styles = StyleSheet.create({
   logoContainer: {
-    position: "absolute",
+    marginTop: 50,
     width: 80,
-    height: 40,
-    top: 40,
-    alignItems: "center"
-  }
+    height: 80,
+  },
 });

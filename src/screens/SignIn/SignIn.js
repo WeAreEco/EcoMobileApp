@@ -1,145 +1,103 @@
-import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput
-} from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
-import { connect } from "react-redux";
+import React, { useState, useRef } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import colors from "../../theme/Colors";
+import globalStyles from "../../theme/Styles";
 import Logo from "../../components/Logo";
 import TopImage from "../../components/TopImage";
-import Firebase from "../../firebasehelper";
-import PhoneInput from "react-native-phone-input";
+import PhoneInput from "react-native-phone-number-input";
+// import PhoneInput from "react-native-phone-input";
 import Metrics from "../../theme/Metrics";
 import { doSMS } from "../../functions/Auth";
 import { clearZero } from "../../utils/functions";
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      logged: "false",
-      phone: '+44',
-    };
-  }
-  createPincode = () => {
+const SignIn = () => {
+  const [value, setValue] = useState("");
+  const [phoneNumber, setphoneNumber] = useState("");
+  const phoneInput = useRef(null);
+  const navigation = useNavigation();
+  const createPincode = () => {
     return Math.floor(10000 + Math.random() * 90000);
   };
-  navigateTo = (page, props) => {
-    this.props.navigation.navigate(page, props);
+  const navigateTo = (page, props) => {
+    navigation.navigate(page, props);
   };
-  GoBack = () => {
-    this.props.navigation.goBack();
+  const goBack = () => {
+    navigateTo("Landing");
   };
-  EditPhoneNumber = number => {
-    this.setState({ phone: number });
-  };
-  SignIn = () => {
-    const { phone } = this.state;
-    let pin = this.createPincode();
+  const signIn = () => {
+    let pin = createPincode();
     pin = pin.toString();
     console.log("/// pin", pin);
 
-    let phonenumber = clearZero(phone);        
-    console.log("/// phonenumber", phonenumber);
+    console.log("/// phonenumber", phoneNumber);
 
-    let response = doSMS(phone, pin);
-    console.log("doSMS response", response);
-    
-    this.navigateTo("PhoneCode", { phone: phonenumber, pin: pin });
+    doSMS(phoneNumber, pin, "WeShare");
+
+    navigateTo("PhoneCode", { phone: phoneNumber, pin: pin });
   };
-  render() {
-    const { phone } = this.state;
-    return (
-      <View
-        style={{
-          width: "100%",
-          height: Metrics.screenHeight,
-          alignItems: "center",
-          backgroundColor: colors.lightgrey
+  return (
+    <View style={styles.container}>
+      <TopImage />
+      <Logo />
+      <PhoneInput
+        ref={phoneInput}
+        defaultValue={value}
+        defaultCode="US"
+        onChangeText={(text) => {
+          setValue(text);
         }}
-      >
-        <TopImage />
-        <Logo />
-        <PhoneInput
-          style={{
-            marginTop: 180,
-            width: 300,
-            height: 50,
-            borderBottomColor: colors.darkblue,
-            borderBottomWidth: 1
-          }}
-          ref="phone"
-          initialCountry="gb"
-          textStyle={{
-            fontSize: 25,
-            fontFamily: "Gothic A1",
-            height: 30
-          }}
-          onChangePhoneNumber={this.EditPhoneNumber}
-          value={phone}
-        />
-        <TouchableOpacity style={styles.CalltoAction} onPress={this.SignIn}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: "Gothic A1",
-              fontWeight: "400",
-              marginBottom: 0
-            }}
-          >
-            Sign In
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "transparent",
-            marginTop: 50
-          }}
-          onPress={this.GoBack}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: "Gothic A1",
-              fontWeight: "400",
-              color: colors.blue
-            }}
-          >
-            Back
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+        onChangeFormattedText={(text) => {
+          setphoneNumber(text);
+        }}
+        containerStyle={{ marginTop: 50 }}
+        withDarkTheme
+        withShadow
+        autoFocus
+      />
+      <TouchableOpacity style={globalStyles.CalltoAction} onPress={signIn}>
+        <Text style={styles.signInText}>Sign In</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+        <Text style={styles.goBackText}>Back</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
-  CalltoAction: {
-    backgroundColor: colors.yellow,
+  container: {
+    width: "100%",
     padding: 20,
+    height: Metrics.screenHeight,
+    alignItems: "center",
+    backgroundColor: colors.lightgrey,
+  },
+  phoneInputContainer: {
+    marginTop: 180,
+    width: 300,
+    height: 50,
+    borderBottomColor: colors.darkblue,
+    borderBottomWidth: 1,
+  },
+  phoneInputTextStyle: {
+    fontSize: 25,
+    fontFamily: "Gothic A1",
+    height: 30,
+  },
+  signInText: {
+    fontSize: 25,
+    fontFamily: "Gothic A1",
+    fontWeight: "400",
+    marginBottom: 0,
+  },
+  goBackButton: {
+    backgroundColor: "transparent",
     marginTop: 50,
-    borderRadius: 20,
-    shadowOffset: { height: 1, width: 1 },
-    shadowColor: colors.darkblue,
-    shadowOpacity: 0.2,
-    elevation: 3
-  }
+  },
+  goBackText: {
+    fontSize: 25,
+    fontFamily: "Gothic A1",
+    fontWeight: "400",
+    color: colors.blue,
+  },
 });
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch
-  };
-}
-function mapStateToProps(state) {
-  return {
-    basic: state.basic
-  };
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignIn);
+export default SignIn;

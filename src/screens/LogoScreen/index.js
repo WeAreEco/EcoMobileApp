@@ -6,37 +6,22 @@ import {
   View,
   TouchableOpacity,
   Image,
-  Animated
+  Animated,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import FadeInView from "react-native-fade-in-view";
 import { connect } from "react-redux";
 import colors from "../../theme/Colors";
 import { Metrics } from "../../theme";
-import {
-  saveOnboarding,
-  saveBrand,
-  saveUID,
-  savePet,
-  saveBike,
-  saveHealth,
-  saveHome,
-  savePosts,
-  saveUsers
-} from "../../Redux/actions/index";
+import { saveProfile, saveBrand, saveUID } from "../../Redux/actions/index";
 import { isSession } from "../../utils/functions";
 import Firebase from "../../firebasehelper";
-function toDateTime(secs) {
-  var t = new Date(1970, 0, 1); // Epoch
-  t.setSeconds(secs);
-  return t;
-}
 class LogoScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       fadeIn: new Animated.Value(0),
-      fadeOut: new Animated.Value(1)
+      fadeOut: new Animated.Value(1),
     };
   }
   fadeIn() {
@@ -44,7 +29,7 @@ class LogoScreen extends React.Component {
     Animated.timing(this.state.fadeIn, {
       toValue: 1,
       duration: 2000,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start(() => this.fadeOut());
   }
   fadeOut() {
@@ -52,80 +37,51 @@ class LogoScreen extends React.Component {
     Animated.timing(this.state.fadeIn, {
       toValue: 0,
       duration: 2000,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start(() => this.Start());
   }
-  
+
   componentDidMount() {
-
-    // this.unsubscribeUsers = Firebase.firestore()
-    //   .collection("user")
-    //   .onSnapshot(snapshot => {
-    //     let users = [];
-    //     if (snapshot.size) {
-    //       snapshot.forEach(doc => {
-    //         let user = doc.data();
-    //         user.id = doc.id;
-    //         users.push(user);
-    //       });
-    //       console.log("users", users);
-    //     }
-    //     this.props.dispatch(saveUsers(users));
-    //   });
-
     // Get Brand Info
-    Firebase.getBrandDataByName('Ecosystem', (brand) => {
+    Firebase.getBrandDataByName("WeShare", (brand) => {
       this.props.dispatch(saveBrand(brand));
       AsyncStorage.setItem("brand", JSON.stringify(brand));
     });
 
-    this.fadeIn();    
+    this.fadeIn();
   }
   Start = () => {
     isSession()
-      .then(res => {
-        console.log("LogoScreen res", res);
+      .then((res) => {
         if (res) {
-          console.log("Result is true");
-          this.props.dispatch(saveOnboarding(res));
+          this.props.dispatch(saveProfile(res));
           this.props.dispatch(saveUID(res.uid));
-          this.props.dispatch(savePet(JSON.parse(res.pet)));
-          this.props.dispatch(saveBike(JSON.parse(res.bike)));
-          this.props.dispatch(saveHealth(JSON.parse(res.health)));
-          this.props.dispatch(saveHome(JSON.parse(res.home)));
           this.props.dispatch(saveBrand(res.brand));
           this.props.navigation.navigate("Main");
-        } 
-        else 
-          this.props.navigation.navigate("Landing");
+        } else this.props.navigation.navigate("Landing");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Error", err);
         this.props.navigation.navigate("Landing");
       });
   };
-  // componentWillMount() {
-  //   this.fadeIn();
-  // }
-  componentWillUnmount() {
-    // this.unsubscribeUsers();
-  }
+
   render() {
     return (
       <View
         style={{
           width: Metrics.screenWidth,
           height: Metrics.screenHeight,
-          backgroundColor: colors.yellow,
+          backgroundColor: colors.uhsm,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <Animated.View style={{ opacity: this.state.fadeIn }}>
           <View>
             <Image
-              source={require("../../assets/logo.png")}
+              source={require("../../assets/uhsm_main_logo.jpeg")}
               style={{ width: 170, height: 60 }}
               resizeMode={"contain"}
             />
@@ -137,18 +93,14 @@ class LogoScreen extends React.Component {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
-    basic: state.basic,
+    profile: state.profile,
     brand: state.brand,
     uid: state.uid,
-    pet: state.pet
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LogoScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LogoScreen);

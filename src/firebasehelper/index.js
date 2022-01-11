@@ -223,10 +223,11 @@ class Firebase {
     });
   }
   static getProfile = (phonenumber) => {
-    console.log("phonenumber", phonenumber);
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
+        .collection("WeShare")
+        .doc("data")
         .collection("user")
         .where("phonenumber", "==", phonenumber)
         .limit(1)
@@ -240,6 +241,23 @@ class Firebase {
         });
     });
   };
+  static getEcoUserbyId(eco_id) {
+    return new Promise((resolve, reject) => {
+      if (eco_id && typeof eco_id !== "undefined")
+        return firebase
+          .firestore()
+          .collection("ecosystem_user")
+          .doc(eco_id)
+          .get()
+          .then((res) => {
+            resolve(res.data());
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      else return null;
+    });
+  }
   static async getAllUsers() {
     const snapshot = await firebase.firestore().collection("user").get();
     return snapshot.docs.map((item) => {

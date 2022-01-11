@@ -5,11 +5,11 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 
 import Landing_New from "./Landing_New";
 import Landing from "./Landing";
@@ -18,6 +18,7 @@ import Main from "./Main";
 import Pack from "./Pack";
 import DirectDebit from "./DirectDebitSetup";
 import PaymentSetup from "./PaymentSetup";
+import Forum from "./Forum";
 
 const Stack = createStackNavigator();
 
@@ -29,11 +30,13 @@ export default class Explore extends Component {
 
   render() {
     return (
-
-        <Stack.Navigator
-          headerMode="none"
-        >
-          <Stack.Screen
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen
+          name="Forum"
+          component={Forum}
+          options={{ headerVisible: false }}
+        />
+        {/* <Stack.Screen
             name="LandNew"
             component={Landing_New}
             options={{ headerVisible: false }}
@@ -57,14 +60,8 @@ export default class Explore extends Component {
             name="Pack"
             component={Pack}
             options={{ headerVisible: false }}
-          />
-          {/* <Stack.Screen
-            name="PaymentSetup"
-            component={PaymentSetup}
-            options={{ headerVisible: false }}
           /> */}
-        </Stack.Navigator>
-
+      </Stack.Navigator>
     );
   }
 }

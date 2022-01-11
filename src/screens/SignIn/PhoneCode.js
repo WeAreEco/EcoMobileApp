@@ -1,238 +1,152 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Image,
   TextInput,
   ActivityIndicator,
-  Alert
+  Alert,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
+import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../../theme/Colors";
+import globalStyles from "../../theme/Styles";
 import Logo from "../../components/Logo";
 import TopImage from "../../components/TopImage";
 import Firebase from "../../firebasehelper";
-import CodeInput from "react-native-confirmation-code-input";
-import {
-  saveOnboarding,
-  saveUID,
-  savePet,
-  saveBike,
-  saveHealth,
-  saveHome
-} from "../../Redux/actions/index";
+import { saveUID, saveProfile } from "../../Redux/actions/index";
 import Metrics from "../../theme/Metrics";
-class PhoneCode extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading_account: false,
-      code: ""
-    };
-  }
-  navigateTo = page => {
-    this.props.navigation.navigate(page);
+
+const PhoneCode = () => {
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation();
+  const route = useRoute();
+  const dispatch = useDispatch();
+
+  const navigateTo = (page) => {
+    navigation.navigate(page);
   };
-  onChangeEdit = code => {
-    this.setState({ code });
+  const onChangeEdit = (code) => {
+    setCode(code);
   };
-  GoBack = () => {
-    this.props.navigation.goBack();
+  const goBack = () => {
+    navigation.goBack();
   };
-  CheckSMS = () => {
-    const { route } = this.props;
-    const { phone, pin } = route.params ? route.params: null;
-    const { code } = this.state;
-    
+  const checkSMS = () => {
+    const { phone, pin } = route.params ? route.params : null;
     if (code === pin || phone === "+44528834523") {
       const basicInfo = {
         firstname: "",
         dob: "",
         phonenumber: phone,
         email: "",
-        password: ""
+        password: "",
       };
-      this.setState({ loading_account: true });
+      setLoading(true);
       Firebase.getProfile(phone)
-        .then(res => {
-          console.log("res", res);
-          this.setState({ loading_account: false });
+        .then(async (res) => {
+          console.log("result of profile", res);
+          setLoading(false);
           if (res) {
-            console.log("uid", res.id);
-            this.props.dispatch(saveOnboarding(res.data()));
-            this.props.dispatch(saveUID(res.id));
+            const { eco_id } = res.data();
+            console.log("get Profile", res.data());
+            const ecoData = await Firebase.getEcoUserbyId(eco_id);
+            console.log("ecoData", ecoData);
+            const profile = { ...res.data(), id: res.id, ...ecoData };
+            dispatch(saveProfile(profile));
             AsyncStorage.setItem("profile", JSON.stringify(res.data()));
             AsyncStorage.setItem("uid", res.id);
-            let getPet = Firebase.getPetDatafromUID(res.id);
-            let getBike = Firebase.getBikeDatafromUID(res.id);
-            let getHealth = Firebase.getHealthDatafromUID(res.id);
-            let getHome = Firebase.getHomeDatafromUID(res.id);
-            Promise.all([getPet, getBike, getHealth, getHome])
-              .then(res => {
-                if (res) {
-                  console.log("promise all", res);
-                  console.log("pet", res[0]);
-                  console.log("bike", res[1]);
-                  console.log("health", res[2]);
-                  console.log("home", res[3]);
-                  if (res[0]) {
-                    this.props.dispatch(savePet(res[0]));
-                    AsyncStorage.setItem("petprofile", JSON.stringify(res[0]));
-                  }
-                  if (res[1]) {
-                    this.props.dispatch(saveBike(res[1]));
-                    AsyncStorage.setItem("bikeprofile", JSON.stringify(res[1]));
-                  }
-                  if (res[2]) {
-                    this.props.dispatch(saveHealth(res[2]));
-                    AsyncStorage.setItem(
-                      "healthprofile",
-                      JSON.stringify(res[2])
-                    );
-                  }
-                  if (res[3]) {
-                    this.props.dispatch(saveHome(res[3]));
-                    AsyncStorage.setItem("homeprofile", JSON.stringify(res[3]));
-                  }
-                  setTimeout(() => this.props.navigation.navigate("Main"), 100);
-                } else {
-                  setTimeout(() => this.props.navigation.navigate("Main"), 100);
-                }
-              })
-              .catch(err => {
-                Alert.alert("Error", err);
-              });
+            navigateTo("Main");
           } else {
             Alert.alert(
               "Error",
               "You need to join as a member first.",
-              [{ text: "OK", onPress: () => this.navigateTo("Landing") }],
+              [{ text: "OK", onPress: () => navigateTo("Landing") }],
               { cancelable: false }
             );
-            this.props.dispatch(saveOnboarding(basicInfo));
           }
         })
-        .catch(err => {
+        .catch((err) => {
           Alert.alert(
             "Error",
             err,
-            [{ text: "OK", onPress: () => this.navigateTo("Landing") }],
+            [{ text: "OK", onPress: () => navigateTo("Landing") }],
             { cancelable: false }
           );
         });
-
-      //this.props.dispatch(saveOnboarding(basicInfo));
-      //setTimeout(() => this.props.navigation.navigate("Main"), 1000);
     }
   };
-  render() {
+  return (
+    <View style={styles.container}>
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.yellow} />
+        </View>
+      )}
+      <TopImage />
+      <Logo />
 
-    const { isValid, loading_account, code } = this.state;
-    return (
-      <View
-        style={{
-          width: "100%",
-          height: Metrics.screenHeight,
-          alignItems: "center",
-          backgroundColor: colors.lightgrey
-        }}
-      >
-        {loading_account && (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              position: "absolute",
-              right: 0,
-              top: 0,
-              backgroundColor: "rgba(0, 0, 0, 0.4)",
-              width: "100%",
-              height: Metrics.screenHeight,
-              zIndex: 100
-            }}
-          >
-            <ActivityIndicator size="large" color={colors.yellow} />
-          </View>
-        )}
-        <TopImage />
-        <Logo />
-
-        <TextInput
-          style={{
-            marginTop: 180,
-            width: 300,
-            height: 50,
-            paddingBottom: 0,
-            borderBottomColor: colors.darkblue,
-            borderBottomWidth: 1,
-            fontSize: 30,
-            textAlign: "center"
-          }}
-          onChangeText={this.onChangeEdit}
-          value={code}
-        />
-        <TouchableOpacity style={styles.CalltoAction} onPress={this.CheckSMS}>
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: "Gothic A1",
-              fontWeight: "400",
-              marginBottom: 0
-            }}
-          >
-            Confirm
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "transparent",
-            marginTop: 50
-          }}
-          onPress={this.GoBack}
-        >
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: "Gothic A1",
-              fontWeight: "400",
-              color: colors.blue
-            }}
-          >
-            Not Received
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+      <TextInput
+        style={styles.codeInput}
+        onChangeText={onChangeEdit}
+        value={code}
+      />
+      <TouchableOpacity style={globalStyles.CalltoAction} onPress={checkSMS}>
+        <Text style={styles.confirmBtnText}>Confirm</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.goBackBtn} onPress={goBack}>
+        <Text style={styles.notReceived}>Not Received</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
-  CalltoAction: {
-    backgroundColor: colors.yellow,
-    padding: 20,
+  container: {
+    width: "100%",
+    height: Metrics.screenHeight,
+    alignItems: "center",
+    backgroundColor: colors.lightgrey,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    position: "absolute",
+    right: 0,
+    top: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    width: "100%",
+    height: Metrics.screenHeight,
+    zIndex: 100,
+  },
+  codeInput: {
+    marginTop: 180,
+    width: 300,
+    height: 50,
+    paddingBottom: 0,
+    borderBottomColor: colors.darkblue,
+    borderBottomWidth: 1,
+    fontSize: 30,
+    textAlign: "center",
+  },
+  confirmBtnText: {
+    fontSize: 25,
+    fontFamily: "Gothic A1",
+    fontWeight: "400",
+    marginBottom: 0,
+  },
+  goBackBtn: {
+    backgroundColor: "transparent",
     marginTop: 50,
-    borderRadius: 20,
-    shadowOffset: { height: 1, width: 1 },
-    shadowColor: colors.darkblue,
-    shadowOpacity: 0.2,
-    elevation: 3
-  }
+  },
+  notReceived: {
+    fontSize: 25,
+    fontFamily: "Gothic A1",
+    fontWeight: "400",
+    color: colors.blue,
+  },
 });
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch
-  };
-}
-function mapStateToProps(state) {
-  return {
-    basic: state.basic,
-    uid: state.uid
-  };
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PhoneCode);
+export default PhoneCode;

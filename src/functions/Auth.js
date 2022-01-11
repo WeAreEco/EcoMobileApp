@@ -3,10 +3,10 @@ import {
   client_id,
   client_secret,
   username,
-  SFpassword
+  SFpassword,
 } from "../utils/Constants";
 import { getToken, signUp, logIn } from "../apis/Auth";
-export const register = async profile => {
+export const register = async (profile) => {
   try {
     console.log("profile", profile);
     const {
@@ -20,7 +20,7 @@ export const register = async profile => {
       city,
       phone,
       dob,
-      avatar
+      avatar,
     } = profile;
     let response = await getToken(
       grant_type,
@@ -51,14 +51,13 @@ export const register = async profile => {
   }
 };
 
-export const doSMS = async (phoneNumber, pin) => {
+export const doSMS = async (phoneNumber, pin, brand) => {
   try {
-    let response = await fetch(
-      `https://apricot-mole-2227.twil.io/phone_SMS?phoneNumber=${phoneNumber}&pin=${pin}`,
-      {
-        method: "GET"
-      }
-    );
+    let url = "";
+    url = `https://apricot-mole-2227.twil.io/sms?phoneNumber=${phoneNumber}&pin=${pin}&brand=${brand}`;
+    let response = await fetch(url, {
+      method: "GET",
+    });
     let res = await response.json();
     return res;
   } catch (err) {
@@ -71,7 +70,7 @@ export const sendInvitation = async (phoneNumber, username) => {
     let response = await fetch(
       `https://apricot-mole-2227.twil.io/sendInvitation?phoneNumber=${phoneNumber}&username=${username}`,
       {
-        method: "GET"
+        method: "GET",
       }
     );
     let res = await response.json();

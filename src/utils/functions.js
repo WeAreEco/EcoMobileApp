@@ -1,5 +1,5 @@
 // import { AsyncStorage } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 const HOME_TICKETS = [
   "0",
@@ -18,9 +18,9 @@ const HOME_TICKETS = [
   "13",
   "14",
   "19",
-  "39"
+  "39",
 ];
-var getMonth = month => {
+var getMonth = (month) => {
   switch (month) {
     case "01":
       return "January";
@@ -56,7 +56,7 @@ function addZero(i) {
   }
   return i;
 }
-export const clearZero = function(str) {
+export const clearZero = function (str) {
   if (str.charAt(3) === "0") str = str.replace("0", "");
   return str;
 };
@@ -72,23 +72,14 @@ export async function isSession() {
     const result = await AsyncStorage.getItem("profile");
     const uid = await AsyncStorage.getItem("uid");
     const brand = await AsyncStorage.getItem("brand");
-    const petprofile = await AsyncStorage.getItem("petprofile");
-    const bikeprofile = await AsyncStorage.getItem("bikeprofile");
-    const healthprofile = await AsyncStorage.getItem("healthprofile");
-    const homeprofile = await AsyncStorage.getItem("homeprofile");
     const profile = JSON.parse(result);
     const brandInfo = JSON.parse(brand);
 
     profile["uid"] = uid;
-    profile["pet"] = petprofile;
-    profile["bike"] = bikeprofile;
-    profile["health"] = healthprofile;
-    profile["home"] = homeprofile;
     profile["brand"] = brandInfo;
 
     return profile;
-  } 
-  catch (err) {
+  } catch (err) {
     console.log("error", err);
     throw Error(err);
   }
@@ -190,14 +181,14 @@ export function generate_token(length) {
   return b.join("");
 }
 export function filterArrayByKey(arr, key) {
-  var a = arr.reduce(function(accumulator, current) {
+  var a = arr.reduce(function (accumulator, current) {
     if (checkIfAlreadyExist(current)) {
       return accumulator;
     } else {
       return accumulator.concat([current]);
     }
     function checkIfAlreadyExist(currentVal) {
-      return accumulator.some(function(item) {
+      return accumulator.some(function (item) {
         return item[key] === currentVal[key];
       });
     }
@@ -205,14 +196,14 @@ export function filterArrayByKey(arr, key) {
   return a;
 }
 
-export const isTicketforLandlord = ticket_id => {
+export const isTicketforLandlord = (ticket_id) => {
   let ticket_str = "" + ticket_id;
   let ar = ticket_str.split(".");
   let prefix = ar[0];
   if (HOME_TICKETS.includes(prefix)) return true;
   else return false;
 };
-export const getStringfromSeconds = function(time) {
+export const getStringfromSeconds = function (time) {
   var t = new Date(parseInt(time));
   var dd = String(t.getDate()).padStart(2, "0");
   var mm = String(t.getMonth() + 1).padStart(2, "0"); //January is 0!

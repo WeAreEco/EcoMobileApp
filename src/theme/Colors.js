@@ -8,6 +8,8 @@ const colors = {
   blue: "#3498DB",
   green: "#bbffa8",
   yellow: "#faff87",
+  primary: "#F4B220",
+  uhsm: "#F4B220",
 };
 
 export default colors;

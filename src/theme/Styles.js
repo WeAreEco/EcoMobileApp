@@ -25,7 +25,7 @@ export default StyleSheet.create({
     width: itemWidth,
     height: slideHeight,
     paddingHorizontal: itemHorizontalMargin,
-    paddingBottom: 18 // needed for shadow
+    paddingBottom: 18, // needed for shadow
   },
   shadow: {
     position: "absolute",
@@ -38,24 +38,24 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
     elevation: 3,
-    borderRadius: entryBorderRadius
+    borderRadius: entryBorderRadius,
   },
   imageContainer: {
     flex: 1,
     marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
     backgroundColor: "white",
     borderTopLeftRadius: entryBorderRadius,
-    borderTopRightRadius: entryBorderRadius
+    borderTopRightRadius: entryBorderRadius,
   },
   imageContainerEven: {
-    backgroundColor: colors.darkblue
+    backgroundColor: colors.darkblue,
   },
   image: {
     ...StyleSheet.absoluteFillObject,
     resizeMode: "cover",
     borderRadius: IS_IOS ? entryBorderRadius : 0,
     borderTopLeftRadius: entryBorderRadius,
-    borderTopRightRadius: entryBorderRadius
+    borderTopRightRadius: entryBorderRadius,
   },
   // image's border radius is buggy on iOS; let's hack it!
   radiusMask: {
@@ -64,10 +64,10 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     height: entryBorderRadius,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   radiusMaskEven: {
-    backgroundColor: colors.darkblue
+    backgroundColor: colors.darkblue,
   },
   textContainer: {
     justifyContent: "center",
@@ -76,27 +76,37 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "white",
     borderBottomLeftRadius: entryBorderRadius,
-    borderBottomRightRadius: entryBorderRadius
+    borderBottomRightRadius: entryBorderRadius,
+  },
+  CalltoAction: {
+    backgroundColor: colors.primary,
+    padding: 20,
+    marginTop: 50,
+    borderRadius: 20,
+    shadowOffset: { height: 1, width: 1 },
+    shadowColor: colors.darkblue,
+    shadowOpacity: 0.2,
+    elevation: 3,
   },
   textContainerEven: {
-    backgroundColor: colors.darkblue
+    backgroundColor: colors.darkblue,
   },
   title: {
     color: colors.darkblue,
     fontSize: 13,
     fontWeight: "bold",
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
   },
   titleEven: {
-    color: "white"
+    color: "white",
   },
   subtitle: {
     marginTop: 6,
     color: colors.grey,
     fontSize: 12,
-    fontStyle: "italic"
+    fontStyle: "italic",
   },
   subtitleEven: {
-    color: "rgba(255, 255, 255, 0.7)"
-  }
+    color: "rgba(255, 255, 255, 0.7)",
+  },
 });

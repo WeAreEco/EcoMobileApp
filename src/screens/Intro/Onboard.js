@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  Modal
+  Modal,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
-import { WebView } from 'react-native-webview';
+import AsyncStorage from "@react-native-community/async-storage";
+import { WebView } from "react-native-webview";
 import { connect } from "react-redux";
 import Sound from "react-native-sound";
 import colors from "../../theme/Colors";
@@ -23,12 +23,12 @@ import {
   savePet,
   saveBike,
   saveHealth,
-  saveHome
+  saveHome,
 } from "../../Redux/actions/index";
 import Firebase from "../../firebasehelper";
 const back_img = require("../../assets/back.png");
 const ballon_image = require("../../assets/popup/balloon.png");
-var bamboo = new Sound("bamboo.mp3", Sound.MAIN_BUNDLE, error => {
+var bamboo = new Sound("bamboo.mp3", Sound.MAIN_BUNDLE, (error) => {
   if (error) {
     console.log("failed to load the sound", error);
     return;
@@ -49,11 +49,11 @@ class Onboard extends React.Component {
       phone: "",
       DOB: "",
       renter_owner: "",
-      credit_Visible: false
+      credit_Visible: false,
     };
   }
   componentDidMount() {
-    Firebase.getCreditMembers().then(res => {
+    Firebase.getCreditMembers().then((res) => {
       this.setState({ credit_members: res });
     });
   }
@@ -66,7 +66,7 @@ class Onboard extends React.Component {
   goBack = () => {
     this.props.navigation.goBack();
   };
-  toggleModal = value => {
+  toggleModal = (value) => {
     this.setState({ credit_Visible: value });
   };
   render() {
@@ -77,11 +77,9 @@ class Onboard extends React.Component {
         style={{
           flex: 1,
           alignItems: "center",
-          backgroundColor: colors.white
+          backgroundColor: colors.white,
         }}
       >
-        <TopImage />
-        <Logo />
         <View
           style={{
             display: "flex",
@@ -89,7 +87,7 @@ class Onboard extends React.Component {
             position: "absolute",
             top: 45,
             left: 10,
-            zIndex: 1000
+            zIndex: 1000,
           }}
         >
           <TouchableOpacity onPress={this.goBack}>
@@ -98,14 +96,14 @@ class Onboard extends React.Component {
         </View>
         <View style={styles.maincontainer}>
           <WebView
-            ref={r => (this.webview = r)}
+            ref={(r) => (this.webview = r)}
             originWhitelist={["*"]}
             source={
               Platform.OS === "ios"
                 ? { uri: "./external/onboarding/index.html" }
                 : { uri: "file:///android_asset/onboarding/index.html" }
             }
-            onMessage={event => this.onEventHandler(event.nativeEvent.data)}
+            onMessage={(event) => this.onEventHandler(event.nativeEvent.data)}
             injectedJavaScript={injectedJavascript}
             startInLoadingState
             domStorageEnabled={true}
@@ -150,7 +148,7 @@ class Onboard extends React.Component {
                   alignItems: "center",
                   justifyContent: "center",
                   borderColor: colors.grey,
-                  borderWidth: 1
+                  borderWidth: 1,
                 }}
               >
                 <Text style={styles.text}>Amazing</Text>
@@ -161,7 +159,7 @@ class Onboard extends React.Component {
       </View>
     );
   }
-  onEventHandler = data => {
+  onEventHandler = (data) => {
     const { firstname, phone, DOB, renter_owner, credit_members } = this.state;
     bamboo.play();
     console.log("data", data);
@@ -175,7 +173,7 @@ class Onboard extends React.Component {
           dob: DOB,
           renter_owner: renter_owner,
           groupId: "",
-          tokens: 5
+          tokens: 5,
         };
         if (credit_members.includes(phone)) {
           this.toggleModal(true);
@@ -183,7 +181,7 @@ class Onboard extends React.Component {
           basicInfo.packages = [{ caption: "Membership Pack", price: 9.99 }];
         }
         Firebase.signup(basicInfo)
-          .then(res => {
+          .then((res) => {
             console.log("uid", res.id);
             this.props.dispatch(saveOnboarding(basicInfo));
             this.props.dispatch(saveUID(res.id));
@@ -192,12 +190,11 @@ class Onboard extends React.Component {
 
             setTimeout(() => this.props.navigation.navigate("Main"), 100);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log("Error", err);
           });
       } else if (obj.already_registered) {
-        console.log("phone", phone);
-        Firebase.getProfile(phone).then(res => {
+        Firebase.getProfile(phone).then((res) => {
           console.log("uid", res.id);
           this.props.dispatch(saveOnboarding(res.data()));
           this.props.dispatch(saveUID(res.id));
@@ -208,7 +205,7 @@ class Onboard extends React.Component {
           let getHealth = Firebase.getHealthDatafromUID(res.id);
           let getHome = Firebase.getHomeDatafromUID(res.id);
           Promise.all([getPet, getBike, getHealth, getHome])
-            .then(res => {
+            .then((res) => {
               if (res) {
                 console.log("promise all", res);
                 console.log("pet", res[0]);
@@ -239,7 +236,7 @@ class Onboard extends React.Component {
               } else
                 setTimeout(() => this.props.navigation.navigate("Main"), 100);
             })
-            .catch(err => {
+            .catch((err) => {
               Alert.alert("Error", err);
             });
         });
@@ -253,11 +250,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.darkblue,
     fontWeight: "700",
-    marginBottom: 20
+    marginBottom: 20,
   },
   subcaption: {
     fontSize: 15,
-    textAlign: "center"
+    textAlign: "center",
   },
   containter: {
     display: "flex",
@@ -265,23 +262,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
   },
   maincontainer: {
     flex: 1,
     width: Metrics.screenWidth,
     height: Metrics.screenHeight,
     paddingTop: 20,
-    marginTop: 100,
+    marginTop: 70,
     backgroundColor: colors.white,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   subcontainer: {
     width: "70%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   modal: {
     position: "absolute",
@@ -295,22 +292,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: colors.lightgrey,
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 function mapStateToProps(state) {
   return {
-    basic: state.basic
+    basic: state.basic,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Onboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Onboard);

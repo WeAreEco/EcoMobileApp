@@ -5,9 +5,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Sound from "react-native-sound";
@@ -35,7 +35,7 @@ class Landing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logged: "false"
+      logged: "false",
     };
   }
   signIn = () => {
@@ -49,47 +49,48 @@ class Landing extends React.Component {
       <View
         style={{
           width: "100%",
+          padding: 20,
           flex: 1,
           height: Metrics.screenHeight,
           alignItems: "center",
-          backgroundColor: colors.lightgrey
+          backgroundColor: colors.lightgrey,
         }}
       >
-        <TopImage />
         <Logo />
         <View
           style={{
-            marginTop: 100,
+            marginTop: 20,
             width: "100%",
             height: "80%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            backgroundColor: colors.lightgrey
+            backgroundColor: colors.lightgrey,
           }}
         >
           <View style={Styles.JoinProfileContainer}>
             <Text style={[Styles.Title, { color: colors.darkblue }]}>
-              Join Ecosystem
+              Join UHSM community
             </Text>
             <Image
-              source={require("../../assets/Landing/join_bolt.png")}
+              source={require("../../assets/Landing/blogging.png")}
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Insider access, perks, savings & subscriptions.{'\n'}Earn tokens to
-              spend on all walks of life.{'\n'}Own your life & data with your
-              blockchain iD.{'\n'}Live your best life with the help of community.
+              Insider access, perks, savings & subscriptions.{"\n"}Earn tokens
+              to spend on all walks of life.{"\n"}Own your life & data with your
+              blockchain iD.{"\n"}Live your best life with the help of
+              community.
             </Text>
             <TouchableOpacity
               onPress={this.joinMember}
-              style={[Styles.CallAction, { backgroundColor: colors.yellow }]}
+              style={[Styles.CallAction, { backgroundColor: colors.primary }]}
             >
               <Text
                 style={{
                   fontSize: 16,
                   color: colors.darkblue,
-                  fontWeight: "500"
+                  fontWeight: "500",
                 }}
               >
                 Join Now
@@ -101,7 +102,7 @@ class Landing extends React.Component {
               Already a member
             </Text>
             <Image
-              source={require("../../assets/Landing/already_member.png")}
+              source={require("../../assets/Landing/blogging.png")}
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
@@ -115,7 +116,7 @@ class Landing extends React.Component {
                 style={{
                   fontSize: 16,
                   color: colors.darkblue,
-                  fontWeight: "500"
+                  fontWeight: "500",
                 }}
               >
                 Sign me in
@@ -140,7 +141,7 @@ const Styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     borderWidth: 0.5,
-    borderColor: colors.cardborder
+    borderColor: colors.cardborder,
   },
   JoinProfileContainer: {
     backgroundColor: colors.grey,
@@ -152,16 +153,16 @@ const Styles = StyleSheet.create({
     justifyContent: "space-around",
     color: colors.darkblue,
     paddingVertical: 10,
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     margin: 10,
     borderWidth: 0.5,
-    borderColor: colors.cardborder
+    borderColor: colors.cardborder,
   },
   Title: { fontSize: 30, fontFamily: "Gothic A1", fontWeight: "200" },
-  SubTitle: { 
-    fontSize: 12, 
-    fontFamily: "Gothic A1", 
-    textAlign: "center" 
+  SubTitle: {
+    fontSize: 12,
+    fontFamily: "Gothic A1",
+    textAlign: "center",
   },
   CallAction: {
     width: "80%",
@@ -170,20 +171,17 @@ const Styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     borderWidth: 0.5,
-    borderColor: colors.cardborder
-  }
+    borderColor: colors.cardborder,
+  },
 });
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
-    basic: state.basic
+    basic: state.basic,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Landing);
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

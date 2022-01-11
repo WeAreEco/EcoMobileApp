@@ -1,11 +1,10 @@
-export const doSMS = async (phoneNumber, pin) => {
+export const doSMS = async (phoneNumber, pin, brand) => {
   try {
-    let response = await fetch(
-      `https://apricot-mole-2227.twil.io/phone_SMS?phoneNumber=${phoneNumber}&pin=${pin}`,
-      {
-        method: "GET"
-      }
-    );
+    let url = "";
+    url = `https://apricot-mole-2227.twil.io/sms?phoneNumber=${phoneNumber}&pin=${pin}&brand=${brand}`;
+    let response = await fetch(url, {
+      method: "GET",
+    });
     let res = await response.json();
     return res;
   } catch (err) {
@@ -28,7 +27,7 @@ export const getToken = async (
     let res = await fetch(
       `https://test.salesforce.com/services/oauth2/token?grant_type=${grant_type}&client_id=${client_id}&client_secret=${client_secret}&username=${username}&password=${password}`,
       {
-        method: "post"
+        method: "post",
       }
     );
     let json = await res.json();
@@ -62,7 +61,7 @@ export const signUp = async (
       password: password,
       phone: phone,
       dob: dob,
-      avatar: avatar
+      avatar: avatar,
     });
     console.log("body", body);
     return fetch(
@@ -71,11 +70,11 @@ export const signUp = async (
         method: "POST",
         headers: {
           Authorization: token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: body
+        body: body,
       }
-    ).then(res => {
+    ).then((res) => {
       //console.log("res", res._bodyInit);
       return res._bodyInit;
     });
@@ -104,7 +103,7 @@ export const logIn = async (
     return fetch(
       `https://dev-pin.cs106.force.com/members/services/oauth2/authorize?response_type=${response_type}&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&display=${display}`,
       {
-        method: "get"
+        method: "get",
       }
     );
   } catch (err) {

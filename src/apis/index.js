@@ -1,13 +1,12 @@
 const axios = require("axios");
 
-export const doSMS = async (phoneNumber, pin) => {
+export const doSMS = async (phoneNumber, pin, brand) => {
   try {
-    let response = await fetch(
-      `https://apricot-mole-2227.twil.io/phone_SMS?phoneNumber=${phoneNumber}&pin=${pin}`,
-      {
-        method: "GET"
-      }
-    );
+    let url = "";
+    url = `https://apricot-mole-2227.twil.io/sms?phoneNumber=${phoneNumber}&pin=${pin}&brand=${brand}`;
+    let response = await fetch(url, {
+      method: "GET",
+    });
     let res = await response.json();
     return res;
   } catch (err) {
@@ -22,7 +21,7 @@ export const createToken = async (number, exp_month, exp_year, cvc) => {
         number: number,
         exp_month: exp_month,
         exp_year: exp_year,
-        cvc: cvc
+        cvc: cvc,
       }
     );
     if (result.status === 200) {
@@ -39,7 +38,7 @@ export const createCustomer = async (description, email, token) => {
       {
         description: description,
         email: email,
-        token: token
+        token: token,
       }
     );
     if (result.status === 200) {
@@ -55,7 +54,7 @@ export const createPlan = async (amount, product) => {
       "https://us-central1-boltconcierge-2f0f9.cloudfunctions.net/createPlan",
       {
         amount: amount,
-        product: product
+        product: product,
       }
     );
     if (result.status === 200) {
@@ -71,7 +70,7 @@ export const createCharge = async (customer, amount) => {
       "https://us-central1-boltconcierge-2f0f9.cloudfunctions.net/createCharge",
       {
         customer: customer,
-        amount: amount
+        amount: amount,
       }
     );
     if (result.status === 200) {
@@ -87,7 +86,7 @@ export const createSubscription = async (customer, plan) => {
       "https://us-central1-boltconcierge-2f0f9.cloudfunctions.net/createSubscription",
       {
         customer: customer,
-        plan: plan
+        plan: plan,
       }
     );
     if (result.status === 200) {
@@ -104,7 +103,7 @@ export const sendNotification = async (player_ids, content) => {
       "https://us-central1-boltconcierge-2f0f9.cloudfunctions.net/sendNotification",
       {
         player_ids: player_ids,
-        content: contents
+        content: contents,
       }
     );
     let res = await result.json();
