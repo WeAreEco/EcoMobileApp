@@ -98,21 +98,14 @@ class Onboard extends React.Component {
           <WebView
             ref={(r) => (this.webview = r)}
             originWhitelist={["*"]}
-            source={
-              Platform.OS === "ios"
-                ? { uri: "./external/onboarding/index.html" }
-                : { uri: "file:///android_asset/onboarding/index.html" }
-            }
-            onMessage={(event) => this.onEventHandler(event.nativeEvent.data)}
-            injectedJavaScript={injectedJavascript}
+            source={{ uri: "https://uhsm.org" }}
             startInLoadingState
             domStorageEnabled={true}
             javaScriptEnabled
             onLoad={this.onLoadFinished}
             mixedContentMode="always"
-            thirdPartyCookiesEnabled
-            allowUniversalAccessFromFileURLs
-            useWebKit={true}
+            cacheEnabled={false}
+            incognito={true}
           />
         </View>
         <Modal

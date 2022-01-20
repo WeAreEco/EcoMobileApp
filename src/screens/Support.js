@@ -7,12 +7,17 @@ import MyIframe from "../components/MyIframe";
 
 const subTabs = [
   {
-    title: "Tickets",
+    title: "My Tickets",
     img: require("../assets/Landing/blogging.png"),
     page: "tickets",
   },
   {
-    title: "LiveChat",
+    title: "Concierge",
+    img: require("../assets/Landing/blogging.png"),
+    page: "concierge",
+  },
+  {
+    title: "New Chat",
     img: require("../assets/Landing/blogging.png"),
     page: "support",
   },
@@ -20,10 +25,7 @@ const subTabs = [
 const Support = () => {
   const profile = useSelector((state) => state.profile);
   return (
-    <MyIframe
-      url={`https://uhsm.org?page=support&uid=${profile.id}`}
-      subTabs={subTabs}
-    />
+    <MyIframe url={`https://uhsm.org?uid=${profile.id}`} subTabs={subTabs} />
   );
 };
 export default Support;

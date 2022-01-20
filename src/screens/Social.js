@@ -7,11 +7,31 @@ import MyIframe from "../components/MyIframe";
 
 const Stack = createStackNavigator();
 const subTabs = [
-  { title: "Forum", img: require("../assets/Landing/blogging.png") },
-  { title: "Hot", img: require("../assets/Landing/blogging.png") },
-  { title: "Articles", img: require("../assets/Landing/blogging.png") },
-  { title: "Polls", img: require("../assets/Landing/blogging.png") },
-  { title: "Events", img: require("../assets/Landing/blogging.png") },
+  {
+    title: "Forum",
+    img: require("../assets/Landing/blogging.png"),
+    page: "feeds",
+  },
+  {
+    title: "Hot",
+    img: require("../assets/Landing/blogging.png"),
+    page: "feeds",
+  },
+  {
+    title: "Articles",
+    img: require("../assets/Landing/blogging.png"),
+    page: "feeds",
+  },
+  {
+    title: "Polls",
+    img: require("../assets/Landing/blogging.png"),
+    page: "polls",
+  },
+  {
+    title: "Events",
+    img: require("../assets/Landing/blogging.png"),
+    page: "events",
+  },
 ];
 
 const Social = () => {
@@ -23,6 +43,7 @@ const Social = () => {
         children={(props) => (
           <MyIframe
             url={`https://uhsm.org?page=feeds&uid=${profile.id}`}
+            iframeStyle={{ zIndex: 100, marginTop: -70 }}
             {...props}
           />
         )}
@@ -33,6 +54,7 @@ const Social = () => {
         children={(props) => (
           <MyIframe
             url={`https://uhsm.org?page=feeds&uid=${profile.id}`}
+            iframeStyle={{ zIndex: 100, marginTop: -70 }}
             {...props}
           />
         )}
@@ -43,6 +65,7 @@ const Social = () => {
         children={(props) => (
           <MyIframe
             url={`https://uhsm.org?page=feeds&uid=${profile.id}`}
+            iframeStyle={{ zIndex: 100, marginTop: -70 }}
             {...props}
           />
         )}
@@ -53,6 +76,7 @@ const Social = () => {
         children={(props) => (
           <MyIframe
             url={`https://uhsm.org?page=polls&uid=${profile.id}`}
+            iframeStyle={{ zIndex: 100, marginTop: -70 }}
             {...props}
           />
         )}
@@ -63,6 +87,7 @@ const Social = () => {
         children={(props) => (
           <MyIframe
             url={`https://uhsm.org?page=polls&uid=${profile.id}`}
+            iframeStyle={{ zIndex: 100, marginTop: -70 }}
             {...props}
           />
         )}

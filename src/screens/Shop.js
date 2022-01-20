@@ -22,10 +22,7 @@ const subTabs = [
 const Shop = () => {
   const profile = useSelector((state) => state.profile);
   return (
-    <MyIframe
-      url={`https://uhsm.org?page=ecopay&uid=${profile.id}`}
-      subTabs={subTabs}
-    />
+    <MyIframe url={`https://uhsm.org?uid=${profile.id}`} subTabs={subTabs} />
   );
 };
 export default Shop;

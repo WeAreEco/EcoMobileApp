@@ -38,6 +38,7 @@ const PhoneCode = () => {
   };
   const checkSMS = () => {
     const { phone, pin } = route.params ? route.params : null;
+    console.log("phone", phone);
     if (code === pin || phone === "+44528834523") {
       const basicInfo = {
         firstname: "",

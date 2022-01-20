@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import IconMenu from "./IconMenu";
 
-const SubTabs = ({ tabs }) => {
-  const navigation = useNavigation();
+const SubTabs = ({ tabs, onPress }) => {
+  const [selected, setSelected] = useState(0);
   const renderItem = ({ item, index }) => {
     return (
       <IconMenu
@@ -19,8 +19,10 @@ const SubTabs = ({ tabs }) => {
         key={index}
         PressItem={() => {
           const { page } = item;
+          onPress(page);
+          setSelected(index);
         }}
-        selected={0}
+        selected={selected}
         position={index}
       />
     );

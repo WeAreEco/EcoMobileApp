@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../theme/Colors";
@@ -9,12 +9,16 @@ import PhoneInput from "react-native-phone-number-input";
 // import PhoneInput from "react-native-phone-input";
 import Metrics from "../../theme/Metrics";
 import { doSMS } from "../../functions/Auth";
-import { clearZero } from "../../utils/functions";
 const SignIn = () => {
   const [value, setValue] = useState("");
+  const [countryCode, setCountryCode] = useState("1");
   const [phoneNumber, setphoneNumber] = useState("");
   const phoneInput = useRef(null);
   const navigation = useNavigation();
+  useEffect(() => {
+    const phone = "+" + countryCode + value;
+    setphoneNumber(phone);
+  }, [countryCode, value]);
   const createPincode = () => {
     return Math.floor(10000 + Math.random() * 90000);
   };
@@ -28,11 +32,7 @@ const SignIn = () => {
     let pin = createPincode();
     pin = pin.toString();
     console.log("/// pin", pin);
-
-    console.log("/// phonenumber", phoneNumber);
-
     doSMS(phoneNumber, pin, "WeShare");
-
     navigateTo("PhoneCode", { phone: phoneNumber, pin: pin });
   };
   return (
@@ -44,11 +44,10 @@ const SignIn = () => {
         defaultValue={value}
         defaultCode="US"
         onChangeText={(text) => {
-          setValue(text);
+          if (text.charAt(0) === "0") setValue(text.replace("0", ""));
+          else setValue(text);
         }}
-        onChangeFormattedText={(text) => {
-          setphoneNumber(text);
-        }}
+        onChangeCountry={(country) => setCountryCode(country.callingCode)}
         containerStyle={{ marginTop: 50 }}
         withDarkTheme
         withShadow

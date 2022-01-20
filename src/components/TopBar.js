@@ -18,7 +18,6 @@ const TopBar = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
-  console.log("profile", profile);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   const logOut = () => {
@@ -54,7 +53,7 @@ const TopBar = () => {
           {(profile && (profile.tokens || 0) - (profile.tokenSpent || 0)) || 0}
         </Text>
       </TouchableOpacity>
-      <View style={{ zIndex: 100, marginTop: 2 }}>
+      <View style={{ zIndex: 100 }}>
         <Provider>
           <View>
             <Menu
@@ -93,6 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     zIndex: 100,
     position: "relative",
+    backgroundColor: "white",
   },
   tokenIcon: {
     height: 40,

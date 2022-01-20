@@ -77,10 +77,16 @@ class Landing extends React.Component {
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Insider access, perks, savings & subscriptions.{"\n"}Earn tokens
-              to spend on all walks of life.{"\n"}Own your life & data with your
-              blockchain iD.{"\n"}Live your best life with the help of
-              community.
+              Process your USHM reimbursements for healthcare.
+            </Text>
+            <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
+              Insider access to content, perks, offers and savings.
+            </Text>
+            <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
+              Earn social tokens to spend across all walks of life.
+            </Text>
+            <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
+              Share tokens and love with your friends and family.
             </Text>
             <TouchableOpacity
               onPress={this.joinMember}
@@ -106,7 +112,7 @@ class Landing extends React.Component {
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Those who have joined the club.
+              Those who have joined the community.
             </Text>
             <TouchableOpacity
               onPress={this.signIn}
@@ -158,7 +164,7 @@ const Styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: colors.cardborder,
   },
-  Title: { fontSize: 30, fontFamily: "Gothic A1", fontWeight: "200" },
+  Title: { fontSize: 27, fontFamily: "Gothic A1", fontWeight: "200" },
   SubTitle: {
     fontSize: 12,
     fontFamily: "Gothic A1",
