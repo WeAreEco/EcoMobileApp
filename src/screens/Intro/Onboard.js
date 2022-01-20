@@ -98,7 +98,7 @@ class Onboard extends React.Component {
           <WebView
             ref={(r) => (this.webview = r)}
             originWhitelist={["*"]}
-            source={{ uri: "https://uhsm.org" }}
+            source={{ uri: "https://uhsm.org?page=signup" }}
             startInLoadingState
             domStorageEnabled={true}
             javaScriptEnabled
