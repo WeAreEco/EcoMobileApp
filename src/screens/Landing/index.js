@@ -59,7 +59,7 @@ class Landing extends React.Component {
         <Logo />
         <View
           style={{
-            marginTop: 20,
+            marginTop: 120,
             width: "100%",
             height: "80%",
             display: "flex",
@@ -73,7 +73,7 @@ class Landing extends React.Component {
               Join UHSM community
             </Text>
             <Image
-              source={require("../../assets/Landing/blogging.png")}
+              source={require("../../assets/Landing/join.png")}
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
@@ -108,7 +108,7 @@ class Landing extends React.Component {
               Already a member
             </Text>
             <Image
-              source={require("../../assets/Landing/blogging.png")}
+              source={require("../../assets/Landing/already_member.png")}
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>

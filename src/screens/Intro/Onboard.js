@@ -74,18 +74,30 @@ class Onboard extends React.Component {
     console.log("username", username);
     return (
       <View
+        // style={{
+        //   width: "100%",
+        //   padding: 20,
+        //   flex: 1,
+        //   height: Metrics.screenHeight,
+        //   alignItems: "center",
+        //   backgroundColor: colors.lightgrey,
+        // }}
         style={{
           flex: 1,
+          paddingTop: 20,
+          width: "100%",
+          height: Metrics.screenHeight,
           alignItems: "center",
-          backgroundColor: colors.white,
+          backgroundColor: colors.lightgrey,
         }}
       >
+        <Logo />
         <View
           style={{
             display: "flex",
             alignItems: "flex-start",
             position: "absolute",
-            top: 45,
+            top: 75,
             left: 10,
             zIndex: 1000,
           }}
@@ -261,9 +273,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Metrics.screenWidth,
     height: Metrics.screenHeight,
-    paddingTop: 20,
-    marginTop: 70,
-    backgroundColor: colors.white,
+    marginTop: 120,
+    backgroundColor: colors.lightgrey,
     overflow: "hidden",
   },
   subcontainer: {

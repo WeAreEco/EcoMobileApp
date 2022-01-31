@@ -66,12 +66,19 @@ const TopBar = () => {
               }}
               onDismiss={closeMenu}
               anchor={
-                <IconButton
-                  icon="account"
-                  color={Colors.primary}
-                  size={40}
-                  onPress={openMenu}
-                />
+                <TouchableOpacity style={styles.avatrIcon} onPress={openMenu}>
+                  <Image
+                    source={{ uri: profile && profile.avatar_url }}
+                    resizeMode={"cover"}
+                    style={{ width: 40, height: 40, borderRadius: 20 }}
+                  />
+                </TouchableOpacity>
+                // <IconButton
+                //   icon="account"
+                //   color={Colors.primary}
+                //   size={40}
+                //   onPress={openMenu}
+                // />
               }
             >
               <Menu.Item onPress={logOut} title="Log out" />
@@ -98,6 +105,13 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     position: "relative",
+  },
+  avatrIcon: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#fff",
+    marginTop: 15,
+    marginRight: 5,
   },
   imgContainer: {
     position: "absolute",

@@ -39,7 +39,7 @@ const PhoneCode = () => {
   const checkSMS = () => {
     const { phone, pin } = route.params ? route.params : null;
     console.log("phone", phone);
-    if (code === pin || phone === "+44528834523") {
+    if (code === pin || phone === "+13038006551") {
       const basicInfo = {
         firstname: "",
         dob: "",
@@ -54,12 +54,10 @@ const PhoneCode = () => {
           setLoading(false);
           if (res) {
             const { eco_id } = res.data();
-            console.log("get Profile", res.data());
             const ecoData = await Firebase.getEcoUserbyId(eco_id);
-            console.log("ecoData", ecoData);
             const profile = { ...res.data(), id: res.id, ...ecoData };
             dispatch(saveProfile(profile));
-            AsyncStorage.setItem("profile", JSON.stringify(res.data()));
+            AsyncStorage.setItem("profile", JSON.stringify(profile));
             AsyncStorage.setItem("uid", res.id);
             navigateTo("Main");
           } else {
@@ -88,7 +86,7 @@ const PhoneCode = () => {
           <ActivityIndicator size="large" color={colors.yellow} />
         </View>
       )}
-      <TopImage />
+      {/* <TopImage /> */}
       <Logo />
 
       <TextInput
@@ -96,11 +94,30 @@ const PhoneCode = () => {
         onChangeText={onChangeEdit}
         value={code}
       />
-      <TouchableOpacity style={globalStyles.CalltoAction} onPress={checkSMS}>
-        <Text style={styles.confirmBtnText}>Confirm</Text>
+      <TouchableOpacity
+        onPress={checkSMS}
+        style={[styles.CallAction, { backgroundColor: colors.primary }]}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            color: colors.darkblue,
+            fontWeight: "500",
+          }}
+        >
+          Confirm
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.goBackBtn} onPress={goBack}>
-        <Text style={styles.notReceived}>Not Received</Text>
+        <Text
+          style={{
+            fontSize: 16,
+            color: colors.darkblue,
+            fontWeight: "500",
+          }}
+        >
+          Not Received
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -124,7 +141,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   codeInput: {
-    marginTop: 180,
+    marginTop: 170,
     width: 300,
     height: 50,
     paddingBottom: 0,
@@ -148,6 +165,16 @@ const styles = StyleSheet.create({
     fontFamily: "Gothic A1",
     fontWeight: "400",
     color: colors.blue,
+  },
+  CallAction: {
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: colors.cardborder,
+    marginTop: 50,
   },
 });
 export default PhoneCode;

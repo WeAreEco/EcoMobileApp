@@ -76,7 +76,12 @@ const AppContainer = () => {
       />
       <Tab.Screen
         name="Shop"
-        component={Shop}
+        children={(props) => (
+          <MyIframe
+            url={`https://uhsm.org?page=mobile-shop&uid=${profile.id}`}
+            {...props}
+          />
+        )}
         options={{
           tabBarLabel: "Shop",
           tabBarIcon: () => (
@@ -114,7 +119,12 @@ const AppContainer = () => {
       />
       <Tab.Screen
         name="Support"
-        component={Support}
+        children={(props) => (
+          <MyIframe
+            url={`https://uhsm.org?page=sector-concierge&uid=${profile.id}`}
+            {...props}
+          />
+        )}
         options={{
           tabBarLabel: "Support",
           tabBarIcon: () => (

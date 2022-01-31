@@ -23,7 +23,8 @@ export default class Bubble extends React.Component {
 }
 const Styles = StyleSheet.create({
   logoContainer: {
-    marginTop: 50,
+    position: "absolute",
+    top: 50,
     width: 80,
     height: 80,
   },

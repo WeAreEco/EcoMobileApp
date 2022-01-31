@@ -32,12 +32,11 @@ const SignIn = () => {
     let pin = createPincode();
     pin = pin.toString();
     console.log("/// pin", pin);
-    doSMS(phoneNumber, pin, "WeShare");
+    if (phoneNumber !== "+13038006551") doSMS(phoneNumber, pin, "WeShare");
     navigateTo("PhoneCode", { phone: phoneNumber, pin: pin });
   };
   return (
     <View style={styles.container}>
-      <TopImage />
       <Logo />
       <PhoneInput
         ref={phoneInput}
@@ -48,16 +47,36 @@ const SignIn = () => {
           else setValue(text);
         }}
         onChangeCountry={(country) => setCountryCode(country.callingCode)}
-        containerStyle={{ marginTop: 50 }}
+        containerStyle={{ marginTop: 170 }}
         withDarkTheme
         withShadow
         autoFocus
       />
-      <TouchableOpacity style={globalStyles.CalltoAction} onPress={signIn}>
-        <Text style={styles.signInText}>Sign In</Text>
+      <TouchableOpacity
+        onPress={signIn}
+        style={[styles.CallAction, { backgroundColor: colors.primary }]}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            color: colors.darkblue,
+            fontWeight: "500",
+          }}
+        >
+          Sign In
+        </Text>
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
-        <Text style={styles.goBackText}>Back</Text>
+        <Text
+          style={{
+            fontSize: 16,
+            color: colors.darkblue,
+            fontWeight: "500",
+          }}
+        >
+          Back
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -97,6 +116,16 @@ const styles = StyleSheet.create({
     fontFamily: "Gothic A1",
     fontWeight: "400",
     color: colors.blue,
+  },
+  CallAction: {
+    width: "80%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: colors.cardborder,
+    marginTop: 50,
   },
 });
 export default SignIn;
