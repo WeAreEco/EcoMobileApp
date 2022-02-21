@@ -258,6 +258,20 @@ class Firebase {
       else return null;
     });
   }
+  static getPremierTokenHistory = (brand_name, uid) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .firestore()
+        .collection(brand_name)
+        .doc("data")
+        .collection("user")
+        .doc(`${uid}`)
+        .collection("premier_token_history")
+        .onSnapshot((res) => {
+          resolve(res.docs.map((obj) => obj.data()));
+        });
+    });
+  };
   static async getAllUsers() {
     const snapshot = await firebase.firestore().collection("user").get();
     return snapshot.docs.map((item) => {

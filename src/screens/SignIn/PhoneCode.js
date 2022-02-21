@@ -55,7 +55,20 @@ const PhoneCode = () => {
           if (res) {
             const { eco_id } = res.data();
             const ecoData = await Firebase.getEcoUserbyId(eco_id);
-            const profile = { ...res.data(), id: res.id, ...ecoData };
+            const premier_token = (
+              await Firebase.getPremierTokenHistory("WeShare", res.id)
+            ).reduce(
+              (previousValue, currentValue) =>
+                previousValue.amount + currentValue,
+              0
+            );
+            console.log("premier_token", premier_token);
+            const profile = {
+              ...res.data(),
+              id: res.id,
+              ...ecoData,
+              premier_token,
+            };
             dispatch(saveProfile(profile));
             AsyncStorage.setItem("profile", JSON.stringify(profile));
             AsyncStorage.setItem("uid", res.id);
@@ -63,8 +76,8 @@ const PhoneCode = () => {
           } else {
             Alert.alert(
               "Error",
-              "You need to join as a member first.",
-              [{ text: "OK", onPress: () => navigateTo("Landing") }],
+              "Hmmm, we can't fine your info. Check your cell number.",
+              [{ text: "OK", onPress: () => navigateTo("SignIn") }],
               { cancelable: false }
             );
           }
@@ -83,12 +96,34 @@ const PhoneCode = () => {
     <View style={styles.container}>
       {loading && (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={colors.yellow} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       )}
-      {/* <TopImage /> */}
       <Logo />
-
+      <Text
+        style={{
+          fontSize: 25,
+          color: colors.darkblue,
+          fontWeight: "500",
+          position: "absolute",
+          top: 170,
+        }}
+      >
+        Verify the sms code.
+      </Text>
+      <Text
+        style={{
+          width: "70%",
+          fontSize: 17,
+          color: colors.darkblue,
+          fontWeight: "500",
+          position: "absolute",
+          top: 210,
+          textAlign: "center",
+        }}
+      >
+        Please enter the code we sent to you via sms.
+      </Text>
       <TextInput
         style={styles.codeInput}
         onChangeText={onChangeEdit}
@@ -100,7 +135,7 @@ const PhoneCode = () => {
       >
         <Text
           style={{
-            fontSize: 16,
+            fontSize: 14,
             color: colors.darkblue,
             fontWeight: "500",
           }}
@@ -141,7 +176,8 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   codeInput: {
-    marginTop: 170,
+    position: "absolute",
+    top: 300,
     width: 300,
     height: 50,
     paddingBottom: 0,
@@ -158,7 +194,8 @@ const styles = StyleSheet.create({
   },
   goBackBtn: {
     backgroundColor: "transparent",
-    marginTop: 50,
+    position: "absolute",
+    top: 500,
   },
   notReceived: {
     fontSize: 25,
@@ -167,14 +204,16 @@ const styles = StyleSheet.create({
     color: colors.blue,
   },
   CallAction: {
-    width: "80%",
+    width: 230,
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
     borderRadius: 10,
     borderWidth: 0.5,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderColor: colors.cardborder,
-    marginTop: 50,
+    position: "absolute",
+    top: 400,
   },
 });
 export default PhoneCode;

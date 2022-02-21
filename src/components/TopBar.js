@@ -29,31 +29,59 @@ const TopBar = () => {
   };
   return (
     <View style={styles.maincontainer}>
-      <IconButton
-        icon="home"
-        color={Colors.primary}
-        size={40}
-        onPress={() => navigation.navigate("Explore")}
-      />
+      <View style={styles.groupcontainer}>
+        <IconButton
+          icon="home"
+          color={Colors.primary}
+          size={40}
+          style={{ margin: 2, padding: 0, width: 40, height: 40 }}
+          onPress={() => navigation.navigate("Explore")}
+        />
+        <IconButton
+          icon="logout"
+          color={Colors.primary}
+          size={40}
+          style={{ margin: 2, padding: 0, width: 40, height: 40 }}
+          onPress={logOut}
+        />
+      </View>
+
       <Image
         style={styles.logoContainer}
         resizeMode={"stretch"}
         source={require("../assets/uhsm_logo.png")}
       />
-      <TouchableOpacity
-        style={styles.tokenIcon}
-        onPress={() => navigation.navigate("Wallet")}
-      >
-        <Image
-          source={require("../assets/icon_tokens.png")}
-          resizeMode={"contain"}
-          style={styles.imgContainer}
-        />
-        <Text style={styles.textContainer}>
-          {(profile && (profile.tokens || 0) - (profile.tokenSpent || 0)) || 0}
-        </Text>
-      </TouchableOpacity>
-      <View style={{ zIndex: 100 }}>
+      <View style={styles.groupcontainer}>
+        <TouchableOpacity
+          style={styles.tokenIcon}
+          onPress={() => navigation.navigate("Wallet")}
+        >
+          <Image
+            source={require("../assets/premier_token.png")}
+            resizeMode={"contain"}
+            style={styles.imgContainer}
+          />
+          <Text style={styles.textContainer}>
+            {profile && (profile.premier_token || 0)}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tokenIcon}
+          onPress={() => navigation.navigate("Wallet")}
+        >
+          <Image
+            source={require("../assets/shopping_token.png")}
+            resizeMode={"contain"}
+            style={styles.imgContainer}
+          />
+          <Text style={styles.textContainer}>
+            {(profile && (profile.tokens || 0) - (profile.tokenSpent || 0)) ||
+              0}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* <View style={{ zIndex: 100 }}>
         <Provider>
           <View>
             <Menu
@@ -85,18 +113,24 @@ const TopBar = () => {
             </Menu>
           </View>
         </Provider>
-      </View>
+      </View> */}
     </View>
   );
 };
 const styles = StyleSheet.create({
-  maincontainer: {
-    width: "100%",
-    height: 70,
+  groupcontainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
+  },
+  maincontainer: {
+    width: "100%",
+    height: 50,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
     zIndex: 100,
     position: "relative",
     backgroundColor: "white",
@@ -104,6 +138,7 @@ const styles = StyleSheet.create({
   tokenIcon: {
     height: 40,
     width: 40,
+    margin: 2,
     position: "relative",
   },
   avatrIcon: {
@@ -133,8 +168,8 @@ const styles = StyleSheet.create({
     height: 40,
   },
   logoContainer: {
-    width: 160,
-    height: 50,
+    width: 120,
+    height: 40,
   },
 });
 export default TopBar;

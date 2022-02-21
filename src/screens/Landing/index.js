@@ -77,16 +77,10 @@ class Landing extends React.Component {
               style={{ width: 60, height: 60 }}
             />
             <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Process your USHM reimbursements for healthcare.
-            </Text>
-            <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Insider access to content, perks, offers and savings.
-            </Text>
-            <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Earn social tokens to spend across all walks of life.
-            </Text>
-            <Text style={[Styles.SubTitle, { color: colors.darkblue }]}>
-              Share tokens and love with your friends and family.
+              Process your USHM reimbursements for healthcare.{"\n"} Insider
+              access to content, perks, offers and savings.{"\n"} Earn social
+              tokens to spend across all walks of life.{"\n"} Share tokens and
+              love with your friends and family.
             </Text>
             <TouchableOpacity
               onPress={this.joinMember}
@@ -94,7 +88,7 @@ class Landing extends React.Component {
             >
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 14,
                   color: colors.darkblue,
                   fontWeight: "500",
                 }}
@@ -120,7 +114,7 @@ class Landing extends React.Component {
             >
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 14,
                   color: colors.darkblue,
                   fontWeight: "500",
                 }}
@@ -138,7 +132,7 @@ const Styles = StyleSheet.create({
   SignInContainer: {
     backgroundColor: colors.white,
     borderRadius: 10,
-    height: 250,
+    height: Metrics.screenHeight / 3,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -152,7 +146,7 @@ const Styles = StyleSheet.create({
   JoinProfileContainer: {
     backgroundColor: colors.grey,
     borderRadius: 10,
-    height: 280,
+    height: Metrics.screenHeight / 3,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -164,19 +158,21 @@ const Styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: colors.cardborder,
   },
-  Title: { fontSize: 27, fontFamily: "Gothic A1", fontWeight: "200" },
+  Title: { fontSize: 20, fontFamily: "Gothic A1", fontWeight: "200" },
   SubTitle: {
     fontSize: 12,
     fontFamily: "Gothic A1",
     textAlign: "center",
+    lineHeight: 17,
   },
   CallAction: {
-    width: "80%",
+    width: 230,
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
     borderRadius: 10,
     borderWidth: 0.5,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderColor: colors.cardborder,
   },
 });

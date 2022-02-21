@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 import Social from "./src/screens/Social";
 import Shop from "./src/screens/Shop";
@@ -9,12 +9,12 @@ import MyIframe from "./src/components/MyIframe";
 
 import colors from "./src/theme/Colors";
 
-const iconExplore = require("./src/assets/routing/home.png");
-const iconSocial = require("./src/assets/routing/social.png");
-const iconShop = require("./src/assets/routing/shop.png");
-const iconWallet = require("./src/assets/routing/wallet.png");
-const iconiD = require("./src/assets/routing/iD.png");
-const iconSupport = require("./src/assets/routing/support.png");
+const iconExplore = require("./src/assets/routing/white_explore.png");
+const iconSocial = require("./src/assets/routing/white_social.png");
+const iconShop = require("./src/assets/routing/white_shop.png");
+const iconWallet = require("./src/assets/routing/white_wallet.png");
+const iconiD = require("./src/assets/routing/white_iD.png");
+const iconSupport = require("./src/assets/routing/white_support.png");
 
 const walletTabs = [
   { title: "Tokens", img: require("./src/assets/Landing/blogging.png") },
@@ -28,15 +28,17 @@ const Tab = createBottomTabNavigator();
 
 const AppContainer = () => {
   const profile = useSelector((state) => state.profile);
+  const brand = useSelector((state) => state.brand);
   return profile ? (
     <Tab.Navigator
       initialRouteName="Explore"
       tabBarPosition="bottom"
       tabBarOptions={{
         showLabel: true,
-        activeTintColor: "#000000",
+        activeTintColor: "#FFFFFF",
         style: {
-          backgroundColor: "#FFFFFF",
+          backgroundColor: brand.hex || "#FFFFFF",
+          color: "white",
           // height: 60,
           borderTopColor: "transparent",
           shadowOffset: {
@@ -48,6 +50,14 @@ const AppContainer = () => {
           elevation: 3,
         },
       }}
+      screenOptions={({ route }) => ({
+        tabBarButton:
+          route.name === "Explore"
+            ? () => {
+                return null;
+              }
+            : undefined,
+      })}
     >
       <Tab.Screen
         name="Explore"
@@ -57,50 +67,24 @@ const AppContainer = () => {
             {...props}
           />
         )}
-        options={{
-          tabBarLabel: "Explore",
-          tabBarIcon: () => (
-            <Image source={iconExplore} style={styles.tabBarIcon} />
-          ),
-        }}
       />
       <Tab.Screen
-        name="Social"
+        name="Feeds"
         component={Social}
         options={{
-          tabBarLabel: "Social",
-          tabBarIcon: () => (
-            <Image source={iconSocial} style={styles.tabBarIcon} />
+          tabBarLabel: ({ focused }) => (
+            <Text
+              style={{
+                color: "white",
+                fontSize: 11,
+                fontWeight: focused ? "500" : "200",
+              }}
+            >
+              Explore
+            </Text>
           ),
-        }}
-      />
-      <Tab.Screen
-        name="Shop"
-        children={(props) => (
-          <MyIframe
-            url={`https://uhsm.org?page=mobile-shop&uid=${profile.id}`}
-            {...props}
-          />
-        )}
-        options={{
-          tabBarLabel: "Shop",
           tabBarIcon: () => (
-            <Image source={iconShop} style={styles.tabBarIcon} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Wallet"
-        children={(props) => (
-          <MyIframe
-            url={`https://uhsm.org?page=wallets&uid=${profile.id}`}
-            {...props}
-          />
-        )}
-        options={{
-          tabBarLabel: "Wallet",
-          tabBarIcon: () => (
-            <Image source={iconWallet} style={styles.tabBarIcon} />
+            <Image source={iconExplore} style={styles.exploreIcon} />
           ),
         }}
       />
@@ -113,12 +97,16 @@ const AppContainer = () => {
           />
         )}
         options={{
-          tabBarLabel: "iD",
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: "white", fontSize: focused ? 13 : 11 }}>
+              iD
+            </Text>
+          ),
           tabBarIcon: () => <Image source={iconiD} style={styles.tabBarIcon} />,
         }}
       />
       <Tab.Screen
-        name="Support"
+        name="Refund"
         children={(props) => (
           <MyIframe
             url={`https://uhsm.org?page=sector-concierge&uid=${profile.id}`}
@@ -126,9 +114,70 @@ const AppContainer = () => {
           />
         )}
         options={{
-          tabBarLabel: "Support",
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: "white", fontSize: focused ? 13 : 11 }}>
+              Refund
+            </Text>
+          ),
           tabBarIcon: () => (
             <Image source={iconSupport} style={styles.tabBarIcon} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Earn"
+        children={(props) => (
+          <MyIframe
+            url={`https://uhsm.org?page=earn&uid=${profile.id}`}
+            {...props}
+          />
+        )}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: "white", fontSize: focused ? 13 : 11 }}>
+              Earn
+            </Text>
+          ),
+          tabBarIcon: () => (
+            <Image source={iconSocial} style={styles.tabBarIcon} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Wallet"
+        children={(props) => (
+          <MyIframe
+            url={`https://uhsm.org?page=wallets&uid=${profile.id}`}
+            {...props}
+          />
+        )}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: "white", fontSize: focused ? 13 : 11 }}>
+              Wallet
+            </Text>
+          ),
+          tabBarIcon: () => (
+            <Image source={iconWallet} style={styles.tabBarIcon} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Shop"
+        children={(props) => (
+          <MyIframe
+            url={`https://uhsm.org?page=ecopay&uid=${profile.id}`}
+            {...props}
+          />
+        )}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: "white", fontSize: focused ? 13 : 11 }}>
+              Shop
+            </Text>
+          ),
+          tabBarIcon: () => (
+            <Image source={iconShop} style={styles.tabBarIcon} />
           ),
         }}
       />
@@ -140,6 +189,11 @@ const styles = StyleSheet.create({
   tabBarIcon: {
     width: 25,
     height: 25,
+    resizeMode: "contain",
+  },
+  exploreIcon: {
+    width: 22,
+    height: 22,
     resizeMode: "contain",
   },
 });

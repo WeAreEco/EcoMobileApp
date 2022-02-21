@@ -50,8 +50,10 @@ const MyIframe = ({ url, iframeStyle, subTabs }) => {
         source={{
           uri: page ? `${url}&page=${page}` : url,
         }}
+        useWebKit={true}
         style={iframeStyle}
-        automaticallyAdjustContentInsets={false}
+        allowsInlineMediaPlayback={true}
+        // automaticallyAdjustContentInsets={false}
         renderLoading={renderLoading}
         startInLoadingState
         onLoad={onLoadIframeFinished}
