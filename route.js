@@ -1,13 +1,15 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image, StyleSheet, Text } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-community/async-storage";
 import Social from "./src/screens/Social";
 import Shop from "./src/screens/Shop";
 import Support from "./src/screens/Support";
 import MyIframe from "./src/components/MyIframe";
-
+import Firebase from "./src/firebasehelper";
 import colors from "./src/theme/Colors";
+import { saveProfile } from "./src/Redux/actions/index";
 
 const iconExplore = require("./src/assets/routing/white_explore.png");
 const iconSocial = require("./src/assets/routing/white_social.png");
@@ -25,10 +27,45 @@ const supportTabs = [
   { title: "LiveChat", img: require("./src/assets/Landing/blogging.png") },
 ];
 const Tab = createBottomTabNavigator();
-
+const baseUrl = "https://uhsm.org";
 const AppContainer = () => {
+  const dispatch = useDispatch();
+  const uid = useSelector((state) => state.uid);
   const profile = useSelector((state) => state.profile);
   const brand = useSelector((state) => state.brand);
+  useEffect(() => {
+    function fetchUserProfile() {
+      Firebase.subscribeUserData(uid, async (res) => {
+        if (res) {
+          const { eco_id } = res;
+          const ecoData = await Firebase.getEcoUserbyId(eco_id);
+          let production_ptoken = 0;
+          let sandbox_ptoken = 0;
+          const histories = await Firebase.getPremierTokenHistory(
+            "WeShare",
+            uid
+          );
+          histories.map((history) => {
+            const { amount, environment } = history;
+            environment === "production"
+              ? (production_ptoken += amount)
+              : (sandbox_ptoken += amount);
+          });
+          const payload = {
+            ...res,
+            id: uid,
+            ...ecoData,
+            premier_token: -production_ptoken,
+          };
+          dispatch(saveProfile(payload));
+          // AsyncStorage.setItem("profile", JSON.stringify(profile));
+          // AsyncStorage.setItem("uid", res.id);
+        }
+      });
+    }
+    if (uid) fetchUserProfile();
+  }, [uid]);
+
   return profile ? (
     <Tab.Navigator
       initialRouteName="Explore"
@@ -63,7 +100,7 @@ const AppContainer = () => {
         name="Explore"
         children={(props) => (
           <MyIframe
-            url={`https://uhsm.org?page=explore&uid=${profile.id}`}
+            url={`${baseUrl}?page=explore&uid=${profile.id}`}
             {...props}
           />
         )}
@@ -92,7 +129,7 @@ const AppContainer = () => {
         name="iD"
         children={(props) => (
           <MyIframe
-            url={`https://uhsm.org?page=profile&uid=${profile.id}`}
+            url={`${baseUrl}?page=profile&uid=${profile.id}`}
             {...props}
           />
         )}
@@ -109,7 +146,7 @@ const AppContainer = () => {
         name="Refund"
         children={(props) => (
           <MyIframe
-            url={`https://uhsm.org?page=sector-concierge&uid=${profile.id}`}
+            url={`${baseUrl}?page=sector-concierge&uid=${profile.id}`}
             {...props}
           />
         )}
@@ -127,10 +164,7 @@ const AppContainer = () => {
       <Tab.Screen
         name="Earn"
         children={(props) => (
-          <MyIframe
-            url={`https://uhsm.org?page=earn&uid=${profile.id}`}
-            {...props}
-          />
+          <MyIframe url={`${baseUrl}?page=earn&uid=${profile.id}`} {...props} />
         )}
         options={{
           tabBarLabel: ({ focused }) => (
@@ -147,7 +181,7 @@ const AppContainer = () => {
         name="Wallet"
         children={(props) => (
           <MyIframe
-            url={`https://uhsm.org?page=wallets&uid=${profile.id}`}
+            url={`${baseUrl}?page=wallets&uid=${profile.id}`}
             {...props}
           />
         )}
@@ -166,7 +200,7 @@ const AppContainer = () => {
         name="Shop"
         children={(props) => (
           <MyIframe
-            url={`https://uhsm.org?page=ecopay&uid=${profile.id}`}
+            url={`${baseUrl}?page=ecopay&uid=${profile.id}`}
             {...props}
           />
         )}

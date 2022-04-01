@@ -85,6 +85,7 @@ class Landing extends React.Component {
             <TouchableOpacity
               onPress={this.joinMember}
               style={[Styles.CallAction, { backgroundColor: colors.primary }]}
+              disabled
             >
               <Text
                 style={{

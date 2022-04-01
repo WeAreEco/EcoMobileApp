@@ -27,11 +27,10 @@ const SignIn = () => {
     const number = phoneInput.current.getNumberAfterPossiblyEliminatingZero();
     const phoneNumber = number.formattedNumber;
     if (checkValid) {
-      console.log("phoneNumber", phoneNumber);
       let pin = createPincode();
       pin = pin.toString();
       console.log("/// pin", pin);
-      if (phoneNumber !== "+13038006551") doSMS(phoneNumber, pin, "WeShare");
+      doSMS(phoneNumber, pin, "UHSM");
       navigateTo("PhoneCode", { phone: phoneNumber, pin: pin });
     } else {
       Alert.alert("Error", "", [{ text: "OK" }], { cancelable: false });
@@ -49,7 +48,7 @@ const SignIn = () => {
           top: 170,
         }}
       >
-        Welcome back.
+        Welcome
       </Text>
       <Text
         style={{
@@ -100,7 +99,7 @@ const SignIn = () => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+      {/* <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
         <Text
           style={{
             fontSize: 16,
@@ -110,7 +109,7 @@ const SignIn = () => {
         >
           Back
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

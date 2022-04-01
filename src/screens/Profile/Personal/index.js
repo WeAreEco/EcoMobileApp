@@ -11,11 +11,11 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   ActivityIndicator,
-  Modal
+  Modal,
 } from "react-native";
-import AsyncStorage from '@react-native-community/async-storage';
-import { WebView } from 'react-native-webview';
-import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from "@react-native-community/async-storage";
+import { WebView } from "react-native-webview";
+import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ImagePicker from "react-native-image-picker";
@@ -30,7 +30,7 @@ import {
   isSession,
   isEmailValidate,
   isPasswordValidate,
-  isJsonOk
+  isJsonOk,
 } from "../../../utils/functions";
 const ok_img = require("../../../assets/success.png");
 const cross_img = require("../../../assets/error.png");
@@ -60,8 +60,8 @@ class PersonalProfile extends React.Component {
       basic: {
         firstname: "",
         dob: "",
-        phonenumber: ""
-      }
+        phonenumber: "",
+      },
     };
     this.toggleProfile = this.toggleProfile.bind(this);
     this.toggleError = this.toggleError.bind(this);
@@ -91,10 +91,9 @@ class PersonalProfile extends React.Component {
     if (nextProps.basic !== prevState.basic) {
       let basic = nextProps.basic;
       const { active } = basic;
-      if (active)
-        return ({ activated: true }) // <- this is setState equivalent
+      if (active) return { activated: true }; // <- this is setState equivalent
     }
-    return null
+    return null;
   }
   componentDidMount() {
     let _this = this;
@@ -105,7 +104,7 @@ class PersonalProfile extends React.Component {
       basic = {
         firstname: "test",
         dob: "08/12/1994",
-        phonenumber: "+971553818380"
+        phonenumber: "+971553818380",
       };
     } else {
       this.setState({ isloggedIn: true });
@@ -132,11 +131,11 @@ class PersonalProfile extends React.Component {
         skipBackup: true,
         path: "images",
         cameraRoll: true,
-        waitUntilSaved: true
-      }
+        waitUntilSaved: true,
+      },
     };
 
-    ImagePicker.showImagePicker(options, response => {
+    ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) {
         console.log("User cancelled photo picker");
       } else if (response.error) {
@@ -150,7 +149,7 @@ class PersonalProfile extends React.Component {
               ? response.uri
               : response.uri.replace("file://", ""),
           filePath: response.path,
-          fileName: response.fileName
+          fileName: response.fileName,
         };
 
         //let source = { uri: "data:image/jpeg;base64," + response.data };
@@ -158,7 +157,7 @@ class PersonalProfile extends React.Component {
         let source = { uri: response.uri };
 
         thisElement.setState({
-          ImageSource: source
+          ImageSource: source,
         });
         this.uploadImage(response.uri, uid);
       }
@@ -172,7 +171,7 @@ class PersonalProfile extends React.Component {
     window.Blob = Blob;
 
     return ImageResizer.createResizedImage(uri, 300, 300, "JPEG", 80)
-      .then(resizedImageUri => {
+      .then((resizedImageUri) => {
         const uploadUri =
           Platform.OS === "ios"
             ? resizedImageUri.uri.replace("file://", "")
@@ -181,16 +180,14 @@ class PersonalProfile extends React.Component {
         let mime = "image/jpg";
         let uploadBlob = null;
         const path = "avatars/";
-        const imageRef = Firebase.storage()
-          .ref(path)
-          .child(`${uid}.jpg`);
+        const imageRef = Firebase.storage().ref(path).child(`${uid}.jpg`);
 
         return fs
           .readFile(uploadUri, "base64")
-          .then(data => {
+          .then((data) => {
             return Blob.build(data, { type: `${mime};BASE64` });
           })
-          .then(blob => {
+          .then((blob) => {
             uploadBlob = blob;
             return imageRef.put(blob, { contentType: mime });
           })
@@ -198,28 +195,28 @@ class PersonalProfile extends React.Component {
             uploadBlob.close();
             return imageRef.getDownloadURL();
           })
-          .then(url => {
+          .then((url) => {
             console.log("url", url);
             window.XMLHttpRequest = tempWindowXMLHttpRequest;
             Firebase.pushProfileImage(uid, url)
-              .then(res => {
+              .then((res) => {
                 console.log("res", res);
                 this.props.dispatch(saveOnboarding(res));
                 AsyncStorage.setItem("profile", JSON.stringify(res));
               })
-              .catch(err => {
+              .catch((err) => {
                 console.log("error", err);
               });
           })
-          .catch(err => {
+          .catch((err) => {
             console.log("error", err);
           });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("error", err);
       });
   }
-  navigateTo = page => {
+  navigateTo = (page) => {
     this.props.navigation.navigate(page);
   };
   startProfileTest = () => {
@@ -235,7 +232,7 @@ class PersonalProfile extends React.Component {
     // console.log("LogOut,AsyncStorage", AsyncStorage.getItem("profile"));
     this.setState({ editable: true, isloggedIn: false });
     setTimeout(() => {
-      this.props.navigation.navigate("Landing");
+      this.props.navigation.navigate("SignIn");
     }, 1000);
   };
   onLoadFinished = () => {
@@ -245,7 +242,7 @@ class PersonalProfile extends React.Component {
       this.profiletest_webview.postMessage(JSON.stringify(basic));
     }
   };
-  onEventHandler = data => {};
+  onEventHandler = (data) => {};
   render() {
     const {
       firstname,
@@ -253,11 +250,11 @@ class PersonalProfile extends React.Component {
       phonenumber,
       activated,
       error_msg,
-      profiletest_webview
+      profiletest_webview,
     } = this.state;
     let basic = this.props.basic;
     let avatar_url = basic.avatar_url;
-    
+
     return (
       <View
         style={{
@@ -266,19 +263,19 @@ class PersonalProfile extends React.Component {
           flex: 1,
           // backgroundColor: colors.white,
           fontFamily: "Gothic A1",
-          marginTop: -60
+          marginTop: -60,
         }}
       >
         {profiletest_webview && (
           <WebView
-            ref={r => (this.profiletest_webview = r)}
+            ref={(r) => (this.profiletest_webview = r)}
             originWhitelist={["*"]}
             source={
               Platform.OS === "ios"
                 ? { uri: "./external/profile_test/index.html" }
                 : { uri: "file:///android_asset/profile_test/index.html" }
             }
-            onMessage={event => this.onEventHandler(event.nativeEvent.data)}
+            onMessage={(event) => this.onEventHandler(event.nativeEvent.data)}
             onLoad={this.onLoadFinished}
             startInLoadingState
             javaScriptEnabled
@@ -289,9 +286,9 @@ class PersonalProfile extends React.Component {
         )}
         {!profiletest_webview && (
           <KeyboardAwareScrollView
-            style={{ 
-              width: "100%", 
-              height: "100%",              
+            style={{
+              width: "100%",
+              height: "100%",
             }}
             contentContainerStyle={{ alignItems: "center" }}
           >
@@ -302,7 +299,6 @@ class PersonalProfile extends React.Component {
             >
               {/* Avatar & Name */}
               <View style={styles.ProfileWrapper}>
-
                 <View style={styles.ProfileInfoHeader}>
                   <Image
                     source={require(`../../../assets/Profile/profile_check.png`)}
@@ -324,19 +320,13 @@ class PersonalProfile extends React.Component {
                   />
                 </TouchableOpacity>
 
-                <Text style={styles.Name}>
-                  {firstname}
-                </Text>
+                <Text style={styles.Name}>{firstname}</Text>
 
-                <Text style={styles.Country}>
-                  London
-                </Text>
-                
+                <Text style={styles.Country}>London</Text>
               </View>
 
               {/* Profile Information */}
               <View style={styles.ProfileWrapper}>
-
                 <View style={styles.Section}>
                   <Image
                     source={require("../../../assets/phone.png")}
@@ -400,7 +390,6 @@ class PersonalProfile extends React.Component {
                   />
                   <Text style={styles.ProfileInfoField}>£ 3000</Text>
                 </View>
-
               </View>
 
               {/* Score */}
@@ -411,9 +400,10 @@ class PersonalProfile extends React.Component {
                     <View style={styles.ScoreGrayIcon}>
                       <Icon
                         style={styles.ScoreIcon}
-                        name='person'
-                        color='#FFFFFF'
-                        size={17} />
+                        name="person"
+                        color="#FFFFFF"
+                        size={17}
+                      />
                     </View>
                   </View>
                   <Text style={styles.ScoreLabel}>Profile Score</Text>
@@ -424,9 +414,10 @@ class PersonalProfile extends React.Component {
                     <View style={styles.ScoreGreenIcon}>
                       <Icon
                         style={styles.ScoreIcon}
-                        name='leaf'
-                        color='#FFFFFF'
-                        size={17} />
+                        name="leaf"
+                        color="#FFFFFF"
+                        size={17}
+                      />
                     </View>
                   </View>
                   <Text style={styles.ScoreLabel}>Eco Score</Text>
@@ -437,16 +428,16 @@ class PersonalProfile extends React.Component {
                     <View style={styles.ScoreRedIcon}>
                       <Icon
                         style={styles.ScoreIcon}
-                        name='heart'
-                        color='#FFFFFF'
-                        size={17} />
+                        name="heart"
+                        color="#FFFFFF"
+                        size={17}
+                      />
                     </View>
                   </View>
                   <Text style={styles.ScoreLabel}>Social Score</Text>
                 </View>
               </View>
-
-            </View>            
+            </View>
 
             <View style={styles.buttonContainer}>
               <Image source={member_img} style={styles.img} />
@@ -455,7 +446,7 @@ class PersonalProfile extends React.Component {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  justifyContent: "center"
+                  justifyContent: "center",
                 }}
               >
                 <Text style={styles.Title}> Verified profile</Text>
@@ -510,7 +501,7 @@ class PersonalProfile extends React.Component {
                   alignItems: "center",
                   justifyContent: "center",
                   borderColor: colors.grey,
-                  borderWidth: 1
+                  borderWidth: 1,
                 }}
               >
                 <Text style={styles.text}>Complete</Text>
@@ -547,7 +538,7 @@ class PersonalProfile extends React.Component {
                   alignItems: "center",
                   justifyContent: "center",
                   borderColor: colors.grey,
-                  borderWidth: 1
+                  borderWidth: 1,
                 }}
               >
                 <Text style={styles.text}>OK</Text>
@@ -564,7 +555,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Gothic A1",
     color: colors.darkblue,
-    fontWeight: "700"
+    fontWeight: "700",
   },
   CallAction: {
     flexDirection: "row",
@@ -580,7 +571,7 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.2,
-    elevation: 3
+    elevation: 3,
   },
   LogOut: {
     flexDirection: "row",
@@ -609,7 +600,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: 40,
-    height: 40
+    height: 40,
   },
   buttonGroup: {
     width: "90%",
@@ -618,7 +609,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
   buttonContainer: {
     width: "90%",
@@ -629,7 +620,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: colors.white,
     marginTop: 10,
-    display: 'none'
+    display: "none",
   },
   modal: {
     position: "absolute",
@@ -643,14 +634,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: colors.lightgrey,
-    padding: 10
+    padding: 10,
   },
   imageContainer: {
     width: 80,
     height: 80,
     borderRadius: 80,
     overflow: "hidden",
-    marginBottom: 10,    
+    marginBottom: 10,
   },
   saveButton: {
     flexDirection: "row",
@@ -666,7 +657,7 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.2,
-    elevation: 3
+    elevation: 3,
   },
   Section: {
     flexDirection: "row",
@@ -684,7 +675,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 10,
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
   ProfileWrapper: {
     display: "flex",
@@ -731,7 +722,7 @@ const styles = StyleSheet.create({
     // fontFamily: "Gothic A1",
     fontSize: 15,
     fontWeight: "300",
-    fontStyle: 'italic'
+    fontStyle: "italic",
   },
   // input: {
   //   flex: 1,
@@ -748,7 +739,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 5,
   },
-  ScoreElementWrapper: {    
+  ScoreElementWrapper: {
     marginLeft: 10,
     marginRight: 10,
   },
@@ -759,27 +750,27 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     borderWidth: 3,
-    borderColor: '#BEBEBE',
+    borderColor: "#BEBEBE",
     // display: 'flex',
     // position: 'relative',
   },
-  ScoreGreenWrapper: {    
+  ScoreGreenWrapper: {
     justifyContent: "center",
     alignItems: "center",
     width: 80,
     height: 80,
     borderRadius: 40,
     borderWidth: 3,
-    borderColor: '#9BCCB4',
+    borderColor: "#9BCCB4",
   },
-  ScoreRedWrapper: {    
+  ScoreRedWrapper: {
     justifyContent: "center",
     alignItems: "center",
     width: 80,
     height: 80,
     borderRadius: 40,
     borderWidth: 3,
-    borderColor: '#F2AAAA',
+    borderColor: "#F2AAAA",
   },
   ScoreText: {
     fontSize: 17,
@@ -787,8 +778,8 @@ const styles = StyleSheet.create({
   },
   ScoreLabel: {
     fontSize: 12,
-    fontWeight: "300",    
-    textAlign: 'center',
+    fontWeight: "300",
+    textAlign: "center",
     marginTop: 15,
   },
   ScoreGrayIcon: {
@@ -796,47 +787,42 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#BEBEBE',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#BEBEBE",
+    position: "absolute",
   },
   ScoreGreenIcon: {
     bottom: -12,
     width: 30,
     height: 30,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9BCCB4',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#9BCCB4",
+    position: "absolute",
   },
   ScoreRedIcon: {
     bottom: -12,
     width: 30,
     height: 30,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F2AAAA',
-    position: 'absolute',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F2AAAA",
+    position: "absolute",
   },
-  ScoreIcon: {
-
-  },
+  ScoreIcon: {},
 });
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 function mapStateToProps(state) {
   return {
     uid: state.uid,
-    basic: state.basic
+    basic: state.basic,
   };
 }
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PersonalProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalProfile);

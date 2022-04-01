@@ -50,26 +50,30 @@ const PhoneCode = () => {
       setLoading(true);
       Firebase.getProfile(phone)
         .then(async (res) => {
-          console.log("result of profile", res);
           setLoading(false);
           if (res) {
             const { eco_id } = res.data();
             const ecoData = await Firebase.getEcoUserbyId(eco_id);
-            const premier_token = (
-              await Firebase.getPremierTokenHistory("WeShare", res.id)
-            ).reduce(
-              (previousValue, currentValue) =>
-                previousValue.amount + currentValue,
-              0
+            let production_ptoken = 0;
+            let sandbox_ptoken = 0;
+            const histories = await Firebase.getPremierTokenHistory(
+              "WeShare",
+              res.id
             );
-            console.log("premier_token", premier_token);
+            histories.map((history) => {
+              const { amount, environment } = history;
+              environment === "production"
+                ? (production_ptoken += amount)
+                : (sandbox_ptoken += amount);
+            });
             const profile = {
               ...res.data(),
               id: res.id,
               ...ecoData,
-              premier_token,
+              premier_token: -production_ptoken,
             };
             dispatch(saveProfile(profile));
+            dispatch(saveUID(res.id));
             AsyncStorage.setItem("profile", JSON.stringify(profile));
             AsyncStorage.setItem("uid", res.id);
             navigateTo("Main");
@@ -86,7 +90,7 @@ const PhoneCode = () => {
           Alert.alert(
             "Error",
             err,
-            [{ text: "OK", onPress: () => navigateTo("Landing") }],
+            [{ text: "OK", onPress: () => navigateTo("SignIn") }],
             { cancelable: false }
           );
         });

@@ -61,7 +61,7 @@ class Profile extends React.Component {
     // console.log("LogOut,AsyncStorage", AsyncStorage.getItem("profile"));
     this.setState({ editable: true, isloggedIn: false });
     setTimeout(() => {
-      this.props.navigation.navigate("Landing");
+      this.props.navigation.navigate("SignIn");
     }, 1000);
   };
   setScreen = (screen) => {

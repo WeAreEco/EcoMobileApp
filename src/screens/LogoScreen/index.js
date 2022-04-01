@@ -51,19 +51,20 @@ class LogoScreen extends React.Component {
     this.fadeIn();
   }
   Start = () => {
-    isSession()
-      .then((res) => {
-        if (res) {
-          this.props.dispatch(saveProfile(res));
-          this.props.dispatch(saveUID(res.uid));
-          this.props.dispatch(saveBrand(res.brand));
-          this.props.navigation.navigate("Main");
-        } else this.props.navigation.navigate("Landing");
-      })
-      .catch((err) => {
-        console.log("Error", err);
-        this.props.navigation.navigate("Landing");
-      });
+    // isSession()
+    //   .then((res) => {
+    //     if (res) {
+    //       this.props.dispatch(saveProfile(res));
+    //       this.props.dispatch(saveUID(res.uid));
+    //       this.props.dispatch(saveBrand(res.brand));
+    //       this.props.navigation.navigate("Main");
+    //     } else this.props.navigation.navigate("SignIn");
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error", err);
+    //     this.props.navigation.navigate("SignIn");
+    //   });
+    this.props.navigation.navigate("SignIn");
   };
 
   render() {

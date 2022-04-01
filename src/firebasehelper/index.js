@@ -322,10 +322,11 @@ class Firebase {
     });
   };
   static getUserDatafromUID = (uid) => {
-    console.log("getUserDatafromUID", uid);
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
+        .collection("WeShare")
+        .doc("data")
         .collection("user")
         .doc(`${uid}`)
         .get()
@@ -336,6 +337,17 @@ class Firebase {
           reject(err);
         });
     });
+  };
+  static subscribeUserData = (uid, callback) => {
+    firebase
+      .firestore()
+      .collection("WeShare")
+      .doc("data")
+      .collection("user")
+      .doc(`${uid}`)
+      .onSnapshot((res) => {
+        callback(res.data());
+      });
   };
   static getPetDatafromUID = (uid) => {
     console.log("getPetDatafromUID", uid);
