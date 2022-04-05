@@ -6,7 +6,7 @@ import colors from "../theme/Colors";
 import { Metrics } from "../theme";
 import TopBar from "./TopBar";
 import SubTabs from "./SubTabs";
-
+const baseUrl = "https://uhsm.org";
 const MyIframe = ({ url, iframeStyle, subTabs, navigation }) => {
   const [page, setPage] = useState("");
   const route = useRoute();
@@ -20,13 +20,15 @@ const MyIframe = ({ url, iframeStyle, subTabs, navigation }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", (e) => {
       // Prevent default behavior
-      if (route.name === "Earn") {
-        // e.preventDefault();
-        setCurrentKey(Math.random() * 100);
-      }
+      setCurrentKey(Math.random() * 100);
     });
     return unsubscribe;
   }, [navigation]);
+  useFocusEffect(
+    React.useCallback(() => {
+      setCurrentKey(Math.random() * 100);
+    }, [navigation])
+  );
   const renderLoading = () => {
     return (
       <View
@@ -50,12 +52,15 @@ const MyIframe = ({ url, iframeStyle, subTabs, navigation }) => {
   const onLoadIframeFinished = (e) => {
     // console.log("loaded iframe", e.nativeEvent.url);
   };
+  const handleClickHome = () => {
+    setCurrentKey(Math.random() * 100);
+  };
   const handleClickMenu = (page) => {
     setPage(page);
   };
   return (
     <View style={styles.maincontainer}>
-      <TopBar />
+      <TopBar onClickHome={handleClickHome} />
       {subTabs ? <SubTabs tabs={subTabs} onPress={handleClickMenu} /> : null}
       <WebView
         key={currentKey}

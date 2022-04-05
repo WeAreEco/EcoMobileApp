@@ -107,7 +107,13 @@ const AppContainer = () => {
       />
       <Tab.Screen
         name="Feeds"
-        component={Social}
+        children={(props) => (
+          <MyIframe
+            url={`${baseUrl}?page=feeds&uid=${profile.id}`}
+            iframeStyle={{ zIndex: 100, marginTop: -70 }}
+            {...props}
+          />
+        )}
         options={{
           tabBarLabel: ({ focused }) => (
             <Text

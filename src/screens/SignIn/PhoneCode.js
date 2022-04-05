@@ -79,8 +79,8 @@ const PhoneCode = () => {
             navigateTo("Main");
           } else {
             Alert.alert(
-              "Error",
-              "Hmmm, we can't fine your info. Check your cell number.",
+              "Membership error",
+              "Your mobile number is not registered, so you must be invited as a member to gain access.",
               [{ text: "OK", onPress: () => navigateTo("SignIn") }],
               { cancelable: false }
             );

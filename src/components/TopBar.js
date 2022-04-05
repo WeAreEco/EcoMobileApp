@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 import { removeAll } from "../Redux/actions";
 import { Colors } from "../theme";
-const TopBar = () => {
+const TopBar = ({ onClickHome }) => {
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -35,7 +35,10 @@ const TopBar = () => {
           color={Colors.primary}
           size={40}
           style={{ margin: 2, padding: 0, width: 40, height: 40 }}
-          onPress={() => navigation.navigate("Explore")}
+          onPress={() => {
+            onClickHome();
+            navigation.navigate("Explore");
+          }}
         />
         <IconButton
           icon="logout"
