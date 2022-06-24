@@ -67,7 +67,7 @@
     "react-native-sound": "^0.11.0",
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-vector-icons": "^7.0.0",
-    "react-native-webview": "^10.7.0",
+    "react-native-webview": "^11.0.0",
     "react-redux": "^7.2.1",
     "redux": "^4.0.5",
     "reduxsauce": "^1.2.0",
