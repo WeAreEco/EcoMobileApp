@@ -27,7 +27,8 @@ const supportTabs = [
   { title: "LiveChat", img: require("./src/assets/Landing/blogging.png") },
 ];
 const Tab = createBottomTabNavigator();
-const baseUrl = "https://uhsm.org";
+// const baseUrl = "https://uhsm.org";
+const baseUrl = "https://uhsm-community.web.app";
 const AppContainer = () => {
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.uid);

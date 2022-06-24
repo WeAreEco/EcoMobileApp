@@ -1,26 +1,55 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Firebase from "../../firebasehelper";
 import colors from "../../theme/Colors";
-import globalStyles from "../../theme/Styles";
 import Logo from "../../components/Logo";
-import TopImage from "../../components/TopImage";
 import PhoneInput from "react-native-phone-number-input";
-// import PhoneInput from "react-native-phone-input";
+import CardView from "react-native-cardview";
 import Metrics from "../../theme/Metrics";
 import { doSMS } from "../../functions/Auth";
+import useDebounce from "../../hooks/useDebounce";
+
 const SignIn = () => {
   const [value, setValue] = useState("");
+  const [customerID, setCustomerID] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [isCustomerSearching, setIsSearching] = useState(false);
+  const debouncedCustomeriD = useDebounce(customerID, 500);
   const phoneInput = useRef(null);
   const navigation = useNavigation();
+
+  const isValidCustomer =
+    (debouncedCustomeriD && userData) || !debouncedCustomeriD;
+  useEffect(
+    () => {
+      if (debouncedCustomeriD) {
+        setIsSearching(true);
+        Firebase.getUserDatafromUID(debouncedCustomeriD).then((result) => {
+          setIsSearching(false);
+          console.log("result", result);
+          if (result) setUserData(result);
+          else setUserData(null);
+        });
+      } else {
+        setIsSearching(false);
+      }
+    },
+    [debouncedCustomeriD] // Only call effect if debounced search term changes
+  );
   const createPincode = () => {
     return Math.floor(10000 + Math.random() * 90000);
   };
   const navigateTo = (page, props) => {
     navigation.navigate(page, props);
-  };
-  const goBack = () => {
-    navigateTo("Landing");
   };
   const signIn = () => {
     const checkValid = phoneInput.current.isValidNumber(value);
@@ -31,7 +60,13 @@ const SignIn = () => {
       pin = pin.toString();
       console.log("/// pin", pin);
       doSMS(phoneNumber, pin, "UHSM");
-      navigateTo("PhoneCode", { phone: phoneNumber, pin: pin });
+      navigateTo("PhoneCode", {
+        phone: phoneNumber,
+        pin: pin,
+        customerData: userData
+          ? { ...userData, uid: debouncedCustomeriD }
+          : null,
+      });
     } else {
       Alert.alert("Error", "", [{ text: "OK" }], { cancelable: false });
     }
@@ -78,38 +113,78 @@ const SignIn = () => {
         withShadow
         autoFocus
       />
-      <TouchableOpacity
-        onPress={signIn}
-        style={[
-          styles.CallAction,
-          {
-            backgroundColor: value.length === 10 ? colors.primary : colors.grey,
-          },
-        ]}
-        disabled={value.length !== 10}
-      >
-        <Text
-          style={{
-            fontSize: 14,
-            color: colors.darkblue,
-            fontWeight: "500",
-          }}
+      {isCustomerSearching ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      ) : isValidCustomer ? (
+        <TouchableOpacity
+          onPress={signIn}
+          style={[
+            styles.CallAction,
+            {
+              backgroundColor:
+                value.length === 10 ? colors.primary : colors.grey,
+            },
+          ]}
+          disabled={value.length !== 10}
         >
-          Sign In
-        </Text>
-      </TouchableOpacity>
-
-      {/* <TouchableOpacity style={styles.goBackButton} onPress={goBack}>
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.darkblue,
+              fontWeight: "500",
+            }}
+          >
+            Sign In
+          </Text>
+        </TouchableOpacity>
+      ) : (
         <Text
           style={{
+            position: "absolute",
+            top: 400,
             fontSize: 16,
-            color: colors.darkblue,
             fontWeight: "500",
+            color: "red",
+            textAlign: "center",
           }}
         >
-          Back
+          Sorry, your given customeriD is not valid
         </Text>
-      </TouchableOpacity> */}
+      )}
+      <View style={styles.iDContainer}>
+        <Text style={{ fontSize: 20, fontWeight: "500" }}>
+          Activate account
+        </Text>
+        <CardView
+          style={{
+            backgroundColor: "white",
+            padding: 10,
+            marginTop: 20,
+            marginBottom: 20,
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}
+          cardElevation={2}
+          cardMaxElevation={2}
+          cornerRadius={5}
+        >
+          <TextInput
+            style={{
+              width: "80%",
+              fontSize: 17,
+            }}
+            onChangeText={setCustomerID}
+            value={customerID}
+            placeholder="Enter uhsm customer iD"
+          />
+        </CardView>
+        <Text style={{ fontSize: 16, fontWeight: "300", textAlign: "center" }}>
+          Register for mobile sign in {"\n"}with a few simple steps
+        </Text>
+      </View>
     </View>
   );
 };
@@ -161,6 +236,23 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     position: "absolute",
     top: 400,
+  },
+  iDContainer: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    top: 500,
+    padding: 30,
+    backgroundColor: "white",
+    borderRadius: 20,
+    width: "90%",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    position: "absolute",
+    top: 400,
+    zIndex: 100,
   },
 });
 export default SignIn;

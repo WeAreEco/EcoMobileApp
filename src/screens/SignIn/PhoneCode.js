@@ -36,64 +36,78 @@ const PhoneCode = () => {
   const goBack = () => {
     navigation.goBack();
   };
-  const checkSMS = () => {
-    const { phone, pin } = route.params ? route.params : null;
+  const signIn = async (profileData, uid) => {
+    const { eco_id } = profileData;
+    const ecoData = await Firebase.getEcoUserbyId(eco_id);
+    let production_ptoken = 0;
+    let sandbox_ptoken = 0;
+    const histories = await Firebase.getPremierTokenHistory("WeShare", uid);
+    histories.map((history) => {
+      const { amount, environment } = history;
+      environment === "production"
+        ? (production_ptoken += amount)
+        : (sandbox_ptoken += amount);
+    });
+    const profile = {
+      ...profileData,
+      id: uid,
+      ...ecoData,
+      premier_token: -production_ptoken,
+    };
+    dispatch(saveProfile(profile));
+    dispatch(saveUID(uid));
+    AsyncStorage.setItem("profile", JSON.stringify(profile));
+    AsyncStorage.setItem("uid", uid);
+    navigateTo("Main");
+  };
+  const checkSMS = async () => {
+    const { phone, pin, customerData } = route.params ? route.params : null;
     console.log("phone", phone);
     if (code === pin || phone === "+13038006551") {
-      const basicInfo = {
-        firstname: "",
-        dob: "",
-        phonenumber: phone,
-        email: "",
-        password: "",
-      };
       setLoading(true);
-      Firebase.getProfile(phone)
-        .then(async (res) => {
-          setLoading(false);
-          if (res) {
-            const { eco_id } = res.data();
-            const ecoData = await Firebase.getEcoUserbyId(eco_id);
-            let production_ptoken = 0;
-            let sandbox_ptoken = 0;
-            const histories = await Firebase.getPremierTokenHistory(
-              "WeShare",
-              res.id
-            );
-            histories.map((history) => {
-              const { amount, environment } = history;
-              environment === "production"
-                ? (production_ptoken += amount)
-                : (sandbox_ptoken += amount);
-            });
-            const profile = {
-              ...res.data(),
-              id: res.id,
-              ...ecoData,
-              premier_token: -production_ptoken,
-            };
-            dispatch(saveProfile(profile));
-            dispatch(saveUID(res.id));
-            AsyncStorage.setItem("profile", JSON.stringify(profile));
-            AsyncStorage.setItem("uid", res.id);
-            navigateTo("Main");
-          } else {
+      if (customerData && !customerData.eco_id) {
+        // customer inputed his given uid to activate account
+        const profile = {
+          firstname: customerData.firstname,
+          phonenumber: phone,
+        };
+        let res = await Firebase.addEcosystemUser(profile);
+        let brand_member_profile = {
+          eco_id: res.id,
+          phonenumber: phone,
+          ...customerData,
+        };
+        let re = await Firebase.updateUserData(customerData.uid, {
+          eco_id: res.id,
+          phonenumber: phone,
+        });
+        console.log("re", re);
+        setLoading(false);
+
+        signIn(brand_member_profile, customerData.uid);
+      } else
+        Firebase.getProfile(phone)
+          .then(async (res) => {
+            setLoading(false);
+            if (res) {
+              signIn(res.data(), res.id);
+            } else {
+              Alert.alert(
+                "Membership error",
+                "Your mobile number is not registered, so you must be invited as a member to gain access.",
+                [{ text: "OK", onPress: () => navigateTo("SignIn") }],
+                { cancelable: false }
+              );
+            }
+          })
+          .catch((err) => {
             Alert.alert(
-              "Membership error",
-              "Your mobile number is not registered, so you must be invited as a member to gain access.",
+              "Error",
+              err,
               [{ text: "OK", onPress: () => navigateTo("SignIn") }],
               { cancelable: false }
             );
-          }
-        })
-        .catch((err) => {
-          Alert.alert(
-            "Error",
-            err,
-            [{ text: "OK", onPress: () => navigateTo("SignIn") }],
-            { cancelable: false }
-          );
-        });
+          });
     }
   };
   return (

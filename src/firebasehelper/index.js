@@ -642,6 +642,8 @@ class Firebase {
     return new Promise((resolve, reject) => {
       firebase
         .firestore()
+        .collection("WeShare")
+        .doc("data")
         .collection("user")
         .doc(`${uid}`)
         .set(data, { merge: true })
@@ -1152,6 +1154,10 @@ class Firebase {
       .collection("braintree_payment_method")
       .doc(paymentId)
       .delete();
+  }
+  static addEcosystemUser(profile) {
+    profile.renter_owner = profile.renter_owner || null;
+    return firebase.firestore().collection("ecosystem_user").add(profile);
   }
 }
 Firebase.initialize();
