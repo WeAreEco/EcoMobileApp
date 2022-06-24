@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* EcoAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcoAppTests.m */; };
+		0295118D24346B5FAE6DDDFF /* libPods-EcoApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A431B11FC1821EBDBC57850 /* libPods-EcoApp-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -34,15 +35,14 @@
 		1845249B24F0CC8A0023304A /* Caveat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1845249924F0CC8A0023304A /* Caveat-Regular.ttf */; };
 		18C5816224F007480074AA23 /* bamboo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18C5816024F007480074AA23 /* bamboo.mp3 */; };
 		18E07DB124F035B300D5273F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18E07DB024F035B300D5273F /* GoogleService-Info.plist */; };
-		1972104896D3D0B122646BBC /* libPods-EcoApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3F858CB9F7FDD6B2FF6BB2 /* libPods-EcoApp-tvOSTests.a */; };
-		1B3A0AC26EF7038CF791CF58 /* libPods-EcoApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AF9DDB369579E0955B1B33F /* libPods-EcoApp.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* EcoAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EcoAppTests.m */; };
-		6AF4F6905F8A73F34521589D /* libPods-EcoApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F799C5E3D77663651FDD0C91 /* libPods-EcoApp-tvOS.a */; };
-		6FBFA4637E981F0CD3F20F92 /* libPods-EcoApp-EcoAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E5832DF88D645B86647333C /* libPods-EcoApp-EcoAppTests.a */; };
+		547439C94DE0784147C32A18 /* libPods-EcoApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EB5C802837F401BF2E9DB8FF /* libPods-EcoApp-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9617B7E9FCD06A6A25C13864 /* libPods-EcoApp-EcoAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCD38B509C9D21CEA2FF3B26 /* libPods-EcoApp-EcoAppTests.a */; };
+		9B97535467C62540F16B1220 /* libPods-EcoApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE6E90B7008AECC47BD8C61 /* libPods-EcoApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,21 +98,21 @@
 		18E07DC624F0421D00D5273F /* BoltBot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BoltBot.entitlements; path = EcoApp/BoltBot.entitlements; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* EcoApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EcoApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* EcoApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EcoApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3E5832DF88D645B86647333C /* libPods-EcoApp-EcoAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp-EcoAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		44DAA819DDA03096113F8A91 /* Pods-EcoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp/Pods-EcoApp.debug.xcconfig"; sourceTree = "<group>"; };
-		460C934063910FD5CBC0F423 /* Pods-EcoApp-EcoAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-EcoAppTests.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4AF9DDB369579E0955B1B33F /* libPods-EcoApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F86FC4BFA179A7F81693B21 /* Pods-EcoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp.release.xcconfig"; path = "Target Support Files/Pods-EcoApp/Pods-EcoApp.release.xcconfig"; sourceTree = "<group>"; };
-		74D288F136B6063AC97780DC /* Pods-EcoApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOS/Pods-EcoApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		406B6EA90F9883D292B5ADBB /* Pods-EcoApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOS/Pods-EcoApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		59DE7701A8B07A7CC4E4D48F /* Pods-EcoApp-EcoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-EcoAppTests.release.xcconfig"; path = "Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		7834A6C3700E9F0E1823B971 /* Pods-EcoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp.release.xcconfig"; path = "Target Support Files/Pods-EcoApp/Pods-EcoApp.release.xcconfig"; sourceTree = "<group>"; };
+		7A431B11FC1821EBDBC57850 /* libPods-EcoApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = EcoApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AD36666F70D3FC1C4B30B01F /* Pods-EcoApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOSTests/Pods-EcoApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		CA3F858CB9F7FDD6B2FF6BB2 /* libPods-EcoApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC79CA0EA586B42F09270B88 /* Pods-EcoApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOSTests/Pods-EcoApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E8AAEE5AADD5E265F5DE8A41 /* Pods-EcoApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOS/Pods-EcoApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		9672F9A2202A91AF9E0BE537 /* Pods-EcoApp-EcoAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-EcoAppTests.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9DDE09CAC6B9B6626DFA930B /* Pods-EcoApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOSTests/Pods-EcoApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AA6CC0F99551FFE62F52649D /* Pods-EcoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp.debug.xcconfig"; path = "Target Support Files/Pods-EcoApp/Pods-EcoApp.debug.xcconfig"; sourceTree = "<group>"; };
+		ACB0CC57A8D97BF70C1FC067 /* Pods-EcoApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOS/Pods-EcoApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		BD3E9C1CBAC08FD04903F8F8 /* Pods-EcoApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-EcoApp-tvOSTests/Pods-EcoApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		EB5C802837F401BF2E9DB8FF /* libPods-EcoApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		EF53BC90AD1E25894431C557 /* Pods-EcoApp-EcoAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EcoApp-EcoAppTests.release.xcconfig"; path = "Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		F799C5E3D77663651FDD0C91 /* libPods-EcoApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCD38B509C9D21CEA2FF3B26 /* libPods-EcoApp-EcoAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp-EcoAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEE6E90B7008AECC47BD8C61 /* libPods-EcoApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EcoApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FBFA4637E981F0CD3F20F92 /* libPods-EcoApp-EcoAppTests.a in Frameworks */,
+				9617B7E9FCD06A6A25C13864 /* libPods-EcoApp-EcoAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				180CABDC24F562BE0060C5C5 /* JavaScriptCore.framework in Frameworks */,
-				1B3A0AC26EF7038CF791CF58 /* libPods-EcoApp.a in Frameworks */,
+				9B97535467C62540F16B1220 /* libPods-EcoApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AF4F6905F8A73F34521589D /* libPods-EcoApp-tvOS.a in Frameworks */,
+				0295118D24346B5FAE6DDDFF /* libPods-EcoApp-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,7 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1972104896D3D0B122646BBC /* libPods-EcoApp-tvOSTests.a in Frameworks */,
+				547439C94DE0784147C32A18 /* libPods-EcoApp-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,14 +172,14 @@
 		072BE4755D00BD42DAAA0A6F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				44DAA819DDA03096113F8A91 /* Pods-EcoApp.debug.xcconfig */,
-				4F86FC4BFA179A7F81693B21 /* Pods-EcoApp.release.xcconfig */,
-				460C934063910FD5CBC0F423 /* Pods-EcoApp-EcoAppTests.debug.xcconfig */,
-				EF53BC90AD1E25894431C557 /* Pods-EcoApp-EcoAppTests.release.xcconfig */,
-				E8AAEE5AADD5E265F5DE8A41 /* Pods-EcoApp-tvOS.debug.xcconfig */,
-				74D288F136B6063AC97780DC /* Pods-EcoApp-tvOS.release.xcconfig */,
-				DC79CA0EA586B42F09270B88 /* Pods-EcoApp-tvOSTests.debug.xcconfig */,
-				AD36666F70D3FC1C4B30B01F /* Pods-EcoApp-tvOSTests.release.xcconfig */,
+				AA6CC0F99551FFE62F52649D /* Pods-EcoApp.debug.xcconfig */,
+				7834A6C3700E9F0E1823B971 /* Pods-EcoApp.release.xcconfig */,
+				9672F9A2202A91AF9E0BE537 /* Pods-EcoApp-EcoAppTests.debug.xcconfig */,
+				59DE7701A8B07A7CC4E4D48F /* Pods-EcoApp-EcoAppTests.release.xcconfig */,
+				406B6EA90F9883D292B5ADBB /* Pods-EcoApp-tvOS.debug.xcconfig */,
+				ACB0CC57A8D97BF70C1FC067 /* Pods-EcoApp-tvOS.release.xcconfig */,
+				9DDE09CAC6B9B6626DFA930B /* Pods-EcoApp-tvOSTests.debug.xcconfig */,
+				BD3E9C1CBAC08FD04903F8F8 /* Pods-EcoApp-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,10 +234,10 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				4AF9DDB369579E0955B1B33F /* libPods-EcoApp.a */,
-				3E5832DF88D645B86647333C /* libPods-EcoApp-EcoAppTests.a */,
-				F799C5E3D77663651FDD0C91 /* libPods-EcoApp-tvOS.a */,
-				CA3F858CB9F7FDD6B2FF6BB2 /* libPods-EcoApp-tvOSTests.a */,
+				FEE6E90B7008AECC47BD8C61 /* libPods-EcoApp.a */,
+				FCD38B509C9D21CEA2FF3B26 /* libPods-EcoApp-EcoAppTests.a */,
+				7A431B11FC1821EBDBC57850 /* libPods-EcoApp-tvOS.a */,
+				EB5C802837F401BF2E9DB8FF /* libPods-EcoApp-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -282,12 +282,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "EcoAppTests" */;
 			buildPhases = (
-				22525F716BA3DF5B2D6C74CD /* [CP] Check Pods Manifest.lock */,
+				85A47D8F39D5FC5A9CE2AFCC /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				A9BD930366870AD88D169A9B /* [CP] Copy Pods Resources */,
-				ED5A9D344766CDB33591DBCB /* [CP] Embed Pods Frameworks */,
+				2FF4CD27D535183995FA66C0 /* [CP] Embed Pods Frameworks */,
+				10B247408616ABE9E97C45BE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -303,15 +303,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "EcoApp" */;
 			buildPhases = (
-				122EB4151BAC98A97122D0A2 /* [CP] Check Pods Manifest.lock */,
+				591934F31848A6FD38A785BE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				AD3758E472E04CD65D765652 /* [CP] Copy Pods Resources */,
-				E63D8653B0BA11A9EBD6F1B0 /* [CP-User] [RNFB] Core Configuration */,
-				6806AADC5F0E100BE242F1D8 /* [CP] Embed Pods Frameworks */,
+				6C0EB607FB6196EDB1DA3DB1 /* [CP] Embed Pods Frameworks */,
+				303383EB280A9A3440600393 /* [CP] Copy Pods Resources */,
+				DE8CA569FBF43969ED078941 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -326,7 +326,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "EcoApp-tvOS" */;
 			buildPhases = (
-				2D217E924D19A67BDA8D53D4 /* [CP] Check Pods Manifest.lock */,
+				377E75A59C39A8CCB69A7524 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -346,7 +346,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "EcoApp-tvOSTests" */;
 			buildPhases = (
-				5BBA47D308183B5A17C1D0CB /* [CP] Check Pods Manifest.lock */,
+				DA4F1BC0C549AADB0D4B0E02 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -480,129 +480,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		122EB4151BAC98A97122D0A2 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EcoApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		22525F716BA3DF5B2D6C74CD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EcoApp-EcoAppTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		2D217E924D19A67BDA8D53D4 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EcoApp-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5BBA47D308183B5A17C1D0CB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EcoApp-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6806AADC5F0E100BE242F1D8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EcoApp/Pods-EcoApp-frameworks.sh",
-				"${PODS_ROOT}/Braintree/Frameworks/CardinalMobile.framework",
-				"${PODS_ROOT}/Fidel/Fidel.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardinalMobile.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fidel.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EcoApp/Pods-EcoApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A9BD930366870AD88D169A9B /* [CP] Copy Pods Resources */ = {
+		10B247408616ABE9E97C45BE /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -658,7 +536,43 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AD3758E472E04CD65D765652 /* [CP] Copy Pods Resources */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		2FF4CD27D535183995FA66C0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests-frameworks.sh",
+				"${PODS_ROOT}/Braintree/Frameworks/CardinalMobile.framework",
+				"${PODS_ROOT}/Fidel/Fidel.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardinalMobile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fidel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		303383EB280A9A3440600393 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -714,7 +628,117 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EcoApp/Pods-EcoApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E63D8653B0BA11A9EBD6F1B0 /* [CP-User] [RNFB] Core Configuration */ = {
+		377E75A59C39A8CCB69A7524 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EcoApp-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		591934F31848A6FD38A785BE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EcoApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6C0EB607FB6196EDB1DA3DB1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EcoApp/Pods-EcoApp-frameworks.sh",
+				"${PODS_ROOT}/Braintree/Frameworks/CardinalMobile.framework",
+				"${PODS_ROOT}/Fidel/Fidel.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardinalMobile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fidel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EcoApp/Pods-EcoApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85A47D8F39D5FC5A9CE2AFCC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EcoApp-EcoAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA4F1BC0C549AADB0D4B0E02 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EcoApp-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE8CA569FBF43969ED078941 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -723,26 +747,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\n_MAX_LOOKUPS=2;\n_SEARCH_RESULT=''\n_RN_ROOT_EXISTS=''\n_CURRENT_LOOKUPS=1\n_JSON_ROOT=\"'react-native'\"\n_JSON_FILE_NAME='firebase.json'\n_JSON_OUTPUT_BASE64='e30=' # { }\n_CURRENT_SEARCH_DIR=${PROJECT_DIR}\n_PLIST_BUDDY=/usr/libexec/PlistBuddy\n_TARGET_PLIST=\"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\"\n_DSYM_PLIST=\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist\"\n\n# plist arrays\n_PLIST_ENTRY_KEYS=()\n_PLIST_ENTRY_TYPES=()\n_PLIST_ENTRY_VALUES=()\n\nfunction setPlistValue {\n  echo \"info:      setting plist entry '$1' of type '$2' in file '$4'\"\n  ${_PLIST_BUDDY} -c \"Add :$1 $2 '$3'\" $4 || echo \"info:      '$1' already exists\"\n}\n\nfunction getFirebaseJsonKeyValue () {\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$1'); puts output[$_JSON_ROOT]['$2']\"\n  else\n    echo \"\"\n  fi;\n}\n\nfunction jsonBoolToYesNo () {\n  if [[ $1 == \"false\" ]]; then\n    echo \"NO\"\n  elif [[ $1 == \"true\" ]]; then\n    echo \"YES\"\n  else echo \"NO\"\n  fi\n}\n\necho \"info: -> RNFB build script started\"\necho \"info: 1) Locating ${_JSON_FILE_NAME} file:\"\n\nif [[ -z ${_CURRENT_SEARCH_DIR} ]]; then\n  _CURRENT_SEARCH_DIR=$(pwd)\nfi;\n\nwhile true; do\n  _CURRENT_SEARCH_DIR=$(dirname \"$_CURRENT_SEARCH_DIR\")\n  if [[ \"$_CURRENT_SEARCH_DIR\" == \"/\" ]] || [[ ${_CURRENT_LOOKUPS} -gt ${_MAX_LOOKUPS} ]]; then break; fi;\n  echo \"info:      ($_CURRENT_LOOKUPS of $_MAX_LOOKUPS) Searching in '$_CURRENT_SEARCH_DIR' for a ${_JSON_FILE_NAME} file.\"\n  _SEARCH_RESULT=$(find \"$_CURRENT_SEARCH_DIR\" -maxdepth 2 -name ${_JSON_FILE_NAME} -print | head -n 1)\n  if [[ ${_SEARCH_RESULT} ]]; then\n    echo \"info:      ${_JSON_FILE_NAME} found at $_SEARCH_RESULT\"\n    break;\n  fi;\n  _CURRENT_LOOKUPS=$((_CURRENT_LOOKUPS+1))\ndone\n\nif [[ ${_SEARCH_RESULT} ]]; then\n  _JSON_OUTPUT_RAW=$(cat \"${_SEARCH_RESULT}\")\n  _RN_ROOT_EXISTS=$(ruby -e \"require 'rubygems';require 'json'; output=JSON.parse('$_JSON_OUTPUT_RAW'); puts output[$_JSON_ROOT]\" || echo '')\n\n  if [[ ${_RN_ROOT_EXISTS} ]]; then\n    _JSON_OUTPUT_BASE64=$(python -c 'import json,sys,base64;print(base64.b64encode(json.dumps(json.loads(open('\"'${_SEARCH_RESULT}'\"').read())['${_JSON_ROOT}'])))' || echo \"e30=\")\n  fi\n\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n\n  # config.messaging_auto_init_enabled\n  _MESSAGING_AUTO_INIT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"messaging_auto_init_enabled\")\n  if [[ $_MESSAGING_AUTO_INIT ]]; then\n    _PLIST_ENTRY_KEYS+=(\"FirebaseMessagingAutoInitEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"$(jsonBoolToYesNo \"$_MESSAGING_AUTO_INIT\")\")\n  fi\n\n  # config.crashlytics_disable_auto_disabler - undocumented for now - mainly for debugging, document if becomes usful\n  _CRASHLYTICS_AUTO_DISABLE_ENABLED=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"crashlytics_disable_auto_disabler\")\n  if [[ $_CRASHLYTICS_AUTO_DISABLE_ENABLED == \"true\" ]]; then\n    echo \"Disabled Crashlytics auto disabler.\" # do nothing\n  else\n    _PLIST_ENTRY_KEYS+=(\"FirebaseCrashlyticsCollectionEnabled\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"NO\")\n  fi\n\n  # config.admob_delay_app_measurement_init\n  _ADMOB_DELAY_APP_MEASUREMENT=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"admob_delay_app_measurement_init\")\n  if [[ $_ADMOB_DELAY_APP_MEASUREMENT == \"true\" ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GADDelayAppMeasurementInit\")\n    _PLIST_ENTRY_TYPES+=(\"bool\")\n    _PLIST_ENTRY_VALUES+=(\"YES\")\n  fi\n\n  # config.admob_ios_app_id\n  _ADMOB_IOS_APP_ID=$(getFirebaseJsonKeyValue \"$_JSON_OUTPUT_RAW\" \"admob_ios_app_id\")\n  if [[ $_ADMOB_IOS_APP_ID ]]; then\n    _PLIST_ENTRY_KEYS+=(\"GADApplicationIdentifier\")\n    _PLIST_ENTRY_TYPES+=(\"string\")\n    _PLIST_ENTRY_VALUES+=(\"$_ADMOB_IOS_APP_ID\")\n  fi\nelse\n  _PLIST_ENTRY_KEYS+=(\"firebase_json_raw\")\n  _PLIST_ENTRY_TYPES+=(\"string\")\n  _PLIST_ENTRY_VALUES+=(\"$_JSON_OUTPUT_BASE64\")\n  echo \"warning:   A firebase.json file was not found, whilst this file is optional it is recommended to include it to configure firebase services in React Native Firebase.\"\nfi;\n\necho \"info: 2) Injecting Info.plist entries: \"\n\n# Log out the keys we're adding\nfor i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n  echo \"    ->  $i) ${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\"\ndone\n\nfor plist in \"${_TARGET_PLIST}\" \"${_DSYM_PLIST}\" ; do\n  if [[ -f \"${plist}\" ]]; then\n\n    # paths with spaces break the call to setPlistValue. temporarily modify\n    # the shell internal field separator variable (IFS), which normally \n    # includes spaces, to consist only of line breaks\n    oldifs=$IFS\n    IFS=\"\n\"\n\n    for i in \"${!_PLIST_ENTRY_KEYS[@]}\"; do\n      setPlistValue \"${_PLIST_ENTRY_KEYS[$i]}\" \"${_PLIST_ENTRY_TYPES[$i]}\" \"${_PLIST_ENTRY_VALUES[$i]}\" \"${plist}\"\n    done\n\n    # restore the original internal field separator value\n    IFS=$oldifs\n  else\n    echo \"warning:   A Info.plist build output file was not found (${plist})\"\n  fi\ndone\n\necho \"info: <- RNFB build script finished\"\n\n";
-		};
-		ED5A9D344766CDB33591DBCB /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests-frameworks.sh",
-				"${PODS_ROOT}/Braintree/Frameworks/CardinalMobile.framework",
-				"${PODS_ROOT}/Fidel/Fidel.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CardinalMobile.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fidel.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EcoApp-EcoAppTests/Pods-EcoApp-EcoAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -837,7 +841,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 460C934063910FD5CBC0F423 /* Pods-EcoApp-EcoAppTests.debug.xcconfig */;
+			baseConfigurationReference = 9672F9A2202A91AF9E0BE537 /* Pods-EcoApp-EcoAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -860,7 +864,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF53BC90AD1E25894431C557 /* Pods-EcoApp-EcoAppTests.release.xcconfig */;
+			baseConfigurationReference = 59DE7701A8B07A7CC4E4D48F /* Pods-EcoApp-EcoAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -880,7 +884,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 44DAA819DDA03096113F8A91 /* Pods-EcoApp.debug.xcconfig */;
+			baseConfigurationReference = AA6CC0F99551FFE62F52649D /* Pods-EcoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -907,7 +911,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F86FC4BFA179A7F81693B21 /* Pods-EcoApp.release.xcconfig */;
+			baseConfigurationReference = 7834A6C3700E9F0E1823B971 /* Pods-EcoApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -932,7 +936,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8AAEE5AADD5E265F5DE8A41 /* Pods-EcoApp-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 406B6EA90F9883D292B5ADBB /* Pods-EcoApp-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -960,7 +964,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74D288F136B6063AC97780DC /* Pods-EcoApp-tvOS.release.xcconfig */;
+			baseConfigurationReference = ACB0CC57A8D97BF70C1FC067 /* Pods-EcoApp-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -988,7 +992,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC79CA0EA586B42F09270B88 /* Pods-EcoApp-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 9DDE09CAC6B9B6626DFA930B /* Pods-EcoApp-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1015,7 +1019,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD36666F70D3FC1C4B30B01F /* Pods-EcoApp-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = BD3E9C1CBAC08FD04903F8F8 /* Pods-EcoApp-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
